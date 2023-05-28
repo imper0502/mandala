@@ -3,6 +3,5 @@
 
 ## Run
 ```bash
-cd server
 mvn spring-boot:run
 ```
