@@ -5,7 +5,6 @@ import digi.joy.mandala.drama.actors.association.WorkspaceSession;
 import digi.joy.mandala.drama.actors.event.WorkspaceBuilt;
 import digi.joy.mandala.drama.actors.event.WorkspaceEntered;
 import digi.joy.mandala.drama.actors.event.WorkspaceUpdated;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 

@@ -1,15 +1,12 @@
 package digi.joy.mandala.drama.acts.mapper;
 
+import digi.joy.mandala.drama.actors.Workspace;
+import digi.joy.mandala.drama.actors.association.CommittedNote;
+import digi.joy.mandala.drama.actors.association.WorkspaceSession;
 import digi.joy.mandala.drama.adapters.api.published.WorkspaceInfo;
 import digi.joy.mandala.drama.adapters.infra.schema.CommittedNoteData;
 import digi.joy.mandala.drama.adapters.infra.schema.WorkspaceData;
 import digi.joy.mandala.drama.adapters.infra.schema.WorkspaceSessionData;
-import digi.joy.mandala.drama.actors.Workspace;
-import digi.joy.mandala.drama.actors.association.WorkspaceSession;
-import digi.joy.mandala.drama.actors.association.CommittedNote;
-
-import java.util.List;
-import java.util.UUID;
 
 public class WorkspaceMapper {
     public static WorkspaceData transform(Workspace w) {

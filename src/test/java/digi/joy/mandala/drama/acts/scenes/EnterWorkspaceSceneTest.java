@@ -1,6 +1,7 @@
 package digi.joy.mandala.drama.acts.scenes;
 
 import digi.joy.mandala.common.services.MandalaEventBus;
+import digi.joy.mandala.drama.acts.WorkspaceContextBuilders;
 import digi.joy.mandala.drama.acts.WorkspaceRepository;
 import digi.joy.mandala.drama.acts.scenes.contexts.BuildWorkspaceContext;
 import digi.joy.mandala.drama.acts.scenes.contexts.EnterWorkspaceContext;
@@ -15,14 +16,14 @@ import java.util.UUID;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-class EnterWorkspaceSceneUseCaseTest {
+class EnterWorkspaceSceneTest {
     private final BuildWorkspaceScene buildWorkspaceScene;
     private final WorkspaceRepository repository;
     private final MandalaEventBus eventListener;
     private EnterWorkspaceScene sut;
 
     @Autowired
-    public EnterWorkspaceSceneUseCaseTest(WorkspaceRepository repository, MandalaEventBus eventListener) {
+    public EnterWorkspaceSceneTest(WorkspaceRepository repository, MandalaEventBus eventListener) {
         this.repository = repository;
         this.eventListener = eventListener;
         this.buildWorkspaceScene = new BuildWorkspaceScene(repository, eventListener);
@@ -35,16 +36,15 @@ class EnterWorkspaceSceneUseCaseTest {
 
     @Test
     void EnterExistingWorkspace() {
-        BuildWorkspaceContext context1 = BuildWorkspaceContext.builder()
-                .workspaceId(UUID.randomUUID())
+        BuildWorkspaceContext context1 = WorkspaceContextBuilders.buildWorkspaceScene()
                 .workspaceName("TEST_WORKSPACE")
                 .build();
-        buildWorkspaceScene.play(context1);
-        EnterWorkspaceContext context2 = EnterWorkspaceContext.builder()
-                .userId(UUID.randomUUID())
-                .workspaceId(context1.getWorkspaceId())
-                .build();
+        UUID workspaceId = buildWorkspaceScene.play(context1);
 
+        EnterWorkspaceContext context2 = WorkspaceContextBuilders.enterWorkspaceScene()
+                .userId(UUID.randomUUID())
+                .workspaceId(workspaceId)
+                .build();
         sut.play(context2);
     }
 }

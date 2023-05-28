@@ -1,6 +1,7 @@
 package digi.joy.mandala.drama.acts.scenes;
 
 import digi.joy.mandala.common.services.MandalaEventBus;
+import digi.joy.mandala.drama.acts.NoteContextBuilders;
 import digi.joy.mandala.drama.acts.NoteRepository;
 import digi.joy.mandala.drama.acts.scenes.contexts.CreateNoteContext;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,14 +15,14 @@ import java.util.List;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-public class CreateNoteSceneUseCaseTest {
+public class CreateNoteSceneTest {
 
     private final NoteRepository noteRepository;
     private final MandalaEventBus eventListener;
     private CreateNoteScene caseUnderTest;
 
     @Autowired
-    public CreateNoteSceneUseCaseTest(NoteRepository noteRepository, MandalaEventBus eventListener) {
+    public CreateNoteSceneTest(NoteRepository noteRepository, MandalaEventBus eventListener) {
         this.noteRepository = noteRepository;
         this.eventListener = eventListener;
     }
@@ -33,7 +34,7 @@ public class CreateNoteSceneUseCaseTest {
 
     @Test
     void createNote() {
-        CreateNoteContext readModel = CreateNoteContext.builder()
+        CreateNoteContext readModel = NoteContextBuilders.createNoteScene()
                 .title("TEST_NOTE")
                 .content(List.of("TEST_CONTENT"))
                 .build();

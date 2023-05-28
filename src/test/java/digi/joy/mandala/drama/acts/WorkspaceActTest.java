@@ -31,14 +31,13 @@ class WorkspaceActTest {
     @Test
     void rehearseLeaveWorkspaceScene() {
         BuildWorkspaceContext context1 = BuildWorkspaceContext.builder()
-                .workspaceId(UUID.randomUUID())
                 .workspaceName("TEST_WORKSPACE")
                 .build();
-        buildWorkspaceScene.play(context1);
+        UUID id = buildWorkspaceScene.play(context1);
 
         EnterWorkspaceContext context2 = EnterWorkspaceContext.builder()
                 .userId(UUID.randomUUID())
-                .workspaceId(context1.getWorkspaceId())
+                .workspaceId(id)
                 .build();
         enterWorkspaceScene.play(context2);
 

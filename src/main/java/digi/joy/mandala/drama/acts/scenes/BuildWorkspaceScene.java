@@ -7,6 +7,9 @@ import digi.joy.mandala.drama.acts.scenes.contexts.BuildWorkspaceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class BuildWorkspaceScene {
 
@@ -19,14 +22,17 @@ public class BuildWorkspaceScene {
         this.eventListener = eventListener;
     }
 
-    public void play(BuildWorkspaceContext input) {
+    public UUID play(BuildWorkspaceContext input) {
+        UUID workspaceId = Optional.ofNullable(input.getWorkspaceId()).orElse(UUID.randomUUID());
         Workspace workspace = Workspace.builder()
-                .workspaceId(input.getWorkspaceId())
+                .workspaceId(workspaceId)
                 .workspaceName(input.getWorkspaceName())
                 .build();
 
         repository.add(workspace);
         eventListener.commit(workspace.workspaceBuiltEvent());
         eventListener.postAll();
+
+        return workspaceId;
     }
 }

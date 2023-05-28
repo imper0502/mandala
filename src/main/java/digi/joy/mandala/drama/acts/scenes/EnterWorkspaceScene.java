@@ -2,13 +2,10 @@ package digi.joy.mandala.drama.acts.scenes;
 
 import digi.joy.mandala.common.services.MandalaEventBus;
 import digi.joy.mandala.drama.actors.Workspace;
-import digi.joy.mandala.drama.actors.association.WorkspaceSession;
 import digi.joy.mandala.drama.acts.WorkspaceRepository;
 import digi.joy.mandala.drama.acts.scenes.contexts.EnterWorkspaceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 @Component
 public class EnterWorkspaceScene {

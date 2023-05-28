@@ -1,7 +1,8 @@
 package digi.joy.mandala.drama.acts.scenes;
 
-import digi.joy.mandala.drama.acts.scenes.contexts.CreateNoteInWorkspaceContext;
+import digi.joy.mandala.drama.acts.WorkspaceContextBuilders;
 import digi.joy.mandala.drama.acts.scenes.contexts.BuildWorkspaceContext;
+import digi.joy.mandala.drama.acts.scenes.contexts.CreateNoteInWorkspaceContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,13 +15,13 @@ import java.util.UUID;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-class CreateNoteSceneInWorkspaceUseCaseTest {
-    private CreateNoteInWorkspaceScene caseUnderTest;
+class CreateNoteInWorkspaceSceneTest {
+    private final CreateNoteInWorkspaceScene caseUnderTest;
 
-    private BuildWorkspaceScene buildWorkspaceScene;
+    private final BuildWorkspaceScene buildWorkspaceScene;
 
     @Autowired
-    public CreateNoteSceneInWorkspaceUseCaseTest(CreateNoteInWorkspaceScene caseUnderTest, BuildWorkspaceScene buildWorkspaceScene) {
+    public CreateNoteInWorkspaceSceneTest(CreateNoteInWorkspaceScene caseUnderTest, BuildWorkspaceScene buildWorkspaceScene) {
         this.caseUnderTest = caseUnderTest;
         this.buildWorkspaceScene = buildWorkspaceScene;
     }
@@ -31,17 +32,16 @@ class CreateNoteSceneInWorkspaceUseCaseTest {
 
     @Test
     void createNoteInWorkspace() {
-        BuildWorkspaceContext input = BuildWorkspaceContext.builder()
-                .workspaceId(UUID.randomUUID())
+        BuildWorkspaceContext context1 = WorkspaceContextBuilders.buildWorkspaceScene()
                 .workspaceName("TEST_WORKSPACE")
                 .build();
-        buildWorkspaceScene.play(input);
+        UUID workspaceId = buildWorkspaceScene.play(context1);
 
-        CreateNoteInWorkspaceContext readModel = CreateNoteInWorkspaceContext.builder()
+        CreateNoteInWorkspaceContext context2 = WorkspaceContextBuilders.createNoteInWorkspaceScene()
                 .title("TEST_NOTE")
                 .content(List.of("TEST_CONTENT"))
-                .workspaceId(input.getWorkspaceId())
+                .workspaceId(workspaceId)
                 .build();
-        caseUnderTest.play(readModel);
+        caseUnderTest.play(context2);
     }
 }

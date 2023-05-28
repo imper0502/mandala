@@ -11,23 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-class BuildWorkspaceSceneUseCaseTest {
+class BuildWorkspaceSceneTest {
     private final WorkspaceRepository workspaceRepository;
     private final MandalaEventBus eventListener;
-    private final WorkspaceContextBuilders workspaceContextBuilders;
     private BuildWorkspaceScene sut;
 
     @Autowired
-    public BuildWorkspaceSceneUseCaseTest(WorkspaceRepository workspaceRepository, MandalaEventBus eventListener, WorkspaceContextBuilders workspaceContextBuilders) {
+    public BuildWorkspaceSceneTest(WorkspaceRepository workspaceRepository, MandalaEventBus eventListener) {
         this.workspaceRepository = workspaceRepository;
         this.eventListener = eventListener;
-        this.workspaceContextBuilders = workspaceContextBuilders;
     }
 
     @BeforeEach
@@ -37,12 +33,11 @@ class BuildWorkspaceSceneUseCaseTest {
 
     @Test
     void BuildOneNewWorkspace() {
-        BuildWorkspaceContext readModel = workspaceContextBuilders.buildWorkspaceScene()
-                .workspaceId(UUID.randomUUID())
+        BuildWorkspaceContext context = WorkspaceContextBuilders.buildWorkspaceScene()
                 .workspaceName("TEST_WORKSPACE")
                 .build();
 
-        assertDoesNotThrow(() -> sut.play(readModel));
+        assertDoesNotThrow(() -> sut.play(context));
     }
 
 }
