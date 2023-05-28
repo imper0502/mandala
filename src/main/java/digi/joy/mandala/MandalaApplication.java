@@ -2,8 +2,8 @@ package digi.joy.mandala;
 
 import digi.joy.mandala.common.adapters.api.MandalaEventHandler;
 import digi.joy.mandala.common.adapters.infra.MandalaEventPublisher;
-import digi.joy.mandala.note.services.usecase.CreateNoteInWorkspace;
-import digi.joy.mandala.workspace.services.usecase.BuildWorkspace;
+import digi.joy.mandala.drama.acts.scenes.CreateNoteInWorkspace;
+import digi.joy.mandala.drama.acts.scenes.BuildWorkspace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

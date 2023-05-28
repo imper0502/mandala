@@ -1,22 +1,22 @@
 package digi.joy.mandala.common.adapters.api;
 
 import com.google.common.eventbus.Subscribe;
-import digi.joy.mandala.note.entities.event.NoteCreatedInWorkspace;
-import digi.joy.mandala.workspace.services.WorkspaceService;
+import digi.joy.mandala.drama.actors.event.NoteCreatedInWorkspace;
+import digi.joy.mandala.drama.acts.WorkspaceAct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MandalaEventHandler {
-    private final WorkspaceService workspaceService;
+    private final WorkspaceAct workspaceAct;
 
     @Autowired
-    public MandalaEventHandler(WorkspaceService workspaceService) {
-        this.workspaceService = workspaceService;
+    public MandalaEventHandler(WorkspaceAct workspaceAct) {
+        this.workspaceAct = workspaceAct;
     }
 
     @Subscribe
     public void when(NoteCreatedInWorkspace event) {
-        workspaceService.handle(event);
+        workspaceAct.handle(event);
     }
 }
