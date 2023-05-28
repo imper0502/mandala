@@ -17,7 +17,7 @@ public class WorkspaceContextBuilders {
         return EnterWorkspaceContext.builder();
     }
 
-    public LeaveWorkspaceContext.LeaveWorkspaceContextBuilder leaveWorkspaceScene() {
+    public static LeaveWorkspaceContext.LeaveWorkspaceContextBuilder leaveWorkspaceScene() {
         return LeaveWorkspaceContext.builder();
     }
 

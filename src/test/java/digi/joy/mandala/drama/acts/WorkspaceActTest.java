@@ -2,8 +2,7 @@ package digi.joy.mandala.drama.acts;
 
 import digi.joy.mandala.drama.acts.scenes.BuildWorkspaceScene;
 import digi.joy.mandala.drama.acts.scenes.EnterWorkspaceScene;
-import digi.joy.mandala.drama.acts.scenes.contexts.EnterWorkspaceContext;
-import digi.joy.mandala.drama.acts.scenes.contexts.BuildWorkspaceContext;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,36 +15,39 @@ import java.util.UUID;
 @ExtendWith(SpringExtension.class)
 class WorkspaceActTest {
     private final WorkspaceAct actUnderTest;
-    private final WorkspaceContextBuilders contextBuilders;
     private final BuildWorkspaceScene buildWorkspaceScene;
     private final EnterWorkspaceScene enterWorkspaceScene;
+    private final WorkspaceRepository repository;
 
     @Autowired
-    public WorkspaceActTest(WorkspaceAct actUnderTest, WorkspaceContextBuilders contextBuilders, BuildWorkspaceScene buildWorkspaceScene, EnterWorkspaceScene enterWorkspaceScene) {
+    public WorkspaceActTest(WorkspaceAct actUnderTest, BuildWorkspaceScene buildWorkspaceScene, EnterWorkspaceScene enterWorkspaceScene, WorkspaceRepository repository) {
         this.actUnderTest = actUnderTest;
-        this.contextBuilders = contextBuilders;
         this.buildWorkspaceScene = buildWorkspaceScene;
         this.enterWorkspaceScene = enterWorkspaceScene;
+        this.repository = repository;
     }
 
     @Test
     void rehearseLeaveWorkspaceScene() {
-        BuildWorkspaceContext context1 = BuildWorkspaceContext.builder()
+        var context1 = WorkspaceContextBuilders.buildWorkspaceScene()
                 .workspaceName("TEST_WORKSPACE")
                 .build();
         UUID id = buildWorkspaceScene.play(context1);
 
-        EnterWorkspaceContext context2 = EnterWorkspaceContext.builder()
+        var context2 = WorkspaceContextBuilders.enterWorkspaceScene()
                 .userId(UUID.randomUUID())
                 .workspaceId(id)
                 .build();
         enterWorkspaceScene.play(context2);
 
-        actUnderTest.leaveWorkspaceScene(
-                contextBuilders.leaveWorkspaceScene()
-                        .userId(context2.getUserId())
-                        .workspaceId(context2.getWorkspaceId())
-                        .build()
-        );
+        Assertions.assertFalse(repository.query(id).getWorkspaceSessions().isEmpty());
+
+        var context3 = WorkspaceContextBuilders.leaveWorkspaceScene()
+                .userId(context2.getUserId())
+                .workspaceId(context2.getWorkspaceId())
+                .build();
+        actUnderTest.leaveWorkspaceScene(context3);
+
+        Assertions.assertTrue(repository.query(id).getWorkspaceSessions().isEmpty());
     }
 }

@@ -15,5 +15,6 @@ import java.util.UUID;
 public class CreateNoteInWorkspaceContext {
     private String title;
     private List<String> content;
+    private UUID noteId;
     private UUID workspaceId;
 }

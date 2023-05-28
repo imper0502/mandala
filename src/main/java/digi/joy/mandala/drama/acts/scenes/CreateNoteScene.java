@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -22,17 +23,19 @@ public class CreateNoteScene {
         this.eventListener = eventListener;
     }
 
-    public void play(CreateNoteContext input) {
+    public UUID play(CreateNoteContext context) {
+        UUID noteId = Optional.ofNullable(context.getNoteId()).orElse(UUID.randomUUID());
         Note note = Note.builder()
-                .noteId(UUID.randomUUID())
+                .noteId(noteId)
                 .createDateTime(ZonedDateTime.now())
-                .title(input.getTitle())
+                .title(context.getTitle())
                 .build();
-        note.append(input.getContent());
+        note.append(context.getContent());
 
         repository.add(note);
 
         eventListener.commit(note.noteCreatedEvent());
         eventListener.postAll();
+        return noteId;
     }
 }

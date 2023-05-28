@@ -21,7 +21,6 @@ public class EnterWorkspaceScene {
 
     public void play(EnterWorkspaceContext context) {
         Workspace workspace = repository.withdraw(context.getWorkspaceId());
-
         eventListener.commit(
                 workspace.add(context.getUserId())
         );
