@@ -1,8 +1,9 @@
 package digi.joy.mandala.drama.acts.scenes;
 
 import digi.joy.mandala.common.services.MandalaEventBus;
+import digi.joy.mandala.drama.acts.WorkspaceContextBuilders;
 import digi.joy.mandala.drama.acts.WorkspaceRepository;
-import digi.joy.mandala.drama.acts.scenes.contexts.InputOfBuildWorkspace;
+import digi.joy.mandala.drama.acts.scenes.contexts.BuildWorkspaceContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,30 +17,32 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-class BuildWorkspaceUseCaseTest {
+class BuildWorkspaceSceneUseCaseTest {
     private final WorkspaceRepository workspaceRepository;
     private final MandalaEventBus eventListener;
-    private BuildWorkspace sut;
+    private final WorkspaceContextBuilders workspaceContextBuilders;
+    private BuildWorkspaceScene sut;
 
     @Autowired
-    public BuildWorkspaceUseCaseTest(WorkspaceRepository workspaceRepository, MandalaEventBus eventListener) {
+    public BuildWorkspaceSceneUseCaseTest(WorkspaceRepository workspaceRepository, MandalaEventBus eventListener, WorkspaceContextBuilders workspaceContextBuilders) {
         this.workspaceRepository = workspaceRepository;
         this.eventListener = eventListener;
+        this.workspaceContextBuilders = workspaceContextBuilders;
     }
 
     @BeforeEach
     void setUp() {
-        this.sut = new BuildWorkspace(workspaceRepository, eventListener);
+        this.sut = new BuildWorkspaceScene(workspaceRepository, eventListener);
     }
 
     @Test
     void BuildOneNewWorkspace() {
-        InputOfBuildWorkspace readModel = sut.inputBuilder()
-                .workspaceId(UUID.randomUUID().toString())
+        BuildWorkspaceContext readModel = workspaceContextBuilders.buildWorkspaceScene()
+                .workspaceId(UUID.randomUUID())
                 .workspaceName("TEST_WORKSPACE")
                 .build();
 
-        assertDoesNotThrow(() -> sut.execute(readModel));
+        assertDoesNotThrow(() -> sut.play(readModel));
     }
 
 }

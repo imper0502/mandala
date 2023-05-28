@@ -2,7 +2,7 @@ package digi.joy.mandala.drama.acts.scenes;
 
 import digi.joy.mandala.common.services.MandalaEventBus;
 import digi.joy.mandala.drama.acts.NoteRepository;
-import digi.joy.mandala.drama.acts.scenes.contexts.InputOfCreateNote;
+import digi.joy.mandala.drama.acts.scenes.contexts.CreateNoteContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,29 +14,29 @@ import java.util.List;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-public class CreateNoteUseCaseTest {
+public class CreateNoteSceneUseCaseTest {
 
     private final NoteRepository noteRepository;
     private final MandalaEventBus eventListener;
-    private CreateNote caseUnderTest;
+    private CreateNoteScene caseUnderTest;
 
     @Autowired
-    public CreateNoteUseCaseTest(NoteRepository noteRepository, MandalaEventBus eventListener) {
+    public CreateNoteSceneUseCaseTest(NoteRepository noteRepository, MandalaEventBus eventListener) {
         this.noteRepository = noteRepository;
         this.eventListener = eventListener;
     }
 
     @BeforeEach
     void setUp() {
-        this.caseUnderTest = new CreateNote(noteRepository, eventListener);
+        this.caseUnderTest = new CreateNoteScene(noteRepository, eventListener);
     }
 
     @Test
     void createNote() {
-        InputOfCreateNote readModel = InputOfCreateNote.builder()
+        CreateNoteContext readModel = CreateNoteContext.builder()
                 .title("TEST_NOTE")
                 .content(List.of("TEST_CONTENT"))
                 .build();
-        caseUnderTest.execute(readModel);
+        caseUnderTest.play(readModel);
     }
 }

@@ -6,12 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class InputOfCreateNote {
+public class CreateNoteInWorkspaceContext {
     private String title;
     private List<String> content;
+    private UUID workspaceId;
 }

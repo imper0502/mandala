@@ -8,7 +8,6 @@ import java.util.UUID;
 @Data
 @Builder
 public class LeaveWorkspaceContext {
-    private UUID sessionId;
-    private String workspaceId;
-    private String userId;
+    private UUID workspaceId;
+    private UUID userId;
 }

@@ -5,11 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class InputOfBuildWorkspace {
-    private String workspaceId;
+public class BuildWorkspaceContext {
+    private UUID workspaceId;
     private String workspaceName;
 }

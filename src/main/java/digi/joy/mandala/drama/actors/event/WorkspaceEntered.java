@@ -9,6 +9,6 @@ import java.util.UUID;
 @Getter
 @RequiredArgsConstructor
 public class WorkspaceEntered extends MandalaEvent {
-    private final String workspaceId;
-    private final String userId;
+    private final UUID workspaceId;
+    private final UUID userId;
 }

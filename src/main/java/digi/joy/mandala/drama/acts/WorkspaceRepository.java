@@ -5,6 +5,8 @@ import digi.joy.mandala.drama.actors.Workspace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class WorkspaceRepository {
 
@@ -15,12 +17,12 @@ public class WorkspaceRepository {
         this.dataAccessor = dataAccessor;
     }
 
-    public String add(Workspace w) {
+    public UUID add(Workspace w) {
         dataAccessor.add(WorkspaceMapper.transform(w));
         return w.getWorkspaceId();
     }
 
-    public Workspace withdraw(String workspaceId) {
+    public Workspace withdraw(UUID workspaceId) {
         return WorkspaceMapper.transform(dataAccessor.withdraw(workspaceId).orElseThrow());
     }
 }

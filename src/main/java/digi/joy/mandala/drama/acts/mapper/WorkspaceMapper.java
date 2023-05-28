@@ -5,7 +5,7 @@ import digi.joy.mandala.drama.adapters.infra.schema.CommittedNoteData;
 import digi.joy.mandala.drama.adapters.infra.schema.WorkspaceData;
 import digi.joy.mandala.drama.adapters.infra.schema.WorkspaceSessionData;
 import digi.joy.mandala.drama.actors.Workspace;
-import digi.joy.mandala.drama.actors.WorkspaceSession;
+import digi.joy.mandala.drama.actors.association.WorkspaceSession;
 import digi.joy.mandala.drama.actors.association.CommittedNote;
 
 import java.util.List;
@@ -27,29 +27,31 @@ public class WorkspaceMapper {
                 .workspaceId(data.getWorkspaceId())
                 .workspaceName(data.getWorkspaceName())
                 .build();
-        data.getCommittedNotes().forEach(x -> w.commitNote(UUID.fromString(x.getNoteId())));
-        List<WorkspaceSession> sessions = data.getWorkspaceSessions().stream()
-                .map(x -> new WorkspaceSession(x.getUserId(), x.getWorkspaceId()))
-                .toList();
-        sessions.forEach(w::add);
+        data.getCommittedNotes().forEach(x -> w.commitNote(x.getNoteId()));
+        data.getWorkspaceSessions().forEach(x -> w.add(x.getUserId()));
 
         return w;
     }
 
     public static CommittedNoteData transform(CommittedNote note) {
         CommittedNoteData data = new CommittedNoteData();
-        data.setNoteId(note.noteId().toString());
+        data.setNoteId(note.noteId());
         return data;
     }
 
     public static WorkspaceSessionData transform(WorkspaceSession session) {
         WorkspaceSessionData data = new WorkspaceSessionData();
-        data.setUserId(session.getUserId());
-        data.setWorkspaceId(session.getWorkspaceId());
+        data.setUserId(session.userId());
+        data.setWorkspaceId(session.workspaceId());
         return data;
     }
 
     public static WorkspaceInfo wrap(WorkspaceData data) {
-        return new WorkspaceInfo(data.getWorkspaceName(), data.getCommittedNotes(), data.getWorkspaceSessions());
+        return new WorkspaceInfo(
+                data.getWorkspaceId(),
+                data.getWorkspaceName(),
+                data.getCommittedNotes(),
+                data.getWorkspaceSessions()
+        );
     }
 }

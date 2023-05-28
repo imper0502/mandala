@@ -1,5 +1,6 @@
 package digi.joy.mandala.drama.adapters.api;
 
+import digi.joy.mandala.drama.adapters.infra.schema.CommittedNoteData;
 import digi.joy.mandala.drama.adapters.infra.schema.NoteData;
 import digi.joy.mandala.drama.acts.NoteDataAccessor;
 import digi.joy.mandala.drama.adapters.api.published.WorkspaceDetail;
@@ -29,10 +30,10 @@ public class WorkspaceQueryHandler {
     }
 
     @GetMapping("{id}")
-    public WorkspaceDetail queryWorkspace(@PathVariable("id") String id) {
+    public WorkspaceDetail queryWorkspace(@PathVariable("id") UUID id) {
         WorkspaceData data = workspaceDataAccessor.query(id).orElseThrow();
         List<NoteData> committedNotes = noteDataAccessor.query(
-                data.getCommittedNotes().stream().map(x -> UUID.fromString(x.getNoteId())).toList()
+                data.getCommittedNotes().stream().map(CommittedNoteData::getNoteId).toList()
         );
         return new WorkspaceDetail(
                 data.getWorkspaceName(),
@@ -42,11 +43,9 @@ public class WorkspaceQueryHandler {
     }
 
     @GetMapping
-    public Map<String, WorkspaceInfo> queryWorkspaces() {
+    public List<WorkspaceInfo> queryWorkspaces() {
         List<WorkspaceData> dataSet = workspaceDataAccessor.queryAll();
-        Map<String, WorkspaceInfo> mapping = new HashMap<>();
-        dataSet.forEach(data -> mapping.put(data.getWorkspaceId(), WorkspaceMapper.wrap(data)));
 
-        return mapping;
+        return dataSet.stream().map(WorkspaceMapper::wrap).toList();
     }
 }

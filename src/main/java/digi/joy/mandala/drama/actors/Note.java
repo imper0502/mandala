@@ -18,9 +18,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Note {
-    private final List<String> content = new ArrayList<>();
     private UUID noteId;
     private String title;
+    private final List<String> content = new ArrayList<>();
     private ZonedDateTime createDateTime;
 
     public NoteCreated noteCreatedEvent() {
@@ -32,7 +32,7 @@ public class Note {
         return new NoteUpdated(noteId);
     }
 
-    public NoteCreatedInWorkspace noteCreatedEvent(String workspaceId) {
+    public NoteCreatedInWorkspace noteCreatedEvent(UUID workspaceId) {
         return new NoteCreatedInWorkspace(noteId, workspaceId);
     }
 }

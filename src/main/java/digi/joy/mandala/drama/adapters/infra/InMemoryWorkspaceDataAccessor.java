@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class InMemoryWorkspaceDataAccessor implements WorkspaceDataAccessor {
@@ -16,7 +17,7 @@ public class InMemoryWorkspaceDataAccessor implements WorkspaceDataAccessor {
         workspaces.add(w);
     }
 
-    public Optional<WorkspaceData> withdraw(String workspaceId) {
+    public Optional<WorkspaceData> withdraw(UUID workspaceId) {
         Optional<WorkspaceData> w = query(workspaceId);
 
         w.ifPresent(workspaces::remove);
@@ -24,7 +25,7 @@ public class InMemoryWorkspaceDataAccessor implements WorkspaceDataAccessor {
         return w;
     }
 
-    public Optional<WorkspaceData> query(String workspaceId) {
+    public Optional<WorkspaceData> query(UUID workspaceId) {
         return workspaces.stream()
                 .filter(workspace -> workspace.getWorkspaceId().equals(workspaceId))
                 .findFirst();

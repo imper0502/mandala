@@ -3,10 +3,11 @@ package digi.joy.mandala.drama.adapters.infra.schema;
 import lombok.Data;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 public class WorkspaceData {
-    private String workspaceId;
+    private UUID workspaceId;
 
     private String workspaceName;
 

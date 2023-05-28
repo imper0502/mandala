@@ -11,8 +11,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class InputOfCreateNoteInWorkspace {
+public class CreateNoteContext {
     private String title;
     private List<String> content;
-    private String workspaceId;
 }
