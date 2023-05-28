@@ -1,9 +1,9 @@
 package digi.joy.mandala;
 
-import digi.joy.mandala.common.adapters.api.MandalaEventHandler;
 import digi.joy.mandala.common.adapters.infra.MandalaEventPublisher;
 import digi.joy.mandala.drama.acts.NoteContextBuilders;
 import digi.joy.mandala.drama.acts.WorkspaceContextBuilders;
+import digi.joy.mandala.drama.acts.WorkspaceEventHandler;
 import digi.joy.mandala.drama.acts.scenes.BuildWorkspaceScene;
 import digi.joy.mandala.drama.acts.scenes.CreateNoteScene;
 import lombok.extern.slf4j.Slf4j;
@@ -19,15 +19,18 @@ import java.util.UUID;
 public class MandalaApplication implements CommandLineRunner {
 
     private final MandalaEventPublisher eventPublisher;
-    private final MandalaEventHandler eventHandler;
-
+    private final WorkspaceEventHandler workspaceEventHandler;
     private final BuildWorkspaceScene buildWorkspaceScene;
     private final CreateNoteScene createNoteScene;
 
     @Autowired
-    public MandalaApplication(MandalaEventPublisher eventPublisher, MandalaEventHandler eventHandler, BuildWorkspaceScene buildWorkspaceScene, CreateNoteScene createNoteScene) {
+    public MandalaApplication(
+            MandalaEventPublisher eventPublisher,
+            WorkspaceEventHandler workspaceEventHandler,
+            BuildWorkspaceScene buildWorkspaceScene,
+            CreateNoteScene createNoteScene) {
         this.eventPublisher = eventPublisher;
-        this.eventHandler = eventHandler;
+        this.workspaceEventHandler = workspaceEventHandler;
         this.buildWorkspaceScene = buildWorkspaceScene;
         this.createNoteScene = createNoteScene;
     }
@@ -38,7 +41,7 @@ public class MandalaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... arg0) {
-        eventPublisher.register(eventHandler);
+        eventPublisher.register(workspaceEventHandler);
 
         UUID defaultWorkspaceId = buildWorkspaceScene.play(
                 WorkspaceContextBuilders.buildWorkspaceScene()
@@ -46,7 +49,7 @@ public class MandalaApplication implements CommandLineRunner {
                         .workspaceName("DEFAULT_WORKSPACE")
                         .build()
         );
-        log.info("@> Default Workspace ID: {}", defaultWorkspaceId);
+        log.info("$ Default Workspace ID: {} $", defaultWorkspaceId);
 
         UUID defaultNoteId = createNoteScene.play(
                 NoteContextBuilders.createNoteScene()
@@ -55,6 +58,11 @@ public class MandalaApplication implements CommandLineRunner {
                         .content(List.of("TEST_CONTENT"))
                         .build()
         );
-        log.info("@> Default Note ID: {}", defaultNoteId);
+        log.info("$ Default Note ID: {} $", defaultNoteId);
+
+        log.info("$ Event History $");
+        eventPublisher.history().forEach(
+                event -> log.info("* Event: {} #{}", event.getClass().getSimpleName(), event.hashCode())
+        );
     }
 }

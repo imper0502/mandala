@@ -6,7 +6,7 @@ import digi.joy.mandala.drama.adapters.infra.schema.WorkspaceSessionData;
 import java.util.List;
 import java.util.UUID;
 
-public record WorkspaceInfo(
+public record WorkspaceSummary(
         UUID workspaceId,
         String workspaceName,
         List<CommittedNoteData> committedNotes,

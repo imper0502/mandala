@@ -1,41 +1,40 @@
 package digi.joy.mandala.drama.acts;
 
-import digi.joy.mandala.common.services.MandalaEventBus;
-import digi.joy.mandala.drama.actors.event.NoteCreatedInWorkspace;
-import digi.joy.mandala.drama.actors.Workspace;
+import digi.joy.mandala.drama.acts.scenes.BuildWorkspaceScene;
+import digi.joy.mandala.drama.acts.scenes.EnterWorkspaceScene;
+import digi.joy.mandala.drama.acts.scenes.LeaveWorkspaceScene;
+import digi.joy.mandala.drama.acts.scenes.contexts.BuildWorkspaceContext;
+import digi.joy.mandala.drama.acts.scenes.contexts.EnterWorkspaceContext;
 import digi.joy.mandala.drama.acts.scenes.contexts.LeaveWorkspaceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class WorkspaceAct {
-    private final WorkspaceRepository repository;
 
-    private final MandalaEventBus eventBus;
+    private final BuildWorkspaceScene buildWorkspaceScene;
+    private final EnterWorkspaceScene enterWorkspaceScene;
+    private final LeaveWorkspaceScene leaveWorkspaceScene;
 
     @Autowired
-    public WorkspaceAct(
-            WorkspaceRepository repository, MandalaEventBus eventBus) {
-        this.repository = repository;
-        this.eventBus = eventBus;
+    public WorkspaceAct(BuildWorkspaceScene buildWorkspaceScene, EnterWorkspaceScene enterWorkspaceScene, LeaveWorkspaceScene leaveWorkspaceScene) {
+        this.buildWorkspaceScene = buildWorkspaceScene;
+        this.enterWorkspaceScene = enterWorkspaceScene;
+        this.leaveWorkspaceScene = leaveWorkspaceScene;
     }
 
+
+    public UUID buildWorkspaceScene(BuildWorkspaceContext context) {
+        return buildWorkspaceScene.play(context);
+    }
+
+    public void enterWorkspaceScene(EnterWorkspaceContext context) {
+        enterWorkspaceScene.play(context);
+    }
 
     public void leaveWorkspaceScene(LeaveWorkspaceContext context) {
-        Workspace w = repository.withdraw(context.getWorkspaceId());
-        eventBus.commit(
-                w.remove(context.getUserId())
-        );
-        repository.add(w);
-        eventBus.postAll();
-    }
-
-    public void handle(NoteCreatedInWorkspace event) {
-        Workspace workspace = repository.withdraw(event.getWorkspaceId());
-        eventBus.commit(
-                workspace.commitNote(event.getNoteId())
-        );
-        repository.add(workspace);
-        eventBus.postAll();
+        leaveWorkspaceScene.play(context);
     }
 }

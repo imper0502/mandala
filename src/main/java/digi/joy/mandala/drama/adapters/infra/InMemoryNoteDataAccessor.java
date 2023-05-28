@@ -1,7 +1,7 @@
 package digi.joy.mandala.drama.adapters.infra;
 
-import digi.joy.mandala.drama.adapters.infra.schema.NoteData;
 import digi.joy.mandala.drama.acts.NoteDataAccessor;
+import digi.joy.mandala.drama.adapters.infra.schema.NoteData;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -19,13 +19,18 @@ public class InMemoryNoteDataAccessor implements NoteDataAccessor {
     }
 
     public Optional<NoteData> withdraw(UUID id) {
-        Optional<NoteData> note = notes.stream()
-                .filter(x -> x.getNoteId().equals(id))
-                .findFirst();
+        Optional<NoteData> note = query(id);
 
         note.ifPresent(notes::remove);
 
         return note;
+    }
+
+    @Override
+    public Optional<NoteData> query(UUID id) {
+        return notes.stream()
+                .filter(x -> x.getNoteId().equals(id))
+                .findFirst();
     }
 
     @Override

@@ -5,9 +5,9 @@ import digi.joy.mandala.drama.actors.Workspace;
 import digi.joy.mandala.drama.acts.WorkspaceRepository;
 import digi.joy.mandala.drama.acts.scenes.contexts.EnterWorkspaceContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class EnterWorkspaceScene {
     private final WorkspaceRepository repository;
 

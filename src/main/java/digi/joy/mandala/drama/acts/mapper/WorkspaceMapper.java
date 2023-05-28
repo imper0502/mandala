@@ -3,7 +3,7 @@ package digi.joy.mandala.drama.acts.mapper;
 import digi.joy.mandala.drama.actors.Workspace;
 import digi.joy.mandala.drama.actors.association.CommittedNote;
 import digi.joy.mandala.drama.actors.association.WorkspaceSession;
-import digi.joy.mandala.drama.adapters.api.published.WorkspaceInfo;
+import digi.joy.mandala.drama.adapters.api.published.WorkspaceSummary;
 import digi.joy.mandala.drama.adapters.infra.schema.CommittedNoteData;
 import digi.joy.mandala.drama.adapters.infra.schema.WorkspaceData;
 import digi.joy.mandala.drama.adapters.infra.schema.WorkspaceSessionData;
@@ -43,8 +43,8 @@ public class WorkspaceMapper {
         return data;
     }
 
-    public static WorkspaceInfo wrap(WorkspaceData data) {
-        return new WorkspaceInfo(
+    public static WorkspaceSummary wrap(WorkspaceData data) {
+        return new WorkspaceSummary(
                 data.getWorkspaceId(),
                 data.getWorkspaceName(),
                 data.getCommittedNotes(),

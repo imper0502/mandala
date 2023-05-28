@@ -1,20 +1,22 @@
 package digi.joy.mandala.drama.adapters.api;
 
+import digi.joy.mandala.drama.acts.NoteDataAccessor;
+import digi.joy.mandala.drama.acts.WorkspaceDataAccessor;
+import digi.joy.mandala.drama.acts.mapper.WorkspaceMapper;
+import digi.joy.mandala.drama.adapters.api.published.WorkspaceDetail;
+import digi.joy.mandala.drama.adapters.api.published.WorkspaceSummary;
 import digi.joy.mandala.drama.adapters.infra.schema.CommittedNoteData;
 import digi.joy.mandala.drama.adapters.infra.schema.NoteData;
-import digi.joy.mandala.drama.acts.NoteDataAccessor;
-import digi.joy.mandala.drama.adapters.api.published.WorkspaceDetail;
-import digi.joy.mandala.drama.adapters.api.published.WorkspaceInfo;
 import digi.joy.mandala.drama.adapters.infra.schema.WorkspaceData;
-import digi.joy.mandala.drama.acts.mapper.WorkspaceMapper;
-import digi.joy.mandala.drama.acts.WorkspaceDataAccessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "v1/workspaces")
@@ -43,7 +45,7 @@ public class WorkspaceQueryHandler {
     }
 
     @GetMapping
-    public List<WorkspaceInfo> queryWorkspaces() {
+    public List<WorkspaceSummary> queryWorkspaces() {
         List<WorkspaceData> dataSet = workspaceDataAccessor.queryAll();
 
         return dataSet.stream().map(WorkspaceMapper::wrap).toList();

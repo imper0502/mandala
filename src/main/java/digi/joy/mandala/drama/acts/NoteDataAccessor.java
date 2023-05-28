@@ -8,8 +8,7 @@ import java.util.UUID;
 
 public interface NoteDataAccessor {
     void add(NoteData note);
-
     Optional<NoteData> withdraw(UUID id);
-
+    Optional<NoteData> query(UUID id);
     List<NoteData> query(List<UUID> list);
 }

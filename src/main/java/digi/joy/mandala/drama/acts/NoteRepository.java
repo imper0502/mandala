@@ -1,7 +1,7 @@
 package digi.joy.mandala.drama.acts;
 
-import digi.joy.mandala.drama.acts.mapper.NoteMapper;
 import digi.joy.mandala.drama.actors.Note;
+import digi.joy.mandala.drama.acts.mapper.NoteMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +24,9 @@ public class NoteRepository {
 
     public Note withdraw(UUID id) {
         return NoteMapper.transform(dataAccessor.withdraw(id).orElseThrow());
+    }
+
+    public Note query(UUID id) {
+        return NoteMapper.transform(dataAccessor.query(id).orElseThrow());
     }
 }

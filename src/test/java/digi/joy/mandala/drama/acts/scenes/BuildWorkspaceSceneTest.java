@@ -6,15 +6,15 @@ import digi.joy.mandala.drama.acts.WorkspaceRepository;
 import digi.joy.mandala.drama.acts.scenes.contexts.BuildWorkspaceContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 @SpringBootTest
-@ExtendWith(SpringExtension.class)
 class BuildWorkspaceSceneTest {
     private BuildWorkspaceScene sceneUnderTest;
     private final WorkspaceRepository workspaceRepository;
@@ -37,7 +37,9 @@ class BuildWorkspaceSceneTest {
                 .workspaceName("TEST_WORKSPACE")
                 .build();
 
-        assertDoesNotThrow(() -> sceneUnderTest.play(context));
+        UUID result = assertDoesNotThrow(() -> sceneUnderTest.play(context));
+
+        assertInstanceOf(UUID.class, result);
     }
 
 }
