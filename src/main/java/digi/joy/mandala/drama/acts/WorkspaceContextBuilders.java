@@ -1,7 +1,6 @@
 package digi.joy.mandala.drama.acts;
 
 import digi.joy.mandala.drama.acts.scenes.contexts.BuildWorkspaceContext;
-import digi.joy.mandala.drama.acts.scenes.contexts.CreateNoteInWorkspaceContext;
 import digi.joy.mandala.drama.acts.scenes.contexts.EnterWorkspaceContext;
 import digi.joy.mandala.drama.acts.scenes.contexts.LeaveWorkspaceContext;
 import org.springframework.stereotype.Service;
@@ -19,9 +18,5 @@ public class WorkspaceContextBuilders {
 
     public static LeaveWorkspaceContext.LeaveWorkspaceContextBuilder leaveWorkspaceScene() {
         return LeaveWorkspaceContext.builder();
-    }
-
-    public static CreateNoteInWorkspaceContext.CreateNoteInWorkspaceContextBuilder createNoteInWorkspaceScene() {
-        return CreateNoteInWorkspaceContext.builder();
     }
 }

@@ -13,13 +13,13 @@ import java.util.UUID;
 
 @Service
 public class CreateNoteScene {
+    private final NoteRepository noteRepository;
 
-    private final NoteRepository repository;
     private final MandalaEventBus eventListener;
 
     @Autowired
-    public CreateNoteScene(NoteRepository repository, MandalaEventBus eventListener) {
-        this.repository = repository;
+    public CreateNoteScene(NoteRepository noteRepository, MandalaEventBus eventListener) {
+        this.noteRepository = noteRepository;
         this.eventListener = eventListener;
     }
 
@@ -27,14 +27,19 @@ public class CreateNoteScene {
         UUID noteId = Optional.ofNullable(context.getNoteId()).orElse(UUID.randomUUID());
         Note note = Note.builder()
                 .noteId(noteId)
-                .createDateTime(ZonedDateTime.now())
                 .title(context.getTitle())
+                .createDateTime(ZonedDateTime.now())
                 .build();
         note.append(context.getContent());
 
-        repository.add(note);
+        noteRepository.add(note);
 
-        eventListener.commit(note.noteCreatedEvent());
+        Optional<UUID> workspaceId = Optional.ofNullable(context.getWorkspaceId());
+        workspaceId.ifPresentOrElse(
+                id -> eventListener.commit(note.noteCreatedEvent(id)),
+                () -> eventListener.commit(note.noteCreatedEvent())
+        );
+
         eventListener.postAll();
         return noteId;
     }

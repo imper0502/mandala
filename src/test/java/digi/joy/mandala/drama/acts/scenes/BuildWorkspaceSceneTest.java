@@ -16,9 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 class BuildWorkspaceSceneTest {
+    private BuildWorkspaceScene sceneUnderTest;
     private final WorkspaceRepository workspaceRepository;
     private final MandalaEventBus eventListener;
-    private BuildWorkspaceScene sut;
 
     @Autowired
     public BuildWorkspaceSceneTest(WorkspaceRepository workspaceRepository, MandalaEventBus eventListener) {
@@ -28,7 +28,7 @@ class BuildWorkspaceSceneTest {
 
     @BeforeEach
     void setUp() {
-        this.sut = new BuildWorkspaceScene(workspaceRepository, eventListener);
+        this.sceneUnderTest = new BuildWorkspaceScene(workspaceRepository, eventListener);
     }
 
     @Test
@@ -37,7 +37,7 @@ class BuildWorkspaceSceneTest {
                 .workspaceName("TEST_WORKSPACE")
                 .build();
 
-        assertDoesNotThrow(() -> sut.play(context));
+        assertDoesNotThrow(() -> sceneUnderTest.play(context));
     }
 
 }

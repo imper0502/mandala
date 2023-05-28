@@ -17,21 +17,21 @@ import java.util.UUID;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 class EnterWorkspaceSceneTest {
-    private final BuildWorkspaceScene buildWorkspaceScene;
+    private EnterWorkspaceScene sceneUnderTest;
     private final WorkspaceRepository repository;
     private final MandalaEventBus eventListener;
-    private EnterWorkspaceScene sut;
+    private final BuildWorkspaceScene buildWorkspaceScene;
 
     @Autowired
-    public EnterWorkspaceSceneTest(WorkspaceRepository repository, MandalaEventBus eventListener) {
+    public EnterWorkspaceSceneTest(WorkspaceRepository repository, MandalaEventBus eventListener, BuildWorkspaceScene buildWorkspaceScene) {
+        this.buildWorkspaceScene = buildWorkspaceScene;
         this.repository = repository;
         this.eventListener = eventListener;
-        this.buildWorkspaceScene = new BuildWorkspaceScene(repository, eventListener);
     }
 
     @BeforeEach
     void setUp() {
-        this.sut = new EnterWorkspaceScene(repository, eventListener);
+        this.sceneUnderTest = new EnterWorkspaceScene(repository, eventListener);
     }
 
     @Test
@@ -45,6 +45,6 @@ class EnterWorkspaceSceneTest {
                 .userId(UUID.randomUUID())
                 .workspaceId(workspaceId)
                 .build();
-        sut.play(context2);
+        sceneUnderTest.play(context2);
     }
 }

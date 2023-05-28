@@ -1,8 +1,10 @@
 package digi.joy.mandala.drama.acts;
 
+import digi.joy.mandala.common.services.MandalaEventBus;
 import digi.joy.mandala.drama.acts.scenes.BuildWorkspaceScene;
 import digi.joy.mandala.drama.acts.scenes.EnterWorkspaceScene;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +16,23 @@ import java.util.UUID;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 class WorkspaceActTest {
-    private final WorkspaceAct actUnderTest;
+    private WorkspaceAct actUnderTest;
+    private final WorkspaceRepository repository;
+    private final MandalaEventBus eventBus;
     private final BuildWorkspaceScene buildWorkspaceScene;
     private final EnterWorkspaceScene enterWorkspaceScene;
-    private final WorkspaceRepository repository;
 
     @Autowired
-    public WorkspaceActTest(WorkspaceAct actUnderTest, BuildWorkspaceScene buildWorkspaceScene, EnterWorkspaceScene enterWorkspaceScene, WorkspaceRepository repository) {
-        this.actUnderTest = actUnderTest;
+    public WorkspaceActTest(WorkspaceRepository repository, MandalaEventBus eventBus, BuildWorkspaceScene buildWorkspaceScene, EnterWorkspaceScene enterWorkspaceScene) {
+        this.repository = repository;
+        this.eventBus = eventBus;
         this.buildWorkspaceScene = buildWorkspaceScene;
         this.enterWorkspaceScene = enterWorkspaceScene;
-        this.repository = repository;
+    }
+
+    @BeforeEach
+    void setUp() {
+        this.actUnderTest = new WorkspaceAct(repository, eventBus);
     }
 
     @Test

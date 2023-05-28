@@ -2,9 +2,10 @@ package digi.joy.mandala;
 
 import digi.joy.mandala.common.adapters.api.MandalaEventHandler;
 import digi.joy.mandala.common.adapters.infra.MandalaEventPublisher;
+import digi.joy.mandala.drama.acts.NoteContextBuilders;
 import digi.joy.mandala.drama.acts.WorkspaceContextBuilders;
 import digi.joy.mandala.drama.acts.scenes.BuildWorkspaceScene;
-import digi.joy.mandala.drama.acts.scenes.CreateNoteInWorkspaceScene;
+import digi.joy.mandala.drama.acts.scenes.CreateNoteScene;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -21,14 +22,14 @@ public class MandalaApplication implements CommandLineRunner {
     private final MandalaEventHandler eventHandler;
 
     private final BuildWorkspaceScene buildWorkspaceScene;
-    private final CreateNoteInWorkspaceScene createNoteInWorkspaceScene;
+    private final CreateNoteScene createNoteScene;
 
     @Autowired
-    public MandalaApplication(MandalaEventPublisher eventPublisher, MandalaEventHandler eventHandler, BuildWorkspaceScene buildWorkspaceScene, CreateNoteInWorkspaceScene createNoteInWorkspaceScene) {
+    public MandalaApplication(MandalaEventPublisher eventPublisher, MandalaEventHandler eventHandler, BuildWorkspaceScene buildWorkspaceScene, CreateNoteScene createNoteScene) {
         this.eventPublisher = eventPublisher;
         this.eventHandler = eventHandler;
         this.buildWorkspaceScene = buildWorkspaceScene;
-        this.createNoteInWorkspaceScene = createNoteInWorkspaceScene;
+        this.createNoteScene = createNoteScene;
     }
 
     public static void main(String[] args) {
@@ -45,14 +46,15 @@ public class MandalaApplication implements CommandLineRunner {
                         .workspaceName("DEFAULT_WORKSPACE")
                         .build()
         );
-        log.info("$> Default Workspace ID: {}", defaultWorkspaceId);
+        log.info("@> Default Workspace ID: {}", defaultWorkspaceId);
 
-        createNoteInWorkspaceScene.play(
-                WorkspaceContextBuilders.createNoteInWorkspaceScene()
+        UUID defaultNoteId = createNoteScene.play(
+                NoteContextBuilders.createNoteScene()
                         .workspaceId(defaultWorkspaceId)
                         .title("TEST_NOTE")
                         .content(List.of("TEST_CONTENT"))
                         .build()
         );
+        log.info("@> Default Note ID: {}", defaultNoteId);
     }
 }
