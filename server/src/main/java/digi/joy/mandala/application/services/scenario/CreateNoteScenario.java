@@ -2,8 +2,8 @@ package digi.joy.mandala.application.services.scenario;
 
 import digi.joy.mandala.common.services.MandalaEventBus;
 import digi.joy.mandala.application.entities.Note;
-import digi.joy.mandala.application.services.NoteRepository;
-import digi.joy.mandala.application.services.scenario.context.CreateNoteContext;
+import digi.joy.mandala.application.services.infra.NoteRepository;
+import digi.joy.mandala.application.services.context.CreateNoteContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

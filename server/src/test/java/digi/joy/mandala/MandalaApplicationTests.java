@@ -8,6 +8,7 @@ class MandalaApplicationTests {
 
     @Test
     void contextLoads() {
+
     }
 
 }

@@ -1,10 +1,10 @@
 package digi.joy.mandala.application.services.scenario;
 
 import digi.joy.mandala.common.services.MandalaEventBus;
-import digi.joy.mandala.application.services.WorkspaceContextBuilders;
-import digi.joy.mandala.application.services.WorkspaceRepository;
-import digi.joy.mandala.application.services.scenario.context.BuildWorkspaceContext;
-import digi.joy.mandala.application.services.scenario.context.EnterWorkspaceContext;
+import digi.joy.mandala.application.services.utils.WorkspaceContextBuilders;
+import digi.joy.mandala.application.services.infra.WorkspaceRepository;
+import digi.joy.mandala.application.services.context.BuildWorkspaceContext;
+import digi.joy.mandala.application.services.context.EnterWorkspaceContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +36,14 @@ class EnterWorkspaceScenarioTest {
 
     @Test
     void EnterExistingWorkspace() {
-        BuildWorkspaceContext context1 = WorkspaceContextBuilders.buildWorkspaceScene()
+        BuildWorkspaceContext context1 = WorkspaceContextBuilders.buildWorkspaceScenario()
                 .workspaceName("TEST_WORKSPACE")
                 .build();
         UUID workspaceId = buildWorkspaceScenario.play(context1);
 
         assertInstanceOf(UUID.class, workspaceId);
 
-        EnterWorkspaceContext context2 = WorkspaceContextBuilders.enterWorkspaceScene()
+        EnterWorkspaceContext context2 = WorkspaceContextBuilders.enterWorkspaceScenario()
                 .userId(UUID.randomUUID())
                 .workspaceId(workspaceId)
                 .build();

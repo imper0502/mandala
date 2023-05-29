@@ -2,8 +2,8 @@ package digi.joy.mandala.application.services.scenario;
 
 import digi.joy.mandala.common.services.MandalaEventBus;
 import digi.joy.mandala.application.entities.Workspace;
-import digi.joy.mandala.application.services.WorkspaceRepository;
-import digi.joy.mandala.application.services.scenario.context.EnterWorkspaceContext;
+import digi.joy.mandala.application.services.infra.WorkspaceRepository;
+import digi.joy.mandala.application.services.context.EnterWorkspaceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

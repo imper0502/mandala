@@ -1,17 +1,19 @@
 package digi.joy.mandala.application.services;
 
+import digi.joy.mandala.application.adapters.handler.WorkspaceCommandHandler;
+import digi.joy.mandala.application.services.utils.WorkspaceContextBuilders;
+import digi.joy.mandala.application.services.infra.WorkspaceRepository;
+import digi.joy.mandala.common.adapters.infra.MandalaEventPublisher;
 import digi.joy.mandala.common.services.MandalaEventBus;
-import digi.joy.mandala.application.adapters.infra.InMemoryWorkspaceDataAccessor;
+import digi.joy.mandala.application.adapters.gateway.InMemoryWorkspaceDataAccessor;
 import digi.joy.mandala.application.services.scenario.BuildWorkspaceScenario;
 import digi.joy.mandala.application.services.scenario.EnterWorkspaceScenario;
 import digi.joy.mandala.application.services.scenario.LeaveWorkspaceScenario;
-import digi.joy.mandala.application.services.scenario.context.BuildWorkspaceContext;
-import digi.joy.mandala.application.services.scenario.context.EnterWorkspaceContext;
-import org.junit.jupiter.api.Assertions;
+import digi.joy.mandala.application.services.context.BuildWorkspaceContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 
 import java.util.UUID;
 
@@ -19,19 +21,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class WorkspaceServiceTest {
-    private WorkspaceService actUnderTest;
+    private WorkspaceCommandHandler controllerUnderTest;
     private WorkspaceRepository repository;
-    private final MandalaEventBus eventBus;
-
-    @Autowired
-    public WorkspaceServiceTest(MandalaEventBus eventBus) {
-        this.eventBus = eventBus;
-    }
 
     @BeforeEach
     void setUp() {
         this.repository = new WorkspaceRepository(new InMemoryWorkspaceDataAccessor());
-        this.actUnderTest = new WorkspaceService(
+        MandalaEventBus eventBus = new MandalaEventPublisher();
+        this.controllerUnderTest = new WorkspaceCommandHandler(
                 new BuildWorkspaceScenario(repository, eventBus),
                 new EnterWorkspaceScenario(repository, eventBus),
                 new LeaveWorkspaceScenario(repository, eventBus)
@@ -40,50 +37,12 @@ class WorkspaceServiceTest {
 
     @Test
     void rehearseBuildWorkspaceScene() {
-        BuildWorkspaceContext context = WorkspaceContextBuilders.buildWorkspaceScene()
+        BuildWorkspaceContext context = WorkspaceContextBuilders.buildWorkspaceScenario()
                 .workspaceName("TEST_WORKSPACE")
                 .build();
 
-        UUID result = assertDoesNotThrow(() -> actUnderTest.buildWorkspaceScene(context));
+        ResponseEntity<UUID> result = assertDoesNotThrow(() -> controllerUnderTest.buildWorkspaceScene(context));
 
-        assertInstanceOf(UUID.class, result);
-    }
-
-    @Test
-    void rehearseEnterWorkspaceScene() {
-        BuildWorkspaceContext context1 = WorkspaceContextBuilders.buildWorkspaceScene()
-                .workspaceName("TEST_WORKSPACE")
-                .build();
-        UUID workspaceId = actUnderTest.buildWorkspaceScene(context1);
-        EnterWorkspaceContext context2 = WorkspaceContextBuilders.enterWorkspaceScene()
-                .userId(UUID.randomUUID())
-                .workspaceId(workspaceId)
-                .build();
-
-        assertDoesNotThrow(() -> actUnderTest.enterWorkspaceScene(context2));
-
-        assertFalse(repository.query(workspaceId).getWorkspaceSessions().isEmpty());
-    }
-
-    @Test
-    void rehearseLeaveWorkspaceScene() {
-        var context1 = WorkspaceContextBuilders.buildWorkspaceScene()
-                .workspaceName("TEST_WORKSPACE")
-                .build();
-        UUID id = actUnderTest.buildWorkspaceScene(context1);
-        var context2 = WorkspaceContextBuilders.enterWorkspaceScene()
-                .userId(UUID.randomUUID())
-                .workspaceId(id)
-                .build();
-        actUnderTest.enterWorkspaceScene(context2);
-        Assertions.assertFalse(repository.query(id).getWorkspaceSessions().isEmpty());
-        var context3 = WorkspaceContextBuilders.leaveWorkspaceScene()
-                .userId(context2.getUserId())
-                .workspaceId(context2.getWorkspaceId())
-                .build();
-
-        actUnderTest.leaveWorkspaceScene(context3);
-
-        Assertions.assertTrue(repository.query(id).getWorkspaceSessions().isEmpty());
+        assertTrue(result.getStatusCode().is2xxSuccessful());
     }
 }

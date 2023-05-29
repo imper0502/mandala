@@ -1,9 +1,9 @@
 package digi.joy.mandala;
 
+import digi.joy.mandala.application.adapters.listener.WorkspaceEventListener;
 import digi.joy.mandala.common.adapters.infra.MandalaEventPublisher;
-import digi.joy.mandala.application.services.NoteContextBuilders;
-import digi.joy.mandala.application.services.WorkspaceContextBuilders;
-import digi.joy.mandala.application.services.WorkspaceEventHandler;
+import digi.joy.mandala.application.services.utils.NoteContextBuilders;
+import digi.joy.mandala.application.services.utils.WorkspaceContextBuilders;
 import digi.joy.mandala.application.services.scenario.BuildWorkspaceScenario;
 import digi.joy.mandala.application.services.scenario.CreateNoteScenario;
 import lombok.extern.slf4j.Slf4j;
@@ -19,18 +19,18 @@ import java.util.UUID;
 public class MandalaApplication implements CommandLineRunner {
 
     private final MandalaEventPublisher eventPublisher;
-    private final WorkspaceEventHandler workspaceEventHandler;
+    private final WorkspaceEventListener workspaceEventListener;
     private final BuildWorkspaceScenario buildWorkspaceScenario;
     private final CreateNoteScenario createNoteScenario;
 
     @Autowired
     public MandalaApplication(
             MandalaEventPublisher eventPublisher,
-            WorkspaceEventHandler workspaceEventHandler,
+            WorkspaceEventListener workspaceEventListener,
             BuildWorkspaceScenario buildWorkspaceScenario,
             CreateNoteScenario createNoteScenario) {
         this.eventPublisher = eventPublisher;
-        this.workspaceEventHandler = workspaceEventHandler;
+        this.workspaceEventListener = workspaceEventListener;
         this.buildWorkspaceScenario = buildWorkspaceScenario;
         this.createNoteScenario = createNoteScenario;
     }
@@ -41,10 +41,10 @@ public class MandalaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... arg0) {
-        eventPublisher.register(workspaceEventHandler);
+        eventPublisher.register(workspaceEventListener);
 
         UUID defaultWorkspaceId = buildWorkspaceScenario.play(
-                WorkspaceContextBuilders.buildWorkspaceScene()
+                WorkspaceContextBuilders.buildWorkspaceScenario()
                         .workspaceId(UUID.fromString("64f01c0d-1026-4d89-bd5e-c7fff0d4f360"))
                         .workspaceName("DEFAULT_WORKSPACE")
                         .build()

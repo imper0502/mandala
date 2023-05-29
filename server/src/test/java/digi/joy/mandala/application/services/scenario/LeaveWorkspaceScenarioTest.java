@@ -2,8 +2,8 @@ package digi.joy.mandala.application.services.scenario;
 
 import digi.joy.mandala.common.services.MandalaEventBus;
 import digi.joy.mandala.application.entities.Workspace;
-import digi.joy.mandala.application.services.WorkspaceContextBuilders;
-import digi.joy.mandala.application.services.WorkspaceRepository;
+import digi.joy.mandala.application.services.utils.WorkspaceContextBuilders;
+import digi.joy.mandala.application.services.infra.WorkspaceRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +36,14 @@ public class LeaveWorkspaceScenarioTest {
 
     @Test
     void rehearseLeaveWorkspaceScene() {
-        var context1 = WorkspaceContextBuilders.buildWorkspaceScene()
+        var context1 = WorkspaceContextBuilders.buildWorkspaceScenario()
                 .workspaceName("TEST_WORKSPACE")
                 .build();
         UUID id = buildWorkspaceScenario.play(context1);
 
         assertInstanceOf(Workspace.class, repository.query(id));
 
-        var context2 = WorkspaceContextBuilders.enterWorkspaceScene()
+        var context2 = WorkspaceContextBuilders.enterWorkspaceScenario()
                 .userId(UUID.randomUUID())
                 .workspaceId(id)
                 .build();
@@ -51,7 +51,7 @@ public class LeaveWorkspaceScenarioTest {
 
         assertFalse(repository.query(id).getWorkspaceSessions().isEmpty());
 
-        var context3 = WorkspaceContextBuilders.leaveWorkspaceScene()
+        var context3 = WorkspaceContextBuilders.leaveWorkspaceScenario()
                 .userId(context2.getUserId())
                 .workspaceId(context2.getWorkspaceId())
                 .build();

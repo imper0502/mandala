@@ -3,12 +3,12 @@ package digi.joy.mandala.application.services.scenario;
 import digi.joy.mandala.common.services.MandalaEventBus;
 import digi.joy.mandala.application.entities.Note;
 import digi.joy.mandala.application.entities.Workspace;
-import digi.joy.mandala.application.services.NoteContextBuilders;
-import digi.joy.mandala.application.services.NoteRepository;
-import digi.joy.mandala.application.services.WorkspaceContextBuilders;
-import digi.joy.mandala.application.services.WorkspaceRepository;
-import digi.joy.mandala.application.services.scenario.context.BuildWorkspaceContext;
-import digi.joy.mandala.application.services.scenario.context.CreateNoteContext;
+import digi.joy.mandala.application.services.utils.NoteContextBuilders;
+import digi.joy.mandala.application.services.infra.NoteRepository;
+import digi.joy.mandala.application.services.utils.WorkspaceContextBuilders;
+import digi.joy.mandala.application.services.infra.WorkspaceRepository;
+import digi.joy.mandala.application.services.context.BuildWorkspaceContext;
+import digi.joy.mandala.application.services.context.CreateNoteContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +55,7 @@ public class CreateNoteScenarioTest {
 
     @Test
     void createNoteInWorkspace() {
-        BuildWorkspaceContext context1 = WorkspaceContextBuilders.buildWorkspaceScene()
+        BuildWorkspaceContext context1 = WorkspaceContextBuilders.buildWorkspaceScenario()
                 .workspaceName("TEST_WORKSPACE")
                 .build();
         UUID workspaceId = buildWorkspaceScenario.play(context1);

@@ -1,9 +1,9 @@
 package digi.joy.mandala.application.services.scenario;
 
 import digi.joy.mandala.common.services.MandalaEventBus;
-import digi.joy.mandala.application.services.WorkspaceContextBuilders;
-import digi.joy.mandala.application.services.WorkspaceRepository;
-import digi.joy.mandala.application.services.scenario.context.BuildWorkspaceContext;
+import digi.joy.mandala.application.services.utils.WorkspaceContextBuilders;
+import digi.joy.mandala.application.services.infra.WorkspaceRepository;
+import digi.joy.mandala.application.services.context.BuildWorkspaceContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ class BuildWorkspaceScenarioTest {
 
     @Test
     void BuildOneNewWorkspace() {
-        BuildWorkspaceContext context = WorkspaceContextBuilders.buildWorkspaceScene()
+        BuildWorkspaceContext context = WorkspaceContextBuilders.buildWorkspaceScenario()
                 .workspaceName("TEST_WORKSPACE")
                 .build();
 
