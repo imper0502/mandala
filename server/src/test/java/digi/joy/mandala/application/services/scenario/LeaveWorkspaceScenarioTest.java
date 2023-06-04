@@ -1,5 +1,6 @@
 package digi.joy.mandala.application.services.scenario;
 
+import digi.joy.mandala.application.services.infra.exception.RepositoryException;
 import digi.joy.mandala.common.services.MandalaEventBus;
 import digi.joy.mandala.application.entities.Workspace;
 import digi.joy.mandala.application.services.utils.WorkspaceContextBuilders;
@@ -35,7 +36,7 @@ public class LeaveWorkspaceScenarioTest {
     }
 
     @Test
-    void rehearseLeaveWorkspaceScene() {
+    void rehearseLeaveWorkspaceScene() throws RepositoryException {
         var context1 = WorkspaceContextBuilders.buildWorkspaceScenario()
                 .workspaceName("TEST_WORKSPACE")
                 .build();

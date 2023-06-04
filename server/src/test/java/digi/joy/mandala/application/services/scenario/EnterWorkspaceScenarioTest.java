@@ -1,5 +1,6 @@
 package digi.joy.mandala.application.services.scenario;
 
+import digi.joy.mandala.application.services.infra.exception.RepositoryException;
 import digi.joy.mandala.common.services.MandalaEventBus;
 import digi.joy.mandala.application.services.utils.WorkspaceContextBuilders;
 import digi.joy.mandala.application.services.infra.WorkspaceRepository;
@@ -35,7 +36,7 @@ class EnterWorkspaceScenarioTest {
     }
 
     @Test
-    void EnterExistingWorkspace() {
+    void EnterExistingWorkspace() throws RepositoryException {
         BuildWorkspaceContext context1 = WorkspaceContextBuilders.buildWorkspaceScenario()
                 .workspaceName("TEST_WORKSPACE")
                 .build();

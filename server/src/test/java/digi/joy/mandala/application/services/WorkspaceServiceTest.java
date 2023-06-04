@@ -22,11 +22,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class WorkspaceServiceTest {
     private WorkspaceCommandHandler controllerUnderTest;
-    private WorkspaceRepository repository;
 
     @BeforeEach
     void setUp() {
-        this.repository = new WorkspaceRepository(new InMemoryWorkspaceDataAccessor());
+        WorkspaceRepository repository = new WorkspaceRepository(new InMemoryWorkspaceDataAccessor());
         MandalaEventBus eventBus = new MandalaEventPublisher();
         this.controllerUnderTest = new WorkspaceCommandHandler(
                 new BuildWorkspaceScenario(repository, eventBus),

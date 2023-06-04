@@ -2,6 +2,7 @@ package digi.joy.mandala.application.adapters.listener;
 
 import com.google.common.eventbus.Subscribe;
 import digi.joy.mandala.application.entities.event.NoteCreatedInWorkspace;
+import digi.joy.mandala.application.services.infra.exception.RepositoryException;
 import digi.joy.mandala.application.services.scenario.CommitNoteScenario;
 import digi.joy.mandala.application.services.utils.WorkspaceContextBuilders;
 import digi.joy.mandala.common.services.MandalaEventHandler;
@@ -18,7 +19,7 @@ public final class WorkspaceEventListener extends MandalaEventHandler {
     }
 
     @Subscribe
-    public void handle(NoteCreatedInWorkspace event) {
+    public void handle(NoteCreatedInWorkspace event) throws RepositoryException {
         var context = WorkspaceContextBuilders.commitNoteScenario()
                 .workspaceId(event.getWorkspaceId())
                 .noteId(event.getNoteId())

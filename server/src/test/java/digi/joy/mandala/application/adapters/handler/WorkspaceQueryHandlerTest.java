@@ -53,8 +53,8 @@ class WorkspaceQueryHandlerTest {
     void json() {
         UUID defaultWorkspaceId = buildWorkspaceScenario.play(
                 WorkspaceContextBuilders.buildWorkspaceScenario()
-                        .workspaceId(UUID.fromString("64f01c0d-1026-4d89-bd5e-c7fff0d4f360"))
-                        .workspaceName("DEFAULT_WORKSPACE")
+                        .workspaceId(UUID.randomUUID())
+                        .workspaceName("TEST_WORKSPACE")
                         .build()
         );
 
@@ -69,7 +69,7 @@ class WorkspaceQueryHandlerTest {
         var result = handlerUnderTest.queryWorkspaces();
 
         ObjectMapper mapper = new ObjectMapper();
-        var jsonStr = mapper.writeValueAsString(result);
+        var jsonStr = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(result);
         System.out.println("jsonStr = " + jsonStr);
 
         List<WorkspaceSummary> list = mapper.readValue(jsonStr, new TypeReference<>(){});

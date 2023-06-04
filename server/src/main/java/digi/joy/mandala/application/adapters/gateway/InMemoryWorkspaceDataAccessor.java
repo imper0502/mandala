@@ -1,5 +1,6 @@
 package digi.joy.mandala.application.adapters.gateway;
 
+import digi.joy.mandala.application.adapters.gateway.exception.DAOException;
 import digi.joy.mandala.application.adapters.gateway.schema.WorkspaceData;
 import digi.joy.mandala.application.services.infra.WorkspaceDataAccessor;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,8 @@ import java.util.UUID;
 public class InMemoryWorkspaceDataAccessor implements WorkspaceDataAccessor {
     private final List<WorkspaceData> workspaces = new ArrayList<>();
 
-    public void add(WorkspaceData w) {
+    public void add(WorkspaceData w) throws DAOException {
+        if (query(w.getWorkspaceId()).isPresent()) throw new DAOException();
         workspaces.add(w);
     }
 

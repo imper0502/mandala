@@ -1,5 +1,6 @@
 package digi.joy.mandala.application.services.scenario;
 
+import digi.joy.mandala.application.services.infra.exception.RepositoryException;
 import digi.joy.mandala.common.services.MandalaEventBus;
 import digi.joy.mandala.application.entities.Workspace;
 import digi.joy.mandala.application.services.infra.WorkspaceRepository;
@@ -19,7 +20,7 @@ public class EnterWorkspaceScenario {
         this.eventListener = eventListener;
     }
 
-    public void play(EnterWorkspaceContext context) {
+    public void play(EnterWorkspaceContext context) throws RepositoryException {
         Workspace workspace = repository.withdraw(context.getWorkspaceId());
         eventListener.commit(
                 workspace.add(context.getUserId())

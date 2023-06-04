@@ -1,6 +1,7 @@
 package digi.joy.mandala;
 
 import digi.joy.mandala.application.adapters.listener.WorkspaceEventListener;
+import digi.joy.mandala.application.services.infra.exception.RepositoryException;
 import digi.joy.mandala.common.adapters.infra.MandalaEventPublisher;
 import digi.joy.mandala.application.services.utils.NoteContextBuilders;
 import digi.joy.mandala.application.services.utils.WorkspaceContextBuilders;
@@ -40,7 +41,7 @@ public class MandalaApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... arg0) {
+    public void run(String... arg0) throws RepositoryException {
         eventPublisher.register(workspaceEventListener);
 
         UUID defaultWorkspaceId = buildWorkspaceScenario.play(

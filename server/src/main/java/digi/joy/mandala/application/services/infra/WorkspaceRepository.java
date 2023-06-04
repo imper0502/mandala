@@ -1,6 +1,8 @@
 package digi.joy.mandala.application.services.infra;
 
+import digi.joy.mandala.application.adapters.gateway.exception.DAOException;
 import digi.joy.mandala.application.entities.Workspace;
+import digi.joy.mandala.application.services.infra.exception.RepositoryException;
 import digi.joy.mandala.application.services.utils.WorkspaceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +19,12 @@ public class WorkspaceRepository {
         this.dataAccessor = dataAccessor;
     }
 
-    public UUID add(Workspace w) {
-        dataAccessor.add(WorkspaceMapper.transform(w));
+    public UUID add(Workspace w) throws RepositoryException {
+        try {
+            dataAccessor.add(WorkspaceMapper.transform(w));
+        } catch (DAOException e) {
+            throw new RepositoryException();
+        }
         return w.getWorkspaceId();
     }
 

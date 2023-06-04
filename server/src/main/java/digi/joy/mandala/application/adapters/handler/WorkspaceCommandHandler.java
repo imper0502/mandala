@@ -1,5 +1,6 @@
 package digi.joy.mandala.application.adapters.handler;
 
+import digi.joy.mandala.application.services.infra.exception.RepositoryException;
 import digi.joy.mandala.application.services.scenario.BuildWorkspaceScenario;
 import digi.joy.mandala.application.services.scenario.EnterWorkspaceScenario;
 import digi.joy.mandala.application.services.scenario.LeaveWorkspaceScenario;
@@ -27,15 +28,15 @@ public class WorkspaceCommandHandler {
     }
 
 
-    public ResponseEntity<UUID> buildWorkspaceScene(BuildWorkspaceContext context) {
+    public ResponseEntity<UUID> buildWorkspaceScene(BuildWorkspaceContext context) throws RepositoryException {
         return ResponseEntity.ok(buildWorkspaceScenario.play(context));
     }
 
-    public void enterWorkspaceScene(EnterWorkspaceContext context) {
+    public void enterWorkspaceScene(EnterWorkspaceContext context) throws RepositoryException {
         enterWorkspaceScenario.play(context);
     }
 
-    public void leaveWorkspaceScene(LeaveWorkspaceContext context) {
+    public void leaveWorkspaceScene(LeaveWorkspaceContext context) throws RepositoryException {
         leaveWorkspaceScenario.play(context);
     }
 }

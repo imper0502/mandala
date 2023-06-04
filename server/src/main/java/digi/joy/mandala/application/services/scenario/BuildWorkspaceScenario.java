@@ -1,5 +1,6 @@
 package digi.joy.mandala.application.services.scenario;
 
+import digi.joy.mandala.application.services.infra.exception.RepositoryException;
 import digi.joy.mandala.common.services.MandalaEventBus;
 import digi.joy.mandala.application.entities.Workspace;
 import digi.joy.mandala.application.services.infra.WorkspaceRepository;
@@ -22,7 +23,7 @@ public class BuildWorkspaceScenario {
         this.eventListener = eventListener;
     }
 
-    public UUID play(BuildWorkspaceContext input) {
+    public UUID play(BuildWorkspaceContext input) throws RepositoryException {
         UUID workspaceId = Optional.ofNullable(input.getWorkspaceId()).orElse(UUID.randomUUID());
         Workspace workspace = Workspace.builder()
                 .workspaceId(workspaceId)
