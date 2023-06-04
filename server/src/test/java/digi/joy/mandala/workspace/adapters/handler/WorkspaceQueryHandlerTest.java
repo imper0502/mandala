@@ -2,7 +2,8 @@ package digi.joy.mandala.workspace.adapters.handler;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import digi.joy.mandala.common.services.MandalaEventPublisher;
+import com.google.common.eventbus.EventBus;
+import digi.joy.mandala.common.adapters.infra.MandalaEventBus;
 import digi.joy.mandala.note.adapters.gateway.InMemoryNoteDataAccessor;
 import digi.joy.mandala.note.services.NoteContextBuilders;
 import digi.joy.mandala.note.services.NoteService;
@@ -11,6 +12,7 @@ import digi.joy.mandala.note.services.infra.NoteRepository;
 import digi.joy.mandala.note.services.scenario.CreateNoteUseCase;
 import digi.joy.mandala.workspace.adapters.gateway.InMemoryWorkspaceDataAccessor;
 import digi.joy.mandala.workspace.adapters.handler.published.WorkspaceSummary;
+import digi.joy.mandala.workspace.adapters.listener.WorkspaceEventListener;
 import digi.joy.mandala.workspace.services.WorkspaceContextBuilders;
 import digi.joy.mandala.workspace.services.WorkspaceService;
 import digi.joy.mandala.workspace.services.infra.WorkspaceDataAccessor;
@@ -20,6 +22,7 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -32,11 +35,12 @@ class WorkspaceQueryHandlerTest {
     private BuildWorkspaceUseCase buildWorkspaceScenario;
     private CreateNoteUseCase createNoteScenario;
 
-    private final MandalaEventPublisher eventPublisher;
+    private final MandalaEventBus workspaceEventBus;
 
     @Autowired
-    public WorkspaceQueryHandlerTest(MandalaEventPublisher eventPublisher) {
-        this.eventPublisher = eventPublisher;
+    public WorkspaceQueryHandlerTest(
+            @Qualifier("workspaceEventBus") MandalaEventBus workspaceEventBus) {
+        this.workspaceEventBus = workspaceEventBus;
     }
 
     @BeforeEach
@@ -46,13 +50,18 @@ class WorkspaceQueryHandlerTest {
 
         this.handlerUnderTest = new WorkspaceQueryHandler(workspaceDataAccessor, noteDataAccessor);
 
-        this.buildWorkspaceScenario = new WorkspaceService(
-                new WorkspaceRepository(workspaceDataAccessor), eventPublisher
+        WorkspaceService workspaceService = new WorkspaceService(
+                new WorkspaceRepository(workspaceDataAccessor), workspaceEventBus
         );
 
+        this.buildWorkspaceScenario = workspaceService;
+
+        MandalaEventBus noteEventBus = new MandalaEventBus(new EventBus());
         this.createNoteScenario = new NoteService(
-                new NoteRepository(noteDataAccessor), eventPublisher
+                new NoteRepository(noteDataAccessor), noteEventBus
         );
+
+        noteEventBus.register(new WorkspaceEventListener(workspaceService));
     }
 
     @SneakyThrows

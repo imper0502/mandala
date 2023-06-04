@@ -9,6 +9,7 @@ import digi.joy.mandala.workspace.services.infra.WorkspaceRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.UUID;
@@ -24,7 +25,7 @@ public class LeaveWorkspaceScenarioTest {
     private final MandalaEventPublisher eventPublisher;
 
     @Autowired
-    public LeaveWorkspaceScenarioTest(MandalaEventPublisher eventPublisher) {
+    public LeaveWorkspaceScenarioTest(@Qualifier("workspaceEventBus") MandalaEventPublisher eventPublisher) {
         this.eventPublisher = eventPublisher;
     }
 

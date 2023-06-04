@@ -6,6 +6,7 @@ import digi.joy.mandala.note.services.infra.NoteRepository;
 import digi.joy.mandala.note.services.scenario.CreateNoteUseCase;
 import digi.joy.mandala.note.services.scenario.context.CreateNoteContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -18,7 +19,7 @@ public class NoteService implements CreateNoteUseCase {
     private final MandalaEventPublisher eventPublisher;
 
     @Autowired
-    public NoteService(NoteRepository noteRepository, MandalaEventPublisher eventPublisher) {
+    public NoteService(NoteRepository noteRepository, @Qualifier("noteEventBus") MandalaEventPublisher eventPublisher) {
         this.noteRepository = noteRepository;
         this.eventPublisher = eventPublisher;
     }

@@ -13,6 +13,7 @@ import digi.joy.mandala.workspace.services.scenario.context.CommitNoteContext;
 import digi.joy.mandala.workspace.services.scenario.context.EnterWorkspaceContext;
 import digi.joy.mandala.workspace.services.scenario.context.LeaveWorkspaceContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -29,7 +30,7 @@ public class WorkspaceService implements
     private final MandalaEventPublisher eventPublisher;
 
     @Autowired
-    public WorkspaceService(WorkspaceRepository workspaceRepository, MandalaEventPublisher eventPublisher) {
+    public WorkspaceService(WorkspaceRepository workspaceRepository, @Qualifier("workspaceEventBus") MandalaEventPublisher eventPublisher) {
         this.workspaceRepository = workspaceRepository;
         this.eventPublisher = eventPublisher;
     }

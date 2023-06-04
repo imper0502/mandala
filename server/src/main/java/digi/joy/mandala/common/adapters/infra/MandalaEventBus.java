@@ -4,16 +4,18 @@ import com.google.common.eventbus.EventBus;
 import digi.joy.mandala.common.entities.event.MandalaEvent;
 import digi.joy.mandala.common.services.MandalaEventListener;
 import digi.joy.mandala.common.services.MandalaEventPublisher;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
 public class MandalaEventBus implements MandalaEventPublisher {
-    private final EventBus eventBus = new EventBus();
+    private final EventBus eventBus;
     private final List<MandalaEvent> events = new ArrayList<>();
     private final List<MandalaEvent> eventHistory = new ArrayList<>();
+
+    public MandalaEventBus(EventBus eventBus) {
+        this.eventBus = eventBus;
+    }
 
     @Override
     public void commit(MandalaEvent... events) {
@@ -34,5 +36,9 @@ public class MandalaEventBus implements MandalaEventPublisher {
 
     public List<MandalaEvent> history() {
         return eventHistory;
+    }
+
+    public void cleanHistory() {
+        eventHistory.clear();
     }
 }

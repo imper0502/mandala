@@ -10,6 +10,7 @@ import digi.joy.mandala.workspace.services.scenario.context.EnterWorkspaceContex
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.UUID;
@@ -24,7 +25,7 @@ class EnterWorkspaceUseCaseTest {
     private final MandalaEventPublisher eventListener;
 
     @Autowired
-    public EnterWorkspaceUseCaseTest(MandalaEventPublisher eventListener) {
+    public EnterWorkspaceUseCaseTest(@Qualifier("workspaceEventBus") MandalaEventPublisher eventListener) {
 
         this.eventListener = eventListener;
     }

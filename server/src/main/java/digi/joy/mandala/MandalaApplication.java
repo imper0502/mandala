@@ -19,21 +19,24 @@ import java.util.UUID;
 @SpringBootApplication
 public class MandalaApplication implements CommandLineRunner {
 
-    private final MandalaEventBus eventPublisher;
+    private final MandalaEventBus workspaceEventBus;
+    private final MandalaEventBus noteEventBus;
     private final WorkspaceEventListener workspaceEventListener;
-    private final BuildWorkspaceUseCase buildWorkspaceScenario;
-    private final CreateNoteUseCase createNoteScenario;
+    private final BuildWorkspaceUseCase buildWorkspaceUseCase;
+    private final CreateNoteUseCase createNoteUseCase;
 
     @Autowired
     public MandalaApplication(
-            MandalaEventBus eventPublisher,
+            MandalaEventBus workspaceEventBus,
+            MandalaEventBus noteEventBus,
             WorkspaceEventListener workspaceEventListener,
-            BuildWorkspaceUseCase buildWorkspaceScenario,
-            CreateNoteUseCase createNoteScenario) {
-        this.eventPublisher = eventPublisher;
+            BuildWorkspaceUseCase buildWorkspaceUseCase,
+            CreateNoteUseCase createNoteUseCase) {
+        this.workspaceEventBus = workspaceEventBus;
+        this.noteEventBus = noteEventBus;
         this.workspaceEventListener = workspaceEventListener;
-        this.buildWorkspaceScenario = buildWorkspaceScenario;
-        this.createNoteScenario = createNoteScenario;
+        this.buildWorkspaceUseCase = buildWorkspaceUseCase;
+        this.createNoteUseCase = createNoteUseCase;
     }
 
     public static void main(String[] args) {
@@ -42,17 +45,37 @@ public class MandalaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... arg0) throws RepositoryException {
-        eventPublisher.register(workspaceEventListener);
+        noteEventBus.register(workspaceEventListener);
 
-        UUID defaultWorkspaceId = buildWorkspaceScenario.buildWorkspace(
+        UUID defaultWorkspaceId = buildWorkspaceUseCase.buildWorkspace(
                 WorkspaceContextBuilders.buildWorkspaceScenario()
                         .workspaceId(UUID.fromString("64f01c0d-1026-4d89-bd5e-c7fff0d4f360"))
                         .workspaceName("DEFAULT_WORKSPACE")
                         .build()
         );
         log.info("$ Default Workspace ID: {} $", defaultWorkspaceId);
+        log.info("$ Workspace Event History $");
+        workspaceEventBus.history().forEach(
+                event -> log.info("* Event: {} #{}", event.getClass().getSimpleName(), event.hashCode())
+        );
 
-        UUID defaultNoteId = createNoteScenario.createNote(
+        UUID defaultNoteId = createNoteUseCase.createNote(
+                NoteContextBuilders.createNoteScene()
+                        .workspaceId(defaultWorkspaceId)
+                        .title("TEST_NOTE")
+                        .content(List.of("TEST_CONTENT"))
+                        .build()
+        );
+        log.info("$ Default Note ID: {} $", defaultNoteId);
+        defaultNoteId = createNoteUseCase.createNote(
+                NoteContextBuilders.createNoteScene()
+                        .workspaceId(defaultWorkspaceId)
+                        .title("TEST_NOTE")
+                        .content(List.of("TEST_CONTENT"))
+                        .build()
+        );
+        log.info("$ Default Note ID: {} $", defaultNoteId);
+        defaultNoteId = createNoteUseCase.createNote(
                 NoteContextBuilders.createNoteScene()
                         .workspaceId(defaultWorkspaceId)
                         .title("TEST_NOTE")
@@ -61,8 +84,13 @@ public class MandalaApplication implements CommandLineRunner {
         );
         log.info("$ Default Note ID: {} $", defaultNoteId);
 
-        log.info("$ Event History $");
-        eventPublisher.history().forEach(
+        log.info("$ Note Event History $");
+        noteEventBus.history().forEach(
+                event -> log.info("* Event: {} #{}", event.getClass().getSimpleName(), event.hashCode())
+        );
+
+        log.info("$ Workspace Event History $");
+        workspaceEventBus.history().forEach(
                 event -> log.info("* Event: {} #{}", event.getClass().getSimpleName(), event.hashCode())
         );
     }
