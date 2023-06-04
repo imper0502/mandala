@@ -2,7 +2,7 @@ package digi.joy.mandala.note.services.scenario;
 
 import com.google.common.eventbus.EventBus;
 import digi.joy.mandala.common.adapters.infra.MandalaEventBus;
-import digi.joy.mandala.common.services.exception.RepositoryException;
+import digi.joy.mandala.common.services.infra.exception.RepositoryException;
 import digi.joy.mandala.note.adapters.gateway.InMemoryNoteDataAccessor;
 import digi.joy.mandala.note.entities.Note;
 import digi.joy.mandala.note.entities.event.NoteCreated;

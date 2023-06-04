@@ -2,7 +2,7 @@ package digi.joy.mandala.workspace.services.scenario;
 
 import com.google.common.eventbus.EventBus;
 import digi.joy.mandala.common.adapters.infra.MandalaEventBus;
-import digi.joy.mandala.common.services.exception.RepositoryException;
+import digi.joy.mandala.common.services.infra.exception.RepositoryException;
 import digi.joy.mandala.workspace.adapters.gateway.InMemoryWorkspaceDataAccessor;
 import digi.joy.mandala.workspace.services.WorkspaceContextBuilders;
 import digi.joy.mandala.workspace.services.WorkspaceService;

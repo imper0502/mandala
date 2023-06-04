@@ -1,7 +1,7 @@
 package digi.joy.mandala.workspace.services.infra;
 
 import digi.joy.mandala.common.adapters.gateway.exception.DAOException;
-import digi.joy.mandala.common.services.exception.RepositoryException;
+import digi.joy.mandala.common.services.infra.exception.RepositoryException;
 import digi.joy.mandala.workspace.entities.Workspace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

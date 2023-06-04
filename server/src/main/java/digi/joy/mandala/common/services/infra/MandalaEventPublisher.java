@@ -1,4 +1,4 @@
-package digi.joy.mandala.common.services;
+package digi.joy.mandala.common.services.infra;
 
 import digi.joy.mandala.common.entities.event.MandalaEvent;
 

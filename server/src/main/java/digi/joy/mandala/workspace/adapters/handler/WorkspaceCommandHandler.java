@@ -1,6 +1,6 @@
 package digi.joy.mandala.workspace.adapters.handler;
 
-import digi.joy.mandala.common.services.exception.RepositoryException;
+import digi.joy.mandala.common.services.infra.exception.RepositoryException;
 import digi.joy.mandala.workspace.services.WorkspaceService;
 import digi.joy.mandala.workspace.services.scenario.BuildWorkspaceUseCase;
 import digi.joy.mandala.workspace.services.scenario.EnterWorkspaceUseCase;

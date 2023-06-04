@@ -1,6 +1,6 @@
 package digi.joy.mandala.note.services;
 
-import digi.joy.mandala.common.services.MandalaEventPublisher;
+import digi.joy.mandala.common.services.infra.MandalaEventPublisher;
 import digi.joy.mandala.note.entities.Note;
 import digi.joy.mandala.note.services.infra.NoteRepository;
 import digi.joy.mandala.note.services.scenario.CreateNoteUseCase;

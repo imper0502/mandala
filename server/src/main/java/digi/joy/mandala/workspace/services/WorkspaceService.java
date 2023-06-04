@@ -1,7 +1,7 @@
 package digi.joy.mandala.workspace.services;
 
-import digi.joy.mandala.common.services.MandalaEventPublisher;
-import digi.joy.mandala.common.services.exception.RepositoryException;
+import digi.joy.mandala.common.services.infra.MandalaEventPublisher;
+import digi.joy.mandala.common.services.infra.exception.RepositoryException;
 import digi.joy.mandala.workspace.entities.Workspace;
 import digi.joy.mandala.workspace.services.infra.WorkspaceRepository;
 import digi.joy.mandala.workspace.services.scenario.BuildWorkspaceUseCase;

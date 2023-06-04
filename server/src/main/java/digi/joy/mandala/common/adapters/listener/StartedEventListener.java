@@ -1,10 +1,9 @@
-package digi.joy.mandala;
+package digi.joy.mandala.common.adapters.listener;
 
 import digi.joy.mandala.common.adapters.infra.MandalaEventBus;
-import digi.joy.mandala.common.services.exception.RepositoryException;
+import digi.joy.mandala.common.services.infra.exception.RepositoryException;
 import digi.joy.mandala.note.services.NoteContextBuilders;
 import digi.joy.mandala.note.services.scenario.CreateNoteUseCase;
-import digi.joy.mandala.workspace.adapters.listener.WorkspaceEventListener;
 import digi.joy.mandala.workspace.services.WorkspaceContextBuilders;
 import digi.joy.mandala.workspace.services.scenario.BuildWorkspaceUseCase;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -25,7 +25,6 @@ public class StartedEventListener implements ApplicationListener<ApplicationStar
 
     private final MandalaEventBus workspaceEventBus;
     private final MandalaEventBus noteEventBus;
-    private final WorkspaceEventListener workspaceEventListener;
     private final BuildWorkspaceUseCase buildWorkspaceUseCase;
     private final CreateNoteUseCase createNoteUseCase;
 
@@ -33,20 +32,16 @@ public class StartedEventListener implements ApplicationListener<ApplicationStar
     public StartedEventListener(
             MandalaEventBus workspaceEventBus,
             MandalaEventBus noteEventBus,
-            WorkspaceEventListener workspaceEventListener,
             BuildWorkspaceUseCase buildWorkspaceUseCase,
             CreateNoteUseCase createNoteUseCase) {
         this.workspaceEventBus = workspaceEventBus;
         this.noteEventBus = noteEventBus;
-        this.workspaceEventListener = workspaceEventListener;
         this.buildWorkspaceUseCase = buildWorkspaceUseCase;
         this.createNoteUseCase = createNoteUseCase;
     }
 
     @Override
-    public void onApplicationEvent(ApplicationStartedEvent event) {
-        noteEventBus.register(workspaceEventListener);
-
+    public void onApplicationEvent(@NonNull ApplicationStartedEvent event) {
         try {
             createDemoData();
         } catch (RepositoryException e) {

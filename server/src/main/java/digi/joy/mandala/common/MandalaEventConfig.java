@@ -1,4 +1,4 @@
-package digi.joy.mandala;
+package digi.joy.mandala.common;
 
 import com.google.common.eventbus.EventBus;
 import digi.joy.mandala.common.adapters.infra.MandalaEventBus;
@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class MandalaConfig {
+public class MandalaEventConfig {
     @Bean
     public EventBus eventBus() {
         return new EventBus();
