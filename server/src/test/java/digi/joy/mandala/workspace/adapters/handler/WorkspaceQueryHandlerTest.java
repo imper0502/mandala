@@ -21,27 +21,19 @@ import digi.joy.mandala.workspace.services.scenario.BuildWorkspaceUseCase;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.UUID;
 
-@SpringBootTest
+
 class WorkspaceQueryHandlerTest {
     private WorkspaceQueryHandler handlerUnderTest;
 
     private BuildWorkspaceUseCase buildWorkspaceScenario;
     private CreateNoteUseCase createNoteScenario;
 
-    private final MandalaEventBus workspaceEventBus;
+    private MandalaEventBus workspaceEventBus;
 
-    @Autowired
-    public WorkspaceQueryHandlerTest(
-            @Qualifier("workspaceEventBus") MandalaEventBus workspaceEventBus) {
-        this.workspaceEventBus = workspaceEventBus;
-    }
 
     @BeforeEach
     void setUp() {
@@ -50,6 +42,7 @@ class WorkspaceQueryHandlerTest {
 
         this.handlerUnderTest = new WorkspaceQueryHandler(workspaceDataAccessor, noteDataAccessor);
 
+        this.workspaceEventBus = new MandalaEventBus(new EventBus());
         WorkspaceService workspaceService = new WorkspaceService(
                 new WorkspaceRepository(workspaceDataAccessor), workspaceEventBus
         );
@@ -84,6 +77,7 @@ class WorkspaceQueryHandlerTest {
 
         var result = handlerUnderTest.queryWorkspaces();
 
+        workspaceEventBus.history();
         ObjectMapper mapper = new ObjectMapper();
         var jsonStr = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(result);
         System.out.println("jsonStr = " + jsonStr);

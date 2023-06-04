@@ -19,32 +19,22 @@ import digi.joy.mandala.workspace.services.infra.WorkspaceRepository;
 import digi.joy.mandala.workspace.services.scenario.BuildWorkspaceUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
-@SpringBootTest
 public class CreateNoteUseCaseTest {
     private CreateNoteUseCase useCaseUnderTest;
     private BuildWorkspaceUseCase buildWorkspaceUseCase;
-
     private NoteRepository noteRepository;
-
-    private final MandalaEventBus workspaceEventBus;
     private MandalaEventBus noteEventBus;
-
-    @Autowired
-    public CreateNoteUseCaseTest(MandalaEventBus workspaceEventBus) {
-        this.workspaceEventBus = workspaceEventBus;
-    }
 
     @BeforeEach
     void setUp() {
         WorkspaceRepository workspaceRepository = new WorkspaceRepository(new InMemoryWorkspaceDataAccessor());
+        MandalaEventBus workspaceEventBus = new MandalaEventBus(new EventBus());
         WorkspaceService workspaceService = new WorkspaceService(workspaceRepository, workspaceEventBus);
         this.buildWorkspaceUseCase = workspaceService;
 
