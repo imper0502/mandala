@@ -32,7 +32,7 @@ class EnterWorkspaceScenarioTest {
 
     @BeforeEach
     void setUp() {
-        WorkspaceService service = new WorkspaceService(repository, null, eventListener);
+        WorkspaceService service = new WorkspaceService(repository, eventListener);
         this.sceneUnderTest = service;
         this.buildWorkspaceScenario = service;
     }

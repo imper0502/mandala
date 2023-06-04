@@ -2,10 +2,6 @@ package digi.joy.mandala.workspace.services;
 
 import digi.joy.mandala.common.services.MandalaEventBus;
 import digi.joy.mandala.common.services.exception.RepositoryException;
-import digi.joy.mandala.note.entities.Note;
-import digi.joy.mandala.note.services.infra.NoteRepository;
-import digi.joy.mandala.note.services.scenario.CreateNoteUseCase;
-import digi.joy.mandala.note.services.scenario.context.CreateNoteContext;
 import digi.joy.mandala.workspace.entities.Workspace;
 import digi.joy.mandala.workspace.services.infra.WorkspaceRepository;
 import digi.joy.mandala.workspace.services.scenario.BuildWorkspaceUseCase;
@@ -19,7 +15,6 @@ import digi.joy.mandala.workspace.services.scenario.context.LeaveWorkspaceContex
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,18 +22,15 @@ import java.util.UUID;
 public class WorkspaceService implements
         BuildWorkspaceUseCase,
         CommitNoteUseCase,
-        CreateNoteUseCase,
         EnterWorkspaceUseCase,
         LeaveWorkspaceUseCase {
 
     private final WorkspaceRepository workspaceRepository;
-    private final NoteRepository noteRepository;
     private final MandalaEventBus eventPublisher;
 
     @Autowired
-    public WorkspaceService(WorkspaceRepository workspaceRepository, NoteRepository noteRepository, MandalaEventBus eventPublisher) {
+    public WorkspaceService(WorkspaceRepository workspaceRepository, MandalaEventBus eventPublisher) {
         this.workspaceRepository = workspaceRepository;
-        this.noteRepository = noteRepository;
         this.eventPublisher = eventPublisher;
     }
 
@@ -65,28 +57,6 @@ public class WorkspaceService implements
         );
         workspaceRepository.add(workspace);
         eventPublisher.postAll();
-    }
-
-    @Override
-    public UUID createNote(CreateNoteContext context) {
-        UUID noteId = Optional.ofNullable(context.getNoteId()).orElse(UUID.randomUUID());
-        Note note = Note.builder()
-                .noteId(noteId)
-                .title(context.getTitle())
-                .createDateTime(ZonedDateTime.now())
-                .build();
-        note.append(context.getContent());
-
-        noteRepository.add(note);
-
-        Optional<UUID> workspaceId = Optional.ofNullable(context.getWorkspaceId());
-        workspaceId.ifPresentOrElse(
-                id -> eventPublisher.commit(note.noteCreatedEvent(id)),
-                () -> eventPublisher.commit(note.noteCreatedEvent())
-        );
-
-        eventPublisher.postAll();
-        return noteId;
     }
 
     @Override

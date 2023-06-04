@@ -5,6 +5,7 @@ import digi.joy.mandala.common.services.exception.RepositoryException;
 import digi.joy.mandala.note.adapters.gateway.InMemoryNoteDataAccessor;
 import digi.joy.mandala.note.entities.Note;
 import digi.joy.mandala.note.services.NoteContextBuilders;
+import digi.joy.mandala.note.services.NoteService;
 import digi.joy.mandala.note.services.infra.NoteRepository;
 import digi.joy.mandala.note.services.scenario.CreateNoteUseCase;
 import digi.joy.mandala.note.services.scenario.context.CreateNoteContext;
@@ -44,15 +45,17 @@ public class CreateNoteScenarioTest {
     @BeforeEach
     void setUp() {
         this.workspaceRepository = new WorkspaceRepository(new InMemoryWorkspaceDataAccessor());
-        this.noteRepository = new NoteRepository(new InMemoryNoteDataAccessor());
         WorkspaceService workspaceService = new WorkspaceService(
                 workspaceRepository,
-                noteRepository,
                 mandalaEventPublisher
         );
-        mandalaEventPublisher.register(new WorkspaceEventListener(workspaceService));
         this.buildWorkspaceScenario = workspaceService;
-        this.sceneUnderTest = workspaceService;
+
+        this.noteRepository = new NoteRepository(new InMemoryNoteDataAccessor());
+        NoteService noteService = new NoteService(noteRepository, mandalaEventPublisher);
+        this.sceneUnderTest = noteService;
+
+        mandalaEventPublisher.register(new WorkspaceEventListener(workspaceService));
     }
 
     @Test

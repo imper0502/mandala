@@ -25,7 +25,7 @@ class WorkspaceServiceTest {
         WorkspaceRepository repository = new WorkspaceRepository(new InMemoryWorkspaceDataAccessor());
         MandalaEventBus eventBus = new MandalaEventPublisher();
         this.controllerUnderTest = new WorkspaceCommandHandler(
-                new WorkspaceService(repository, null, eventBus)
+                new WorkspaceService(repository, eventBus)
         );
     }
 

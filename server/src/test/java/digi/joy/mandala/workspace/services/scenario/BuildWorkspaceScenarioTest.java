@@ -29,7 +29,7 @@ class BuildWorkspaceScenarioTest {
 
     @BeforeEach
     void setUp() {
-        this.sceneUnderTest = new WorkspaceService(workspaceRepository, null, eventListener);
+        this.sceneUnderTest = new WorkspaceService(workspaceRepository, eventListener);
     }
 
     @Test

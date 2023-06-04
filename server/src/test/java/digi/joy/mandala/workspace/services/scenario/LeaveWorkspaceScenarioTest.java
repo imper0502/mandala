@@ -31,7 +31,7 @@ public class LeaveWorkspaceScenarioTest {
 
     @BeforeEach
     void setUp() {
-        WorkspaceService workspaceService = new WorkspaceService(repository, null, eventListener);
+        WorkspaceService workspaceService = new WorkspaceService(repository, eventListener);
         this.buildWorkspaceScenario = workspaceService;
         this.enterWorkspaceScenario = workspaceService;
         this.sceneUnderTest = workspaceService;
