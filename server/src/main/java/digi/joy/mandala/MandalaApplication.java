@@ -1,12 +1,12 @@
 package digi.joy.mandala;
 
-import digi.joy.mandala.application.adapters.listener.WorkspaceEventListener;
-import digi.joy.mandala.application.services.infra.exception.RepositoryException;
-import digi.joy.mandala.application.services.scenario.BuildWorkspaceUseCase;
-import digi.joy.mandala.application.services.scenario.CreateNoteUseCase;
+import digi.joy.mandala.workspace.adapters.listener.WorkspaceEventListener;
+import digi.joy.mandala.workspace.services.infra.exception.RepositoryException;
+import digi.joy.mandala.workspace.services.scenario.BuildWorkspaceUseCase;
+import digi.joy.mandala.workspace.services.scenario.CreateNoteUseCase;
 import digi.joy.mandala.common.adapters.infra.MandalaEventPublisher;
-import digi.joy.mandala.application.services.utils.NoteContextBuilders;
-import digi.joy.mandala.application.services.utils.WorkspaceContextBuilders;
+import digi.joy.mandala.workspace.services.utils.NoteContextBuilders;
+import digi.joy.mandala.workspace.services.utils.WorkspaceContextBuilders;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
