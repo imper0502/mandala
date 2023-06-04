@@ -37,7 +37,7 @@ class BuildWorkspaceScenarioTest {
                 .workspaceName("TEST_WORKSPACE")
                 .build();
 
-        UUID result = assertDoesNotThrow(() -> sceneUnderTest.play(context));
+        UUID result = assertDoesNotThrow(() -> sceneUnderTest.buildWorkspace(context));
 
         assertInstanceOf(UUID.class, result);
     }

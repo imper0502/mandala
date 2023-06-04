@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LeaveWorkspaceScenario {
+public class LeaveWorkspaceScenario implements LeaveWorkspaceUseCase {
     private final WorkspaceRepository repository;
     private final MandalaEventBus eventBus;
 
@@ -19,7 +19,8 @@ public class LeaveWorkspaceScenario {
         this.eventBus = eventBus;
     }
 
-    public void play(LeaveWorkspaceContext context) throws RepositoryException {
+    @Override
+    public void leaveWorkspace(LeaveWorkspaceContext context) throws RepositoryException {
         Workspace w = repository.withdraw(context.getWorkspaceId());
         eventBus.commit(
                 w.remove(context.getUserId())

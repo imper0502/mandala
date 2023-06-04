@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class BuildWorkspaceScenario {
+public class BuildWorkspaceScenario implements BuildWorkspaceUseCase {
 
     private final WorkspaceRepository repository;
     private final MandalaEventBus eventListener;
@@ -23,7 +23,7 @@ public class BuildWorkspaceScenario {
         this.eventListener = eventListener;
     }
 
-    public UUID play(BuildWorkspaceContext input) throws RepositoryException {
+    public UUID buildWorkspace(BuildWorkspaceContext input) throws RepositoryException {
         UUID workspaceId = Optional.ofNullable(input.getWorkspaceId()).orElse(UUID.randomUUID());
         Workspace workspace = Workspace.builder()
                 .workspaceId(workspaceId)

@@ -29,14 +29,14 @@ public class WorkspaceCommandHandler {
 
 
     public ResponseEntity<UUID> buildWorkspaceScene(BuildWorkspaceContext context) throws RepositoryException {
-        return ResponseEntity.ok(buildWorkspaceScenario.play(context));
+        return ResponseEntity.ok(buildWorkspaceScenario.buildWorkspace(context));
     }
 
     public void enterWorkspaceScene(EnterWorkspaceContext context) throws RepositoryException {
-        enterWorkspaceScenario.play(context);
+        enterWorkspaceScenario.enterWorkspace(context);
     }
 
     public void leaveWorkspaceScene(LeaveWorkspaceContext context) throws RepositoryException {
-        leaveWorkspaceScenario.play(context);
+        leaveWorkspaceScenario.leaveWorkspace(context);
     }
 }

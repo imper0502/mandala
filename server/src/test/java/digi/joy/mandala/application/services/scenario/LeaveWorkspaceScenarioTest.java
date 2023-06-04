@@ -40,7 +40,7 @@ public class LeaveWorkspaceScenarioTest {
         var context1 = WorkspaceContextBuilders.buildWorkspaceScenario()
                 .workspaceName("TEST_WORKSPACE")
                 .build();
-        UUID id = buildWorkspaceScenario.play(context1);
+        UUID id = buildWorkspaceScenario.buildWorkspace(context1);
 
         assertInstanceOf(Workspace.class, repository.query(id));
 
@@ -48,7 +48,7 @@ public class LeaveWorkspaceScenarioTest {
                 .userId(UUID.randomUUID())
                 .workspaceId(id)
                 .build();
-        enterWorkspaceScenario.play(context2);
+        enterWorkspaceScenario.enterWorkspace(context2);
 
         assertFalse(repository.query(id).getWorkspaceSessions().isEmpty());
 
@@ -56,7 +56,7 @@ public class LeaveWorkspaceScenarioTest {
                 .userId(context2.getUserId())
                 .workspaceId(context2.getWorkspaceId())
                 .build();
-        sceneUnderTest.play(context3);
+        sceneUnderTest.leaveWorkspace(context3);
 
         assertTrue(repository.query(id).getWorkspaceSessions().isEmpty());
     }

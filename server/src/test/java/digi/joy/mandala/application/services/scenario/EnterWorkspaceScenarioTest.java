@@ -40,7 +40,7 @@ class EnterWorkspaceScenarioTest {
         BuildWorkspaceContext context1 = WorkspaceContextBuilders.buildWorkspaceScenario()
                 .workspaceName("TEST_WORKSPACE")
                 .build();
-        UUID workspaceId = buildWorkspaceScenario.play(context1);
+        UUID workspaceId = buildWorkspaceScenario.buildWorkspace(context1);
 
         assertInstanceOf(UUID.class, workspaceId);
 
@@ -48,7 +48,7 @@ class EnterWorkspaceScenarioTest {
                 .userId(UUID.randomUUID())
                 .workspaceId(workspaceId)
                 .build();
-        sceneUnderTest.play(context2);
+        sceneUnderTest.enterWorkspace(context2);
 
         assertFalse(repository.query(workspaceId).getWorkspaceSessions().isEmpty());
     }

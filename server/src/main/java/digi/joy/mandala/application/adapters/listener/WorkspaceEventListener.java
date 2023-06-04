@@ -24,6 +24,6 @@ public final class WorkspaceEventListener extends MandalaEventHandler {
                 .workspaceId(event.getWorkspaceId())
                 .noteId(event.getNoteId())
                 .build();
-        commitNoteScenario.play(context);
+        commitNoteScenario.commitNote(context);
     }
 }

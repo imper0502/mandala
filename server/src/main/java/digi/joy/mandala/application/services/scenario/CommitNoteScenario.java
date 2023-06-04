@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public final class CommitNoteScenario {
+public final class CommitNoteScenario implements CommitNoteUseCase {
     private final WorkspaceRepository repository;
     private final MandalaEventBus eventBus;
 
@@ -19,7 +19,7 @@ public final class CommitNoteScenario {
         this.eventBus = eventBus;
     }
 
-    public void play(CommitNoteContext context) throws RepositoryException {
+    public void commitNote(CommitNoteContext context) throws RepositoryException {
         Workspace workspace = repository.withdraw(context.getWorkspaceId());
         eventBus.commit(
                 workspace.commitNote(context.getNoteId())

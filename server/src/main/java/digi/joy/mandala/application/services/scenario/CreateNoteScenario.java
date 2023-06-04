@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class CreateNoteScenario {
+public class CreateNoteScenario implements CreateNoteUseCase {
     private final NoteRepository noteRepository;
 
     private final MandalaEventBus eventListener;
@@ -23,7 +23,8 @@ public class CreateNoteScenario {
         this.eventListener = eventListener;
     }
 
-    public UUID play(CreateNoteContext context) {
+    @Override
+    public UUID createNote(CreateNoteContext context) {
         UUID noteId = Optional.ofNullable(context.getNoteId()).orElse(UUID.randomUUID());
         Note note = Note.builder()
                 .noteId(noteId)

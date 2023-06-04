@@ -49,7 +49,7 @@ public class CreateNoteScenarioTest {
                 .content(List.of("TEST_CONTENT"))
                 .build();
 
-        UUID id = sceneUnderTest.play(readModel);
+        UUID id = sceneUnderTest.createNote(readModel);
 
         assertInstanceOf(Note.class, noteRepository.query(id));
     }
@@ -59,7 +59,7 @@ public class CreateNoteScenarioTest {
         BuildWorkspaceContext context1 = WorkspaceContextBuilders.buildWorkspaceScenario()
                 .workspaceName("TEST_WORKSPACE")
                 .build();
-        UUID workspaceId = buildWorkspaceScenario.play(context1);
+        UUID workspaceId = buildWorkspaceScenario.buildWorkspace(context1);
 
         assertInstanceOf(Workspace.class, workspaceRepository.query(workspaceId));
         CreateNoteContext context2 = NoteContextBuilders.createNoteScene()
@@ -67,7 +67,7 @@ public class CreateNoteScenarioTest {
                 .content(List.of("TEST_CONTENT"))
                 .workspaceId(workspaceId)
                 .build();
-        UUID noteId = sceneUnderTest.play(context2);
+        UUID noteId = sceneUnderTest.createNote(context2);
 
         assertInstanceOf(Note.class, noteRepository.query(noteId));
         assertFalse(workspaceRepository.query(workspaceId).getCommittedNotes().isEmpty());

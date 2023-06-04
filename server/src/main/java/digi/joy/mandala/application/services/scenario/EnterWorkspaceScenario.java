@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EnterWorkspaceScenario {
+public class EnterWorkspaceScenario implements EnterWorkspaceUseCase {
     private final WorkspaceRepository repository;
 
     private final MandalaEventBus eventListener;
@@ -20,7 +20,8 @@ public class EnterWorkspaceScenario {
         this.eventListener = eventListener;
     }
 
-    public void play(EnterWorkspaceContext context) throws RepositoryException {
+    @Override
+    public void enterWorkspace(EnterWorkspaceContext context) throws RepositoryException {
         Workspace workspace = repository.withdraw(context.getWorkspaceId());
         eventListener.commit(
                 workspace.add(context.getUserId())

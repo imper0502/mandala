@@ -2,8 +2,6 @@ package digi.joy.mandala.application.adapters.handler;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import digi.joy.mandala.application.adapters.gateway.InMemoryNoteDataAccessor;
-import digi.joy.mandala.application.adapters.gateway.InMemoryWorkspaceDataAccessor;
 import digi.joy.mandala.application.adapters.handler.published.WorkspaceSummary;
 import digi.joy.mandala.application.services.infra.NoteDataAccessor;
 import digi.joy.mandala.application.services.infra.WorkspaceDataAccessor;
@@ -51,14 +49,14 @@ class WorkspaceQueryHandlerTest {
     @SneakyThrows
     @Test
     void json() {
-        UUID defaultWorkspaceId = buildWorkspaceScenario.play(
+        UUID defaultWorkspaceId = buildWorkspaceScenario.buildWorkspace(
                 WorkspaceContextBuilders.buildWorkspaceScenario()
                         .workspaceId(UUID.randomUUID())
                         .workspaceName("TEST_WORKSPACE")
                         .build()
         );
 
-        UUID defaultNoteId = createNoteScenario.play(
+        UUID defaultNoteId = createNoteScenario.createNote(
                 NoteContextBuilders.createNoteScene()
                         .workspaceId(defaultWorkspaceId)
                         .title("TEST_NOTE")

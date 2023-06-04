@@ -44,7 +44,7 @@ public class MandalaApplication implements CommandLineRunner {
     public void run(String... arg0) throws RepositoryException {
         eventPublisher.register(workspaceEventListener);
 
-        UUID defaultWorkspaceId = buildWorkspaceScenario.play(
+        UUID defaultWorkspaceId = buildWorkspaceScenario.buildWorkspace(
                 WorkspaceContextBuilders.buildWorkspaceScenario()
                         .workspaceId(UUID.fromString("64f01c0d-1026-4d89-bd5e-c7fff0d4f360"))
                         .workspaceName("DEFAULT_WORKSPACE")
@@ -52,7 +52,7 @@ public class MandalaApplication implements CommandLineRunner {
         );
         log.info("$ Default Workspace ID: {} $", defaultWorkspaceId);
 
-        UUID defaultNoteId = createNoteScenario.play(
+        UUID defaultNoteId = createNoteScenario.createNote(
                 NoteContextBuilders.createNoteScene()
                         .workspaceId(defaultWorkspaceId)
                         .title("TEST_NOTE")
