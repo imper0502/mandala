@@ -1,6 +1,7 @@
 package digi.joy.mandala.workspace.services.scenario;
 
-import digi.joy.mandala.common.services.MandalaEventBus;
+import digi.joy.mandala.common.services.MandalaEventPublisher;
+import digi.joy.mandala.workspace.adapters.gateway.InMemoryWorkspaceDataAccessor;
 import digi.joy.mandala.workspace.services.WorkspaceContextBuilders;
 import digi.joy.mandala.workspace.services.WorkspaceService;
 import digi.joy.mandala.workspace.services.infra.WorkspaceRepository;
@@ -16,20 +17,19 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 @SpringBootTest
-class BuildWorkspaceScenarioTest {
-    private BuildWorkspaceUseCase sceneUnderTest;
-    private final WorkspaceRepository workspaceRepository;
-    private final MandalaEventBus eventListener;
+class BuildWorkspaceUseCaseTest {
+    private BuildWorkspaceUseCase useCaseUnderTest;
+    private final MandalaEventPublisher eventPublisher;
 
     @Autowired
-    public BuildWorkspaceScenarioTest(WorkspaceRepository workspaceRepository, MandalaEventBus eventListener) {
-        this.workspaceRepository = workspaceRepository;
-        this.eventListener = eventListener;
+    public BuildWorkspaceUseCaseTest(MandalaEventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
     }
 
     @BeforeEach
     void setUp() {
-        this.sceneUnderTest = new WorkspaceService(workspaceRepository, eventListener);
+        WorkspaceRepository repository = new WorkspaceRepository(new InMemoryWorkspaceDataAccessor());
+        this.useCaseUnderTest = new WorkspaceService(repository, eventPublisher);
     }
 
     @Test
@@ -38,7 +38,7 @@ class BuildWorkspaceScenarioTest {
                 .workspaceName("TEST_WORKSPACE")
                 .build();
 
-        UUID result = assertDoesNotThrow(() -> sceneUnderTest.buildWorkspace(context));
+        UUID result = assertDoesNotThrow(() -> useCaseUnderTest.buildWorkspace(context));
 
         assertInstanceOf(UUID.class, result);
     }

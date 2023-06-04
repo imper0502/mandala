@@ -1,6 +1,6 @@
 package digi.joy.mandala.note.services;
 
-import digi.joy.mandala.common.services.MandalaEventBus;
+import digi.joy.mandala.common.services.MandalaEventPublisher;
 import digi.joy.mandala.note.entities.Note;
 import digi.joy.mandala.note.services.infra.NoteRepository;
 import digi.joy.mandala.note.services.scenario.CreateNoteUseCase;
@@ -15,10 +15,10 @@ import java.util.UUID;
 @Service
 public class NoteService implements CreateNoteUseCase {
     private final NoteRepository noteRepository;
-    private final MandalaEventBus eventPublisher;
+    private final MandalaEventPublisher eventPublisher;
 
     @Autowired
-    public NoteService(NoteRepository noteRepository, MandalaEventBus eventPublisher) {
+    public NoteService(NoteRepository noteRepository, MandalaEventPublisher eventPublisher) {
         this.noteRepository = noteRepository;
         this.eventPublisher = eventPublisher;
     }

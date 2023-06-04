@@ -1,6 +1,6 @@
 package digi.joy.mandala.workspace.services;
 
-import digi.joy.mandala.common.services.MandalaEventBus;
+import digi.joy.mandala.common.services.MandalaEventPublisher;
 import digi.joy.mandala.common.services.exception.RepositoryException;
 import digi.joy.mandala.workspace.entities.Workspace;
 import digi.joy.mandala.workspace.services.infra.WorkspaceRepository;
@@ -26,10 +26,10 @@ public class WorkspaceService implements
         LeaveWorkspaceUseCase {
 
     private final WorkspaceRepository workspaceRepository;
-    private final MandalaEventBus eventPublisher;
+    private final MandalaEventPublisher eventPublisher;
 
     @Autowired
-    public WorkspaceService(WorkspaceRepository workspaceRepository, MandalaEventBus eventPublisher) {
+    public WorkspaceService(WorkspaceRepository workspaceRepository, MandalaEventPublisher eventPublisher) {
         this.workspaceRepository = workspaceRepository;
         this.eventPublisher = eventPublisher;
     }

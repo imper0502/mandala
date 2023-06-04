@@ -1,6 +1,6 @@
 package digi.joy.mandala;
 
-import digi.joy.mandala.common.adapters.infra.MandalaEventPublisher;
+import digi.joy.mandala.common.adapters.infra.MandalaEventBus;
 import digi.joy.mandala.common.services.exception.RepositoryException;
 import digi.joy.mandala.note.services.NoteContextBuilders;
 import digi.joy.mandala.note.services.scenario.CreateNoteUseCase;
@@ -19,14 +19,14 @@ import java.util.UUID;
 @SpringBootApplication
 public class MandalaApplication implements CommandLineRunner {
 
-    private final MandalaEventPublisher eventPublisher;
+    private final MandalaEventBus eventPublisher;
     private final WorkspaceEventListener workspaceEventListener;
     private final BuildWorkspaceUseCase buildWorkspaceScenario;
     private final CreateNoteUseCase createNoteScenario;
 
     @Autowired
     public MandalaApplication(
-            MandalaEventPublisher eventPublisher,
+            MandalaEventBus eventPublisher,
             WorkspaceEventListener workspaceEventListener,
             BuildWorkspaceUseCase buildWorkspaceScenario,
             CreateNoteUseCase createNoteScenario) {

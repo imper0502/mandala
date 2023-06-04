@@ -21,7 +21,7 @@ public class WorkspaceContextBuilders {
         return LeaveWorkspaceContext.builder();
     }
 
-    public static CommitNoteContext.CommitNoteContextBuilder commitNoteScenario() {
+    public static CommitNoteContext.CommitNoteContextBuilder commitNoteContextBuilder() {
         return CommitNoteContext.builder();
     }
 }

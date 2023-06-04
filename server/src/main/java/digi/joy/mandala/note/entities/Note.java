@@ -1,8 +1,8 @@
 package digi.joy.mandala.note.entities;
 
 import digi.joy.mandala.note.entities.event.NoteCreated;
-import digi.joy.mandala.workspace.entities.event.NoteCreatedInWorkspace;
 import digi.joy.mandala.note.entities.event.NoteUpdated;
+import digi.joy.mandala.workspace.entities.event.NoteCreatedWithWorkspaceId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,7 +32,7 @@ public class Note {
         return new NoteUpdated(noteId);
     }
 
-    public NoteCreatedInWorkspace noteCreatedEvent(UUID workspaceId) {
-        return new NoteCreatedInWorkspace(noteId, workspaceId);
+    public NoteCreatedWithWorkspaceId noteCreatedEvent(UUID workspaceId) {
+        return new NoteCreatedWithWorkspaceId(noteId, workspaceId);
     }
 }
