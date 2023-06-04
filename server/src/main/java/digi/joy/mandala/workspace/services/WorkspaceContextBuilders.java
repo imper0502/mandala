@@ -1,9 +1,9 @@
-package digi.joy.mandala.workspace.services.utils;
+package digi.joy.mandala.workspace.services;
 
-import digi.joy.mandala.workspace.services.context.BuildWorkspaceContext;
-import digi.joy.mandala.workspace.services.context.CommitNoteContext;
-import digi.joy.mandala.workspace.services.context.EnterWorkspaceContext;
-import digi.joy.mandala.workspace.services.context.LeaveWorkspaceContext;
+import digi.joy.mandala.workspace.services.scenario.context.BuildWorkspaceContext;
+import digi.joy.mandala.workspace.services.scenario.context.CommitNoteContext;
+import digi.joy.mandala.workspace.services.scenario.context.EnterWorkspaceContext;
+import digi.joy.mandala.workspace.services.scenario.context.LeaveWorkspaceContext;
 import org.springframework.stereotype.Service;
 
 @Service

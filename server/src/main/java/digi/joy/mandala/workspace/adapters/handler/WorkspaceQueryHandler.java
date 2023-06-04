@@ -1,13 +1,13 @@
 package digi.joy.mandala.workspace.adapters.handler;
 
+import digi.joy.mandala.note.adapters.gateway.schema.NoteData;
+import digi.joy.mandala.note.services.infra.NoteDataAccessor;
+import digi.joy.mandala.workspace.adapters.gateway.schema.CommittedNoteData;
+import digi.joy.mandala.workspace.adapters.gateway.schema.WorkspaceData;
 import digi.joy.mandala.workspace.adapters.handler.published.WorkspaceDetail;
 import digi.joy.mandala.workspace.adapters.handler.published.WorkspaceSummary;
-import digi.joy.mandala.workspace.adapters.gateway.schema.CommittedNoteData;
-import digi.joy.mandala.workspace.adapters.gateway.schema.NoteData;
-import digi.joy.mandala.workspace.adapters.gateway.schema.WorkspaceData;
-import digi.joy.mandala.workspace.services.infra.NoteDataAccessor;
 import digi.joy.mandala.workspace.services.infra.WorkspaceDataAccessor;
-import digi.joy.mandala.workspace.services.utils.WorkspaceMapper;
+import digi.joy.mandala.workspace.services.infra.WorkspaceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

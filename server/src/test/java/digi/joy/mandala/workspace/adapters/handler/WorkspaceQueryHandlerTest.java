@@ -2,13 +2,13 @@ package digi.joy.mandala.workspace.adapters.handler;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import digi.joy.mandala.note.services.NoteContextBuilders;
+import digi.joy.mandala.note.services.infra.NoteDataAccessor;
+import digi.joy.mandala.note.services.scenario.CreateNoteUseCase;
 import digi.joy.mandala.workspace.adapters.handler.published.WorkspaceSummary;
-import digi.joy.mandala.workspace.services.infra.NoteDataAccessor;
+import digi.joy.mandala.workspace.services.WorkspaceContextBuilders;
 import digi.joy.mandala.workspace.services.infra.WorkspaceDataAccessor;
 import digi.joy.mandala.workspace.services.scenario.BuildWorkspaceUseCase;
-import digi.joy.mandala.workspace.services.scenario.CreateNoteUseCase;
-import digi.joy.mandala.workspace.services.utils.NoteContextBuilders;
-import digi.joy.mandala.workspace.services.utils.WorkspaceContextBuilders;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

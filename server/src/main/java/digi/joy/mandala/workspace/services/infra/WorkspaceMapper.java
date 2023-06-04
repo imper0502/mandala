@@ -1,9 +1,9 @@
-package digi.joy.mandala.workspace.services.utils;
+package digi.joy.mandala.workspace.services.infra;
 
-import digi.joy.mandala.workspace.adapters.handler.published.WorkspaceSummary;
 import digi.joy.mandala.workspace.adapters.gateway.schema.CommittedNoteData;
 import digi.joy.mandala.workspace.adapters.gateway.schema.WorkspaceData;
 import digi.joy.mandala.workspace.adapters.gateway.schema.WorkspaceSessionData;
+import digi.joy.mandala.workspace.adapters.handler.published.WorkspaceSummary;
 import digi.joy.mandala.workspace.entities.Workspace;
 import digi.joy.mandala.workspace.entities.association.CommittedNote;
 import digi.joy.mandala.workspace.entities.association.WorkspaceSession;

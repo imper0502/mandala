@@ -1,6 +1,6 @@
-package digi.joy.mandala.workspace.services.utils;
+package digi.joy.mandala.note.services;
 
-import digi.joy.mandala.workspace.services.context.CreateNoteContext;
+import digi.joy.mandala.note.services.scenario.context.CreateNoteContext;
 
 public class NoteContextBuilders {
 

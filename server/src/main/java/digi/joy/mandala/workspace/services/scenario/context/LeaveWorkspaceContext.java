@@ -1,4 +1,4 @@
-package digi.joy.mandala.workspace.services.context;
+package digi.joy.mandala.workspace.services.scenario.context;
 
 import lombok.Builder;
 import lombok.Data;

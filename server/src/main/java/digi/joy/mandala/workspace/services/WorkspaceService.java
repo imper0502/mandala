@@ -1,12 +1,21 @@
-package digi.joy.mandala.workspace.services.scenario;
+package digi.joy.mandala.workspace.services;
 
-import digi.joy.mandala.workspace.entities.Note;
-import digi.joy.mandala.workspace.entities.Workspace;
-import digi.joy.mandala.workspace.services.context.*;
-import digi.joy.mandala.workspace.services.infra.NoteRepository;
-import digi.joy.mandala.workspace.services.infra.WorkspaceRepository;
-import digi.joy.mandala.workspace.services.infra.exception.RepositoryException;
 import digi.joy.mandala.common.services.MandalaEventBus;
+import digi.joy.mandala.common.services.exception.RepositoryException;
+import digi.joy.mandala.note.entities.Note;
+import digi.joy.mandala.note.services.infra.NoteRepository;
+import digi.joy.mandala.note.services.scenario.CreateNoteUseCase;
+import digi.joy.mandala.note.services.scenario.context.CreateNoteContext;
+import digi.joy.mandala.workspace.entities.Workspace;
+import digi.joy.mandala.workspace.services.infra.WorkspaceRepository;
+import digi.joy.mandala.workspace.services.scenario.BuildWorkspaceUseCase;
+import digi.joy.mandala.workspace.services.scenario.CommitNoteUseCase;
+import digi.joy.mandala.workspace.services.scenario.EnterWorkspaceUseCase;
+import digi.joy.mandala.workspace.services.scenario.LeaveWorkspaceUseCase;
+import digi.joy.mandala.workspace.services.scenario.context.BuildWorkspaceContext;
+import digi.joy.mandala.workspace.services.scenario.context.CommitNoteContext;
+import digi.joy.mandala.workspace.services.scenario.context.EnterWorkspaceContext;
+import digi.joy.mandala.workspace.services.scenario.context.LeaveWorkspaceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

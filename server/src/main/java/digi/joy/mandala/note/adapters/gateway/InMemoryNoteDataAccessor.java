@@ -1,7 +1,7 @@
-package digi.joy.mandala.workspace.adapters.gateway;
+package digi.joy.mandala.note.adapters.gateway;
 
-import digi.joy.mandala.workspace.adapters.gateway.schema.NoteData;
-import digi.joy.mandala.workspace.services.infra.NoteDataAccessor;
+import digi.joy.mandala.note.adapters.gateway.schema.NoteData;
+import digi.joy.mandala.note.services.infra.NoteDataAccessor;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

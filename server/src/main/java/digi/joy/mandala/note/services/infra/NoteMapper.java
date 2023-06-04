@@ -1,7 +1,7 @@
-package digi.joy.mandala.workspace.services.utils;
+package digi.joy.mandala.note.services.infra;
 
-import digi.joy.mandala.workspace.adapters.gateway.schema.NoteData;
-import digi.joy.mandala.workspace.entities.Note;
+import digi.joy.mandala.note.adapters.gateway.schema.NoteData;
+import digi.joy.mandala.note.entities.Note;
 
 public class NoteMapper {
     public static NoteData transform(Note note) {

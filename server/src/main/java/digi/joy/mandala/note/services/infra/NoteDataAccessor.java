@@ -1,6 +1,6 @@
-package digi.joy.mandala.workspace.services.infra;
+package digi.joy.mandala.note.services.infra;
 
-import digi.joy.mandala.workspace.adapters.gateway.schema.NoteData;
+import digi.joy.mandala.note.adapters.gateway.schema.NoteData;
 
 import java.util.List;
 import java.util.Optional;

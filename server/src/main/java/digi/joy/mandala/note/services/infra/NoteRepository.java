@@ -1,7 +1,6 @@
-package digi.joy.mandala.workspace.services.infra;
+package digi.joy.mandala.note.services.infra;
 
-import digi.joy.mandala.workspace.entities.Note;
-import digi.joy.mandala.workspace.services.utils.NoteMapper;
+import digi.joy.mandala.note.entities.Note;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

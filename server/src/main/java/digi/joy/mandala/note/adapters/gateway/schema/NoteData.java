@@ -1,4 +1,4 @@
-package digi.joy.mandala.workspace.adapters.gateway.schema;
+package digi.joy.mandala.note.adapters.gateway.schema;
 
 import lombok.Builder;
 import lombok.Data;

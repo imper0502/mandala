@@ -1,13 +1,13 @@
 package digi.joy.mandala.workspace.adapters.handler;
 
-import digi.joy.mandala.workspace.services.context.BuildWorkspaceContext;
-import digi.joy.mandala.workspace.services.context.EnterWorkspaceContext;
-import digi.joy.mandala.workspace.services.context.LeaveWorkspaceContext;
-import digi.joy.mandala.workspace.services.infra.exception.RepositoryException;
+import digi.joy.mandala.common.services.exception.RepositoryException;
+import digi.joy.mandala.workspace.services.WorkspaceService;
 import digi.joy.mandala.workspace.services.scenario.BuildWorkspaceUseCase;
 import digi.joy.mandala.workspace.services.scenario.EnterWorkspaceUseCase;
 import digi.joy.mandala.workspace.services.scenario.LeaveWorkspaceUseCase;
-import digi.joy.mandala.workspace.services.scenario.WorkspaceService;
+import digi.joy.mandala.workspace.services.scenario.context.BuildWorkspaceContext;
+import digi.joy.mandala.workspace.services.scenario.context.EnterWorkspaceContext;
+import digi.joy.mandala.workspace.services.scenario.context.LeaveWorkspaceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

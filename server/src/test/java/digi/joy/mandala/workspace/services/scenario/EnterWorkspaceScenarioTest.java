@@ -1,11 +1,12 @@
 package digi.joy.mandala.workspace.services.scenario;
 
-import digi.joy.mandala.workspace.services.infra.exception.RepositoryException;
 import digi.joy.mandala.common.services.MandalaEventBus;
-import digi.joy.mandala.workspace.services.utils.WorkspaceContextBuilders;
+import digi.joy.mandala.common.services.exception.RepositoryException;
+import digi.joy.mandala.workspace.services.WorkspaceContextBuilders;
+import digi.joy.mandala.workspace.services.WorkspaceService;
 import digi.joy.mandala.workspace.services.infra.WorkspaceRepository;
-import digi.joy.mandala.workspace.services.context.BuildWorkspaceContext;
-import digi.joy.mandala.workspace.services.context.EnterWorkspaceContext;
+import digi.joy.mandala.workspace.services.scenario.context.BuildWorkspaceContext;
+import digi.joy.mandala.workspace.services.scenario.context.EnterWorkspaceContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

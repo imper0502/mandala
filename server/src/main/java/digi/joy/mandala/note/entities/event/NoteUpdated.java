@@ -1,4 +1,4 @@
-package digi.joy.mandala.workspace.entities.event;
+package digi.joy.mandala.note.entities.event;
 
 import digi.joy.mandala.common.entities.event.MandalaEvent;
 import lombok.Getter;
@@ -8,6 +8,6 @@ import java.util.UUID;
 
 @Getter
 @RequiredArgsConstructor
-public class NoteCreated extends MandalaEvent {
+public class NoteUpdated extends MandalaEvent {
     private final UUID noteId;
 }

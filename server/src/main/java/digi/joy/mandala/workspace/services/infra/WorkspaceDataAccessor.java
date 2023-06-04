@@ -1,6 +1,6 @@
 package digi.joy.mandala.workspace.services.infra;
 
-import digi.joy.mandala.workspace.adapters.gateway.exception.DAOException;
+import digi.joy.mandala.common.adapters.gateway.exception.DAOException;
 import digi.joy.mandala.workspace.adapters.gateway.schema.WorkspaceData;
 
 import java.util.List;

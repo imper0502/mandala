@@ -1,8 +1,8 @@
-package digi.joy.mandala.workspace.entities;
+package digi.joy.mandala.note.entities;
 
-import digi.joy.mandala.workspace.entities.event.NoteCreated;
+import digi.joy.mandala.note.entities.event.NoteCreated;
 import digi.joy.mandala.workspace.entities.event.NoteCreatedInWorkspace;
-import digi.joy.mandala.workspace.entities.event.NoteUpdated;
+import digi.joy.mandala.note.entities.event.NoteUpdated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
