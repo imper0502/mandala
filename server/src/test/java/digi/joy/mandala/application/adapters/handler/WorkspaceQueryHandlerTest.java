@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import digi.joy.mandala.application.adapters.handler.published.WorkspaceSummary;
 import digi.joy.mandala.application.services.infra.NoteDataAccessor;
 import digi.joy.mandala.application.services.infra.WorkspaceDataAccessor;
-import digi.joy.mandala.application.services.scenario.BuildWorkspaceScenario;
-import digi.joy.mandala.application.services.scenario.CreateNoteScenario;
+import digi.joy.mandala.application.services.scenario.BuildWorkspaceUseCase;
+import digi.joy.mandala.application.services.scenario.CreateNoteUseCase;
 import digi.joy.mandala.application.services.utils.NoteContextBuilders;
 import digi.joy.mandala.application.services.utils.WorkspaceContextBuilders;
 import lombok.SneakyThrows;
@@ -26,15 +26,15 @@ class WorkspaceQueryHandlerTest {
 
     private final NoteDataAccessor noteDataAccessor;
 
-    private final BuildWorkspaceScenario buildWorkspaceScenario;
-    private final CreateNoteScenario createNoteScenario;
+    private final BuildWorkspaceUseCase buildWorkspaceScenario;
+    private final CreateNoteUseCase createNoteScenario;
 
     @Autowired
     public WorkspaceQueryHandlerTest(
             WorkspaceDataAccessor workspaceDataAccessor,
             NoteDataAccessor noteDataAccessor,
-            BuildWorkspaceScenario buildWorkspaceScenario,
-            CreateNoteScenario createNoteScenario) {
+            BuildWorkspaceUseCase buildWorkspaceScenario,
+            CreateNoteUseCase createNoteScenario) {
         this.workspaceDataAccessor = workspaceDataAccessor;
         this.noteDataAccessor = noteDataAccessor;
         this.buildWorkspaceScenario = buildWorkspaceScenario;

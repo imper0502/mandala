@@ -1,12 +1,13 @@
 package digi.joy.mandala.application.adapters.handler;
 
-import digi.joy.mandala.application.services.infra.exception.RepositoryException;
-import digi.joy.mandala.application.services.scenario.BuildWorkspaceScenario;
-import digi.joy.mandala.application.services.scenario.EnterWorkspaceScenario;
-import digi.joy.mandala.application.services.scenario.LeaveWorkspaceScenario;
 import digi.joy.mandala.application.services.context.BuildWorkspaceContext;
 import digi.joy.mandala.application.services.context.EnterWorkspaceContext;
 import digi.joy.mandala.application.services.context.LeaveWorkspaceContext;
+import digi.joy.mandala.application.services.infra.exception.RepositoryException;
+import digi.joy.mandala.application.services.scenario.BuildWorkspaceUseCase;
+import digi.joy.mandala.application.services.scenario.EnterWorkspaceUseCase;
+import digi.joy.mandala.application.services.scenario.LeaveWorkspaceUseCase;
+import digi.joy.mandala.application.services.scenario.WorkspaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,15 +17,15 @@ import java.util.UUID;
 @Service
 public class WorkspaceCommandHandler {
 
-    private final BuildWorkspaceScenario buildWorkspaceScenario;
-    private final EnterWorkspaceScenario enterWorkspaceScenario;
-    private final LeaveWorkspaceScenario leaveWorkspaceScenario;
+    private final BuildWorkspaceUseCase buildWorkspaceScenario;
+    private final EnterWorkspaceUseCase enterWorkspaceScenario;
+    private final LeaveWorkspaceUseCase leaveWorkspaceScenario;
 
     @Autowired
-    public WorkspaceCommandHandler(BuildWorkspaceScenario buildWorkspaceScenario, EnterWorkspaceScenario enterWorkspaceScenario, LeaveWorkspaceScenario leaveWorkspaceScenario) {
-        this.buildWorkspaceScenario = buildWorkspaceScenario;
-        this.enterWorkspaceScenario = enterWorkspaceScenario;
-        this.leaveWorkspaceScenario = leaveWorkspaceScenario;
+    public WorkspaceCommandHandler(WorkspaceService workspaceService) {
+        this.buildWorkspaceScenario = workspaceService;
+        this.enterWorkspaceScenario = workspaceService;
+        this.leaveWorkspaceScenario = workspaceService;
     }
 
 

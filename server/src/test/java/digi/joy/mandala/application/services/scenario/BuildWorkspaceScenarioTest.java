@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 @SpringBootTest
 class BuildWorkspaceScenarioTest {
-    private BuildWorkspaceScenario sceneUnderTest;
+    private BuildWorkspaceUseCase sceneUnderTest;
     private final WorkspaceRepository workspaceRepository;
     private final MandalaEventBus eventListener;
 
@@ -28,7 +28,7 @@ class BuildWorkspaceScenarioTest {
 
     @BeforeEach
     void setUp() {
-        this.sceneUnderTest = new BuildWorkspaceScenario(workspaceRepository, eventListener);
+        this.sceneUnderTest = new WorkspaceService(workspaceRepository, null, eventListener);
     }
 
     @Test

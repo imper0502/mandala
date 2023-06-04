@@ -16,23 +16,24 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class LeaveWorkspaceScenarioTest {
-    private LeaveWorkspaceScenario sceneUnderTest;
+    private BuildWorkspaceUseCase buildWorkspaceScenario;
+    private EnterWorkspaceUseCase enterWorkspaceScenario;
+    private LeaveWorkspaceUseCase sceneUnderTest;
     private final WorkspaceRepository repository;
     private final MandalaEventBus eventListener;
-    private final BuildWorkspaceScenario buildWorkspaceScenario;
-    private final EnterWorkspaceScenario enterWorkspaceScenario;
 
     @Autowired
-    public LeaveWorkspaceScenarioTest(WorkspaceRepository repository, MandalaEventBus eventListener, BuildWorkspaceScenario buildWorkspaceScenario, EnterWorkspaceScenario enterWorkspaceScenario) {
+    public LeaveWorkspaceScenarioTest(WorkspaceRepository repository, MandalaEventBus eventListener) {
         this.repository = repository;
         this.eventListener = eventListener;
-        this.buildWorkspaceScenario = buildWorkspaceScenario;
-        this.enterWorkspaceScenario = enterWorkspaceScenario;
     }
 
     @BeforeEach
     void setUp() {
-        this.sceneUnderTest = new LeaveWorkspaceScenario(repository, eventListener);
+        WorkspaceService workspaceService = new WorkspaceService(repository, null, eventListener);
+        this.buildWorkspaceScenario = workspaceService;
+        this.enterWorkspaceScenario = workspaceService;
+        this.sceneUnderTest = workspaceService;
     }
 
     @Test

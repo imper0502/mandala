@@ -18,21 +18,22 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 @SpringBootTest
 class EnterWorkspaceScenarioTest {
-    private EnterWorkspaceScenario sceneUnderTest;
+    private EnterWorkspaceUseCase sceneUnderTest;
+    private BuildWorkspaceUseCase buildWorkspaceScenario;
     private final WorkspaceRepository repository;
     private final MandalaEventBus eventListener;
-    private final BuildWorkspaceScenario buildWorkspaceScenario;
 
     @Autowired
-    public EnterWorkspaceScenarioTest(WorkspaceRepository repository, MandalaEventBus eventListener, BuildWorkspaceScenario buildWorkspaceScenario) {
-        this.buildWorkspaceScenario = buildWorkspaceScenario;
+    public EnterWorkspaceScenarioTest(WorkspaceRepository repository, MandalaEventBus eventListener) {
         this.repository = repository;
         this.eventListener = eventListener;
     }
 
     @BeforeEach
     void setUp() {
-        this.sceneUnderTest = new EnterWorkspaceScenario(repository, eventListener);
+        WorkspaceService service = new WorkspaceService(repository, null, eventListener);
+        this.sceneUnderTest = service;
+        this.buildWorkspaceScenario = service;
     }
 
     @Test

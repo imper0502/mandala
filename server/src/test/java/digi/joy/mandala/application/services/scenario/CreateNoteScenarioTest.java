@@ -1,15 +1,18 @@
 package digi.joy.mandala.application.services.scenario;
 
-import digi.joy.mandala.application.services.infra.exception.RepositoryException;
-import digi.joy.mandala.common.services.MandalaEventBus;
+import digi.joy.mandala.application.adapters.gateway.InMemoryNoteDataAccessor;
+import digi.joy.mandala.application.adapters.gateway.InMemoryWorkspaceDataAccessor;
+import digi.joy.mandala.application.adapters.listener.WorkspaceEventListener;
 import digi.joy.mandala.application.entities.Note;
 import digi.joy.mandala.application.entities.Workspace;
-import digi.joy.mandala.application.services.utils.NoteContextBuilders;
-import digi.joy.mandala.application.services.infra.NoteRepository;
-import digi.joy.mandala.application.services.utils.WorkspaceContextBuilders;
-import digi.joy.mandala.application.services.infra.WorkspaceRepository;
 import digi.joy.mandala.application.services.context.BuildWorkspaceContext;
 import digi.joy.mandala.application.services.context.CreateNoteContext;
+import digi.joy.mandala.application.services.infra.NoteRepository;
+import digi.joy.mandala.application.services.infra.WorkspaceRepository;
+import digi.joy.mandala.application.services.infra.exception.RepositoryException;
+import digi.joy.mandala.application.services.utils.NoteContextBuilders;
+import digi.joy.mandala.application.services.utils.WorkspaceContextBuilders;
+import digi.joy.mandala.common.adapters.infra.MandalaEventPublisher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,23 +26,31 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 @SpringBootTest
 public class CreateNoteScenarioTest {
-    private CreateNoteScenario sceneUnderTest;
-    private final NoteRepository noteRepository;
-    private final WorkspaceRepository workspaceRepository;
-    private final MandalaEventBus eventListener;
-    private final BuildWorkspaceScenario buildWorkspaceScenario;
+    private CreateNoteUseCase sceneUnderTest;
+    private BuildWorkspaceUseCase buildWorkspaceScenario;
 
-    @Autowired
-    public CreateNoteScenarioTest(NoteRepository noteRepository, WorkspaceRepository workspaceRepository, MandalaEventBus eventListener, BuildWorkspaceScenario buildWorkspaceScenario) {
-        this.noteRepository = noteRepository;
-        this.workspaceRepository = workspaceRepository;
-        this.eventListener = eventListener;
-        this.buildWorkspaceScenario = buildWorkspaceScenario;
+    private WorkspaceRepository workspaceRepository;
+
+    private NoteRepository noteRepository;
+
+    private final MandalaEventPublisher mandalaEventPublisher;
+
+    @Autowired public CreateNoteScenarioTest(MandalaEventPublisher mandalaEventPublisher) {
+        this.mandalaEventPublisher = mandalaEventPublisher;
     }
 
     @BeforeEach
     void setUp() {
-        this.sceneUnderTest = new CreateNoteScenario(noteRepository, eventListener);
+        this.workspaceRepository = new WorkspaceRepository(new InMemoryWorkspaceDataAccessor());
+        this.noteRepository = new NoteRepository(new InMemoryNoteDataAccessor());
+        WorkspaceService workspaceService = new WorkspaceService(
+                workspaceRepository,
+                noteRepository,
+                mandalaEventPublisher
+        );
+        mandalaEventPublisher.register(new WorkspaceEventListener(workspaceService));
+        this.buildWorkspaceScenario = workspaceService;
+        this.sceneUnderTest = workspaceService;
     }
 
     @Test

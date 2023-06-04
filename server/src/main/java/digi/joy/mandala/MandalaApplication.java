@@ -2,11 +2,11 @@ package digi.joy.mandala;
 
 import digi.joy.mandala.application.adapters.listener.WorkspaceEventListener;
 import digi.joy.mandala.application.services.infra.exception.RepositoryException;
+import digi.joy.mandala.application.services.scenario.BuildWorkspaceUseCase;
+import digi.joy.mandala.application.services.scenario.CreateNoteUseCase;
 import digi.joy.mandala.common.adapters.infra.MandalaEventPublisher;
 import digi.joy.mandala.application.services.utils.NoteContextBuilders;
 import digi.joy.mandala.application.services.utils.WorkspaceContextBuilders;
-import digi.joy.mandala.application.services.scenario.BuildWorkspaceScenario;
-import digi.joy.mandala.application.services.scenario.CreateNoteScenario;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -21,15 +21,15 @@ public class MandalaApplication implements CommandLineRunner {
 
     private final MandalaEventPublisher eventPublisher;
     private final WorkspaceEventListener workspaceEventListener;
-    private final BuildWorkspaceScenario buildWorkspaceScenario;
-    private final CreateNoteScenario createNoteScenario;
+    private final BuildWorkspaceUseCase buildWorkspaceScenario;
+    private final CreateNoteUseCase createNoteScenario;
 
     @Autowired
     public MandalaApplication(
             MandalaEventPublisher eventPublisher,
             WorkspaceEventListener workspaceEventListener,
-            BuildWorkspaceScenario buildWorkspaceScenario,
-            CreateNoteScenario createNoteScenario) {
+            BuildWorkspaceUseCase buildWorkspaceScenario,
+            CreateNoteUseCase createNoteScenario) {
         this.eventPublisher = eventPublisher;
         this.workspaceEventListener = workspaceEventListener;
         this.buildWorkspaceScenario = buildWorkspaceScenario;
