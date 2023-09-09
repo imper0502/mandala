@@ -32,7 +32,7 @@ public class NoteService implements CreateNoteUseCase {
                 .build();
         note.append(context.getContent());
 
-        noteRepository.add(note);
+        noteRepository.deposit(note);
 
         Optional<UUID> workspaceId = Optional.ofNullable(context.getWorkspaceId());
         workspaceId.ifPresentOrElse(

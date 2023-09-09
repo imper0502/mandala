@@ -31,7 +31,7 @@ public class WorkspaceQueryHandler {
 
     @GetMapping("{id}")
     public WorkspaceDetail queryWorkspace(@PathVariable("id") UUID id) {
-        WorkspaceData data = workspaceRepositoryOperator.query(id).orElseThrow();
+        WorkspaceData data = workspaceRepositoryOperator.get(id).orElseThrow();
         List<NoteData> committedNotes = noteRepositoryOperator.query(
                 data.getCommittedNotes().stream().map(CommittedNoteData::getNoteId).toList()
         );

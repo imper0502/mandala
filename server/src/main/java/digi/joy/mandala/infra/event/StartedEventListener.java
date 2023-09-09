@@ -1,6 +1,7 @@
 package digi.joy.mandala.infra.event;
 
-import digi.joy.mandala.infra.exception.RepositoryException;
+import digi.joy.mandala.infra.dao.DAOException;
+import digi.joy.mandala.infra.repository.RepositoryException;
 import digi.joy.mandala.note.scenario.CreateNoteUseCase;
 import digi.joy.mandala.note.scenario.NoteContextBuilders;
 import digi.joy.mandala.workspace.scenario.BuildWorkspaceUseCase;
@@ -43,7 +44,7 @@ public class StartedEventListener implements ApplicationListener<ApplicationStar
     public void onApplicationEvent(@NonNull ApplicationStartedEvent event) {
         try {
             createDemoData();
-        } catch (RepositoryException e) {
+        } catch (RepositoryException | DAOException e) {
             throw new RuntimeException(e);
         }
     }

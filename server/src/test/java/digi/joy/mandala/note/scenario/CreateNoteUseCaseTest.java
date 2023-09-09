@@ -1,8 +1,9 @@
 package digi.joy.mandala.note.scenario;
 
 import com.google.common.eventbus.EventBus;
+import digi.joy.mandala.infra.dao.DAOException;
 import digi.joy.mandala.infra.event.MandalaEventBus;
-import digi.joy.mandala.infra.exception.RepositoryException;
+import digi.joy.mandala.infra.repository.RepositoryException;
 import digi.joy.mandala.note.Note;
 import digi.joy.mandala.note.dao.InMemoryNoteRepositoryOperator;
 import digi.joy.mandala.note.event.NoteCreated;
@@ -42,7 +43,7 @@ public class CreateNoteUseCaseTest {
     }
 
     @Test
-    void createNote() {
+    void createNote() throws DAOException {
         CreateNoteContext readModel = NoteContextBuilders.createNoteScene()
                 .title("TEST_NOTE")
                 .content(List.of("TEST_CONTENT"))
@@ -50,13 +51,13 @@ public class CreateNoteUseCaseTest {
 
         UUID noteId = useCaseUnderTest.createNote(readModel);
 
-        assertInstanceOf(Note.class, noteRepository.query(noteId));
+        assertInstanceOf(Note.class, noteRepository.get(noteId));
         var eventCount = noteEventBus.history().size();
         assertInstanceOf(NoteCreated.class, noteEventBus.history().get(eventCount - 1));
     }
 
     @Test
-    void createNoteWithWorkspaceId() throws RepositoryException {
+    void createNoteWithWorkspaceId() throws RepositoryException, DAOException {
         UUID workspaceId = buildWorkspaceUseCase.buildWorkspace(
                 WorkspaceContextBuilders.buildWorkspaceScenario()
                         .workspaceName("TEST_WORKSPACE")
@@ -70,7 +71,7 @@ public class CreateNoteUseCaseTest {
 
         UUID noteId = useCaseUnderTest.createNote(context);
 
-        assertInstanceOf(Note.class, noteRepository.query(noteId));
+        assertInstanceOf(Note.class, noteRepository.get(noteId));
         var eventCount = noteEventBus.history().size();
         assertInstanceOf(NoteCreatedWithWorkspaceId.class, noteEventBus.history().get(eventCount - 1));
     }

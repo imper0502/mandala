@@ -2,7 +2,7 @@ package digi.joy.mandala.workspace.scenario;
 
 import com.google.common.eventbus.EventBus;
 import digi.joy.mandala.infra.event.MandalaEventBus;
-import digi.joy.mandala.infra.exception.RepositoryException;
+import digi.joy.mandala.infra.repository.RepositoryException;
 import digi.joy.mandala.workspace.dao.InMemoryWorkspaceRepositoryOperator;
 import digi.joy.mandala.workspace.repository.WorkspaceRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,6 +40,6 @@ class EnterWorkspaceUseCaseTest {
 
         useCaseUnderTest.enterWorkspace(context);
 
-        assertFalse(repository.query(workspaceId).getWorkspaceSessions().isEmpty());
+        assertFalse(repository.get(workspaceId).getWorkspaceSessions().isEmpty());
     }
 }

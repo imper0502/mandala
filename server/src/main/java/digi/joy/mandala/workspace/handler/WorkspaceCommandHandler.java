@@ -1,6 +1,6 @@
 package digi.joy.mandala.workspace.handler;
 
-import digi.joy.mandala.infra.exception.RepositoryException;
+import digi.joy.mandala.infra.repository.RepositoryException;
 import digi.joy.mandala.workspace.scenario.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

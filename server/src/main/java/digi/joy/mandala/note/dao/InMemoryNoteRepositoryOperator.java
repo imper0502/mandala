@@ -14,12 +14,14 @@ import java.util.UUID;
 public class InMemoryNoteRepositoryOperator implements NoteRepositoryOperator {
     private final List<NoteData> notes = new ArrayList<>();
 
+    @Override
     public void add(NoteData note) {
         notes.add(note);
     }
 
-    public Optional<NoteData> withdraw(UUID id) {
-        Optional<NoteData> note = query(id);
+    @Override
+    public Optional<NoteData> remove(UUID id) {
+        Optional<NoteData> note = get(id);
 
         note.ifPresent(notes::remove);
 
@@ -27,7 +29,7 @@ public class InMemoryNoteRepositoryOperator implements NoteRepositoryOperator {
     }
 
     @Override
-    public Optional<NoteData> query(UUID id) {
+    public Optional<NoteData> get(UUID id) {
         return notes.stream()
                 .filter(x -> x.getNoteId().equals(id))
                 .findFirst();

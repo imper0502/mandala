@@ -2,7 +2,7 @@ package digi.joy.mandala.workspace.listener;
 
 import com.google.common.eventbus.Subscribe;
 import digi.joy.mandala.infra.event.MandalaEventListener;
-import digi.joy.mandala.infra.exception.RepositoryException;
+import digi.joy.mandala.infra.repository.RepositoryException;
 import digi.joy.mandala.workspace.event.NoteCreatedWithWorkspaceId;
 import digi.joy.mandala.workspace.scenario.CommitNoteUseCase;
 import digi.joy.mandala.workspace.scenario.WorkspaceContextBuilders;

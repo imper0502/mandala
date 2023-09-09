@@ -1,7 +1,6 @@
 package digi.joy.mandala.workspace.repository;
 
-import digi.joy.mandala.infra.exception.DAOException;
-import digi.joy.mandala.infra.exception.RepositoryException;
+import digi.joy.mandala.infra.repository.MandalaRepository;
 import digi.joy.mandala.workspace.Workspace;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,24 +9,22 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class WorkspaceRepository {
+public class WorkspaceRepository extends MandalaRepository<UUID, Workspace> {
 
     private final WorkspaceRepositoryOperator operator;
 
-    public UUID add(Workspace w) throws RepositoryException {
-        try {
-            operator.add(WorkspaceConverter.transform(w));
-        } catch (DAOException e) {
-            throw new RepositoryException();
-        }
+    @Override
+    public UUID deposit(Workspace w) {
+        operator.add(WorkspaceConverter.transform(w));
         return w.getWorkspaceId();
     }
 
-    public Workspace query(UUID workspaceId) {
-        return WorkspaceConverter.transform(operator.query(workspaceId).orElseThrow());
+    @Override
+    public Workspace withdraw(UUID workspaceId) {
+        return WorkspaceConverter.transform(operator.remove(workspaceId).orElseThrow());
     }
 
-    public Workspace withdraw(UUID workspaceId) {
-        return WorkspaceConverter.transform(operator.withdraw(workspaceId).orElseThrow());
+    public Workspace get(UUID workspaceId) {
+        return WorkspaceConverter.transform(operator.get(workspaceId).orElseThrow());
     }
 }

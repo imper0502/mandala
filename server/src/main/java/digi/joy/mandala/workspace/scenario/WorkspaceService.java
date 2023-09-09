@@ -1,7 +1,7 @@
 package digi.joy.mandala.workspace.scenario;
 
 import digi.joy.mandala.infra.event.MandalaEventPublisher;
-import digi.joy.mandala.infra.exception.RepositoryException;
+import digi.joy.mandala.infra.repository.RepositoryException;
 import digi.joy.mandala.workspace.Workspace;
 import digi.joy.mandala.workspace.repository.WorkspaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class WorkspaceService implements
                 .workspaceName(context.getWorkspaceName())
                 .build();
 
-        workspaceRepository.add(workspace);
+        workspaceRepository.deposit(workspace);
         eventPublisher.commit(workspace.workspaceBuiltEvent());
         eventPublisher.postAll();
 
@@ -48,7 +48,7 @@ public class WorkspaceService implements
         eventPublisher.commit(
                 workspace.commitNote(context.getNoteId())
         );
-        workspaceRepository.add(workspace);
+        workspaceRepository.deposit(workspace);
         eventPublisher.postAll();
     }
 
@@ -58,7 +58,7 @@ public class WorkspaceService implements
         eventPublisher.commit(
                 workspace.add(context.getUserId())
         );
-        workspaceRepository.add(workspace);
+        workspaceRepository.deposit(workspace);
 
         eventPublisher.postAll();
     }
@@ -69,7 +69,7 @@ public class WorkspaceService implements
         eventPublisher.commit(
                 w.remove(context.getUserId())
         );
-        workspaceRepository.add(w);
+        workspaceRepository.deposit(w);
         eventPublisher.postAll();
     }
 }

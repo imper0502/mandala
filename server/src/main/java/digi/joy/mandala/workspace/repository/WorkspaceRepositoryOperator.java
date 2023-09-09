@@ -1,17 +1,14 @@
 package digi.joy.mandala.workspace.repository;
 
-import digi.joy.mandala.infra.exception.DAOException;
+import digi.joy.mandala.infra.dao.MandalaRepositoryOperator;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface WorkspaceRepositoryOperator {
-    void add(WorkspaceData w) throws DAOException;
+public interface WorkspaceRepositoryOperator extends MandalaRepositoryOperator<UUID, WorkspaceData> {
 
-    Optional<WorkspaceData> withdraw(UUID workspaceId);
-
-    Optional<WorkspaceData> query(UUID workspaceId);
+    Optional<WorkspaceData> get(UUID workspaceId);
 
     List<WorkspaceData> queryAll();
 }
