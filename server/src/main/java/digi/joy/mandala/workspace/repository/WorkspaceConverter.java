@@ -3,7 +3,6 @@ package digi.joy.mandala.workspace.repository;
 import digi.joy.mandala.workspace.CommittedNote;
 import digi.joy.mandala.workspace.Workspace;
 import digi.joy.mandala.workspace.WorkspaceSession;
-import digi.joy.mandala.workspace.handler.WorkspaceSummary;
 
 public class WorkspaceConverter {
     public static WorkspaceData transform(Workspace w) {
@@ -40,12 +39,4 @@ public class WorkspaceConverter {
         return data;
     }
 
-    public static WorkspaceSummary wrap(WorkspaceData data) {
-        return new WorkspaceSummary(
-                data.getWorkspaceId(),
-                data.getWorkspaceName(),
-                data.getCommittedNotes(),
-                data.getWorkspaceSessions()
-        );
-    }
 }

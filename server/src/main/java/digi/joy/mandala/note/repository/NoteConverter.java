@@ -1,24 +1,18 @@
 package digi.joy.mandala.note.repository;
 
 import digi.joy.mandala.note.Note;
+import org.springframework.beans.BeanUtils;
 
 public class NoteConverter {
-    public static NoteData transform(Note note) {
-        return NoteData.builder()
-                .noteId(note.getNoteId())
-                .title(note.getTitle())
-                .createDateTime(note.getCreateDateTime())
-                .content(note.getContent())
-                .build();
+    public static NoteData transform(Note model) {
+        final NoteData data = NoteData.builder().build();
+        BeanUtils.copyProperties(model, data);
+        return data;
     }
 
     public static Note transform(NoteData data) {
-        Note note = Note.builder()
-                .noteId(data.getNoteId())
-                .title(data.getTitle())
-                .createDateTime(data.getCreateDateTime())
-                .build();
-        note.append(data.getContent());
-        return note;
+        final Note model = Note.builder().build();
+        BeanUtils.copyProperties(data, model);
+        return model;
     }
 }

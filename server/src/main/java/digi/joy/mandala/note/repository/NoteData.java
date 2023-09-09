@@ -12,6 +12,9 @@ import java.util.UUID;
 public class NoteData {
     private UUID noteId;
     private String title;
-    private ZonedDateTime createDateTime;
     private List<String> content;
+    private String createdBy;
+    private ZonedDateTime createdTime;
+    private String updatedBy;
+    private ZonedDateTime updatedTime;
 }

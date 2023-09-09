@@ -1,5 +1,6 @@
 package digi.joy.mandala.note;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import digi.joy.mandala.note.event.NoteCreated;
 import digi.joy.mandala.note.event.NoteUpdated;
 import digi.joy.mandala.workspace.event.NoteCreatedWithWorkspaceId;
@@ -21,7 +22,12 @@ public class Note {
     private UUID noteId;
     private String title;
     private final List<String> content = new ArrayList<>();
-    private ZonedDateTime createDateTime;
+    private String createdBy;
+    @JsonFormat(pattern = "YYYY-MM-DD'T'hh:mm:ssXXX")
+    private ZonedDateTime createdTime;
+    private String updatedBy;
+    @JsonFormat(pattern = "YYYY-MM-DD'T'hh:mm:ssXXX")
+    private ZonedDateTime updatedTime;
 
     public NoteCreated noteCreatedEvent() {
         return new NoteCreated(noteId);

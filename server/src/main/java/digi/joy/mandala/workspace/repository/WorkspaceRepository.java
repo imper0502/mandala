@@ -5,6 +5,7 @@ import digi.joy.mandala.workspace.Workspace;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -24,7 +25,12 @@ public class WorkspaceRepository extends MandalaRepository<UUID, Workspace> {
         return WorkspaceConverter.transform(operator.remove(workspaceId).orElseThrow());
     }
 
+    public List<Workspace> findAll() {
+        return operator.queryAll().stream().map(WorkspaceConverter::transform).toList();
+    }
+
     public Workspace get(UUID workspaceId) {
         return WorkspaceConverter.transform(operator.get(workspaceId).orElseThrow());
     }
+
 }

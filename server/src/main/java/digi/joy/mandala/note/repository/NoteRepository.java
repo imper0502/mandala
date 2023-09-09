@@ -5,6 +5,7 @@ import digi.joy.mandala.note.Note;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -22,6 +23,13 @@ public class NoteRepository extends MandalaRepository<UUID, Note> {
     @Override
     public Note withdraw(UUID id) {
         return NoteConverter.transform(operator.remove(id).orElseThrow());
+    }
+
+    public List<Note> find(List<UUID> ids) {
+        return operator.query(ids)
+                .stream()
+                .map(NoteConverter::transform)
+                .toList();
     }
 
     public Note get(UUID id) {

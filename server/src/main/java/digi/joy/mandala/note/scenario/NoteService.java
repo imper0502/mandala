@@ -25,10 +25,15 @@ public class NoteService implements CreateNoteUseCase {
     @Override
     public UUID createNote(CreateNoteContext context) {
         UUID noteId = Optional.ofNullable(context.getNoteId()).orElse(UUID.randomUUID());
+        String author = UUID.randomUUID().toString();
+        ZonedDateTime now = ZonedDateTime.now();
         Note note = Note.builder()
                 .noteId(noteId)
                 .title(context.getTitle())
-                .createDateTime(ZonedDateTime.now())
+                .createdBy(author)
+                .createdTime(now)
+                .updatedBy(author)
+                .updatedTime(now)
                 .build();
         note.append(context.getContent());
 

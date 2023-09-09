@@ -1,7 +1,6 @@
 package digi.joy.mandala.workspace.scenario;
 
 import digi.joy.mandala.infra.event.MandalaEventPublisher;
-import digi.joy.mandala.infra.repository.RepositoryException;
 import digi.joy.mandala.workspace.Workspace;
 import digi.joy.mandala.workspace.repository.WorkspaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class WorkspaceService implements
     }
 
     @Override
-    public UUID buildWorkspace(BuildWorkspaceContext context) throws RepositoryException {
+    public UUID buildWorkspace(BuildWorkspaceContext context) {
         UUID workspaceId = Optional.ofNullable(context.getWorkspaceId()).orElse(UUID.randomUUID());
         Workspace workspace = Workspace.builder()
                 .workspaceId(workspaceId)
@@ -43,7 +42,7 @@ public class WorkspaceService implements
     }
 
     @Override
-    public void commitNote(CommitNoteContext context) throws RepositoryException {
+    public void commitNote(CommitNoteContext context) {
         Workspace workspace = workspaceRepository.withdraw(context.getWorkspaceId());
         eventPublisher.commit(
                 workspace.commitNote(context.getNoteId())
@@ -53,7 +52,7 @@ public class WorkspaceService implements
     }
 
     @Override
-    public void enterWorkspace(EnterWorkspaceContext context) throws RepositoryException {
+    public void enterWorkspace(EnterWorkspaceContext context) {
         Workspace workspace = workspaceRepository.withdraw(context.getWorkspaceId());
         eventPublisher.commit(
                 workspace.add(context.getUserId())
@@ -64,7 +63,7 @@ public class WorkspaceService implements
     }
 
     @Override
-    public void leaveWorkspace(LeaveWorkspaceContext context) throws RepositoryException {
+    public void leaveWorkspace(LeaveWorkspaceContext context) {
         Workspace w = workspaceRepository.withdraw(context.getWorkspaceId());
         eventPublisher.commit(
                 w.remove(context.getUserId())

@@ -1,6 +1,7 @@
-package digi.joy.mandala.infra.event;
+package digi.joy.mandala.boot;
 
 import digi.joy.mandala.infra.dao.DAOException;
+import digi.joy.mandala.infra.event.MandalaEventBus;
 import digi.joy.mandala.infra.repository.RepositoryException;
 import digi.joy.mandala.note.scenario.CreateNoteUseCase;
 import digi.joy.mandala.note.scenario.NoteContextBuilders;
