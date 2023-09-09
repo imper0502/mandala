@@ -7,8 +7,8 @@ import digi.joy.mandala.note.scenario.CreateNoteUseCase;
 import digi.joy.mandala.note.scenario.NoteContextBuilders;
 import digi.joy.mandala.workspace.scenario.BuildWorkspaceUseCase;
 import digi.joy.mandala.workspace.scenario.WorkspaceContextBuilders;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
@@ -22,24 +22,13 @@ import java.util.UUID;
 @Slf4j
 @Component
 @Profile("!test")
+@RequiredArgsConstructor
 public class StartedEventListener implements ApplicationListener<ApplicationStartedEvent> {
 
     private final MandalaEventBus workspaceEventBus;
     private final MandalaEventBus noteEventBus;
     private final BuildWorkspaceUseCase buildWorkspaceUseCase;
     private final CreateNoteUseCase createNoteUseCase;
-
-    @Autowired
-    public StartedEventListener(
-            MandalaEventBus workspaceEventBus,
-            MandalaEventBus noteEventBus,
-            BuildWorkspaceUseCase buildWorkspaceUseCase,
-            CreateNoteUseCase createNoteUseCase) {
-        this.workspaceEventBus = workspaceEventBus;
-        this.noteEventBus = noteEventBus;
-        this.buildWorkspaceUseCase = buildWorkspaceUseCase;
-        this.createNoteUseCase = createNoteUseCase;
-    }
 
     @Override
     public void onApplicationEvent(@NonNull ApplicationStartedEvent event) {
