@@ -114,7 +114,7 @@ public class StartedEventListener implements ApplicationListener<ApplicationStar
         );
         log.info("$ Default Note ID: {} $", defaultNoteId);
 
-        log.info("$ Create Mandala $");
+        log.info("$ Create Expanded Mandala $");
 
         final var defaultMandalaId = noteService.createMandala(CreateMandalaContext.builder()
                 .workspaceId(defaultWorkspaceId)

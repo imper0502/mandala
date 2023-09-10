@@ -57,7 +57,7 @@ public class NoteService implements CreateNoteUseCase {
         UUID noteId = UUID.randomUUID();
         UUID author = Optional.of(context.getAuthor()).orElseThrow();
 
-        eventPublisher.commit(Note.createMandalaNote(
+        eventPublisher.commit(Note.createSpreadMandalaNote(
                 context.getWorkspaceId(),
                 noteId,
                 context.getTitle(),
