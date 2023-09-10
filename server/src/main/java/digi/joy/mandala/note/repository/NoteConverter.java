@@ -13,6 +13,7 @@ public class NoteConverter {
     public static Note transform(NoteData data) {
         final Note model = Note.builder().build();
         BeanUtils.copyProperties(data, model);
+        System.arraycopy(data.getChildren(), 0, model.getChildren(), 0, data.getChildren().length);
         return model;
     }
 }

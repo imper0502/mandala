@@ -1,5 +1,6 @@
 package digi.joy.mandala.note.repository;
 
+import digi.joy.mandala.note.StructuredNote;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,8 +14,10 @@ public class NoteData {
     private UUID noteId;
     private String title;
     private List<String> content;
-    private String createdBy;
+    private StructuredNote parent;
+    private StructuredNote[] children;
+    private UUID createdBy;
     private ZonedDateTime createdTime;
-    private String updatedBy;
+    private UUID updatedBy;
     private ZonedDateTime updatedTime;
 }

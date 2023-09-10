@@ -9,10 +9,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -21,6 +20,8 @@ public class Note {
     private UUID noteId;
     private String title;
     private final List<String> content = new ArrayList<>();
+    private StructuredNote parent;
+    private final StructuredNote[] children = new StructuredNote[8];
     private UUID createdBy;
     @JsonFormat(pattern = "YYYY-MM-DD'T'hh:mm:ssXXX")
     private ZonedDateTime createdTime;
@@ -61,5 +62,38 @@ public class Note {
     public NoteUpdated append(List<String> newContent) {
         content.addAll(newContent);
         return new NoteUpdated(noteId);
+    }
+
+    public static List<WorkspaceNoteCreated> createMandalaNote(
+            UUID workspaceId,
+            UUID noteId,
+            String title,
+            UUID author,
+            List<String> content,
+            Consumer<Note> action) {
+        final ZonedDateTime now = ZonedDateTime.now();
+        final Note note = builder()
+                .noteId(noteId)
+                .title(title)
+                .createdBy(author)
+                .createdTime(now)
+                .updatedBy(author)
+                .updatedTime(now)
+                .build();
+        note.append(content);
+        Arrays.setAll(note.children, i -> StructuredNote.builder()
+                .parentId(noteId)
+                .childId(UUID.randomUUID())
+                .build());
+
+        final List<WorkspaceNoteCreated> events = Arrays.stream(note.children)
+                .map(child -> createWorkspaceNote(workspaceId, child.getChildId(), "", author, Collections.emptyList(), x -> {
+                    x.setParent(StructuredNote.builder().parentId(noteId).childId(x.getNoteId()).build());
+                    action.accept(x);
+                }))
+                .collect(Collectors.toList());
+        action.accept(note);
+        events.add(new WorkspaceNoteCreated(noteId, workspaceId));
+        return events;
     }
 }

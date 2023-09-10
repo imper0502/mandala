@@ -3,6 +3,7 @@ package digi.joy.mandala.note.scenario;
 import digi.joy.mandala.infra.event.MandalaEventPublisher;
 import digi.joy.mandala.note.Note;
 import digi.joy.mandala.note.repository.NoteRepository;
+import digi.joy.mandala.workspace.event.WorkspaceNoteCreated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,23 @@ public class NoteService implements CreateNoteUseCase {
                         )
                 )
         );
+
+        eventPublisher.postAll();
+        return noteId;
+    }
+
+    public UUID createMandala(CreateMandalaContext context) {
+        UUID noteId = UUID.randomUUID();
+        UUID author = Optional.of(context.getAuthor()).orElseThrow();
+
+        eventPublisher.commit(Note.createMandalaNote(
+                context.getWorkspaceId(),
+                noteId,
+                context.getTitle(),
+                author,
+                context.getContent(),
+                noteRepository::deposit
+        ).toArray(new WorkspaceNoteCreated[0]));
 
         eventPublisher.postAll();
         return noteId;
