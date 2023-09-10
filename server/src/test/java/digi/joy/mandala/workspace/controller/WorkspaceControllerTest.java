@@ -1,11 +1,8 @@
 package digi.joy.mandala.workspace.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.common.eventbus.EventBus;
 import digi.joy.mandala.infra.event.MandalaEventHandler;
+import digi.joy.mandala.infra.repository.RepositoryException;
 import digi.joy.mandala.note.dao.InMemoryNoteRepositoryOperator;
 import digi.joy.mandala.note.repository.NoteRepository;
 import digi.joy.mandala.note.repository.NoteRepositoryOperator;
@@ -26,14 +23,16 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 
 class WorkspaceControllerTest {
     private WorkspaceController sut;
 
     private BuildWorkspaceUseCase buildWorkspaceScenario;
     private CreateNoteUseCase createNoteScenario;
-
-    private MandalaEventHandler workspaceEventBus;
+    private MandalaEventHandler workspaceEventHandler;
+    private MandalaEventHandler noteEventHandler;
 
 
     @BeforeEach
@@ -45,51 +44,56 @@ class WorkspaceControllerTest {
         this.sut = new WorkspaceController(workspaceRepository, noteRepository);
 
 
-        this.workspaceEventBus = new MandalaEventHandler(new EventBus());
-        final WorkspaceService workspaceService = new WorkspaceService(
-                new WorkspaceRepository(workspaceRepositoryOperator), workspaceEventBus
-        );
+        this.workspaceEventHandler = new MandalaEventHandler(new EventBus());
+        final WorkspaceService workspaceService = new WorkspaceService(workspaceRepository, workspaceEventHandler);
         this.buildWorkspaceScenario = workspaceService;
 
 
-        final MandalaEventHandler noteEventBus = new MandalaEventHandler(new EventBus());
-        noteEventBus.register(new WorkspaceEventListener(workspaceService, workspaceService, workspaceService, workspaceService));
-        this.createNoteScenario = new NoteService(noteRepository, noteEventBus);
+        this.noteEventHandler = new MandalaEventHandler(new EventBus());
+        noteEventHandler.register(new WorkspaceEventListener(workspaceService));
+        this.createNoteScenario = new NoteService(noteRepository, noteEventHandler);
     }
 
     @SneakyThrows
     @Test
-    void json() {
-        final UUID defaultWorkspaceId = buildWorkspaceScenario.buildWorkspace(
+    void listWorkspaces() {
+        assertDoesNotThrow(this::prepareTestFixtures);
+        assertDoesNotThrow(this::prepareTestFixtures);
+
+        final var result = assertDoesNotThrow(() -> sut.queryWorkspaces());
+
+        assertInstanceOf(List.class, result);
+        assertFalse(result.isEmpty());
+        assertInstanceOf(WorkspaceResource.class, result.get(0));
+        assertEquals(2, result.size());
+    }
+
+    @SneakyThrows
+    @Test
+    void getWorkspace() {
+        final UUID testWorkspaceId = prepareTestFixtures();
+
+        final var result = sut.queryWorkspace(testWorkspaceId);
+
+        assertInstanceOf(ExpandedWorkspaceResource.class, result);
+        assertEquals(testWorkspaceId, result.workspaceId());
+    }
+
+    private UUID prepareTestFixtures() throws RepositoryException {
+        final UUID workspaceId = buildWorkspaceScenario.buildWorkspace(
                 WorkspaceContextBuilders.buildWorkspaceScenario()
                         .workspaceId(UUID.randomUUID())
                         .workspaceName("TEST_WORKSPACE")
                         .build()
         );
 
-        final UUID defaultNoteId = createNoteScenario.createNote(
+        final UUID noteId = createNoteScenario.createNote(
                 NoteContextBuilders.createNoteScene()
-                        .workspaceId(defaultWorkspaceId)
+                        .workspaceId(workspaceId)
                         .title("TEST_NOTE")
                         .content(List.of("TEST_CONTENT"))
                         .build()
         );
-
-        final var result = sut.queryWorkspaces();
-
-        workspaceEventBus.history();
-        final ObjectMapper mapper = JsonMapper.builder()
-                .addModule(new JavaTimeModule())
-                .build();
-        final var jsonStr = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(result);
-        System.out.println("jsonStr = " + jsonStr);
-
-        List<WorkspaceResource> list = mapper.readValue(jsonStr, new TypeReference<>() {
-        });
-
-        final var result2 = sut.queryWorkspace(list.get(0).workspaceId());
-
-        final var jsonStr2 = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(result2);
-        System.out.println("jsonStr2 = " + jsonStr2);
+        return workspaceId;
     }
 }

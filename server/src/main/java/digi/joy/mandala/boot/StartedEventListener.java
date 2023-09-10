@@ -71,8 +71,7 @@ public class StartedEventListener implements ApplicationListener<ApplicationStar
         defaultNoteId = createNoteUseCase.createNote(
                 NoteContextBuilders.createNoteScene()
                         .workspaceId(defaultWorkspaceId)
-                        .title("TEST_NOTE")
-                        .content(List.of("TEST_CONTENT"))
+                        .title("TEST_NOTE").content(List.of("TEST_CONTENT"))
                         .build()
         );
         log.info("$ Default Note ID: {} $", defaultNoteId);

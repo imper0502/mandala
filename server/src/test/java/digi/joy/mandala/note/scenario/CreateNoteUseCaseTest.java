@@ -39,7 +39,7 @@ public class CreateNoteUseCaseTest {
         this.noteRepository = new NoteRepository(new InMemoryNoteRepositoryOperator());
         this.noteEventBus = new MandalaEventHandler(new EventBus());
         this.useCaseUnderTest = new NoteService(noteRepository, noteEventBus);
-        noteEventBus.register(new WorkspaceEventListener(workspaceService, workspaceService, workspaceService, workspaceService));
+        noteEventBus.register(new WorkspaceEventListener(workspaceService));
     }
 
     @Test
