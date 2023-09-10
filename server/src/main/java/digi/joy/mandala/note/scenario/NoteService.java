@@ -24,7 +24,7 @@ public class NoteService implements CreateNoteUseCase {
     @Override
     public UUID createNote(CreateNoteContext context) {
         UUID noteId = Optional.ofNullable(context.getNoteId()).orElse(UUID.randomUUID());
-        String author = UUID.randomUUID().toString();
+        UUID author = Optional.of(context.getAuthor()).orElseThrow();
 
         Optional.ofNullable(context.getWorkspaceId()).ifPresentOrElse(
                 id -> eventPublisher.commit(

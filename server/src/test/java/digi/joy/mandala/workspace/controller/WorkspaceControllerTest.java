@@ -92,7 +92,7 @@ class WorkspaceControllerTest {
 
     private UUID prepareTestFixtures() throws RepositoryException {
         final UUID workspaceId = buildWorkspaceScenario.buildWorkspace(WorkspaceContextBuilders.buildWorkspaceScenario().workspaceId(UUID.randomUUID()).workspaceName("TEST_WORKSPACE").build());
-        final UUID noteId = createNoteScenario.createNote(NoteContextBuilders.createNoteScene().workspaceId(workspaceId).title("TEST_NOTE").content(List.of("TEST_CONTENT")).build());
+        final UUID noteId = createNoteScenario.createNote(NoteContextBuilders.createNoteScene().workspaceId(workspaceId).title("TEST_NOTE").content(List.of("TEST_CONTENT")).author(UUID.randomUUID()).build());
         return workspaceId;
     }
 }

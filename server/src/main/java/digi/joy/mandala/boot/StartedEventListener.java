@@ -57,6 +57,7 @@ public class StartedEventListener implements ApplicationListener<ApplicationStar
                         .workspaceId(defaultWorkspaceId)
                         .title("TEST_NOTE")
                         .content(List.of("TEST_CONTENT"))
+                        .author(UUID.randomUUID())
                         .build()
         );
         log.info("$ Default Note ID: {} $", defaultNoteId);
@@ -65,6 +66,7 @@ public class StartedEventListener implements ApplicationListener<ApplicationStar
                         .workspaceId(defaultWorkspaceId)
                         .title("TEST_NOTE")
                         .content(List.of("TEST_CONTENT"))
+                        .author(UUID.randomUUID())
                         .build()
         );
         log.info("$ Default Note ID: {} $", defaultNoteId);
@@ -72,6 +74,7 @@ public class StartedEventListener implements ApplicationListener<ApplicationStar
                 NoteContextBuilders.createNoteScene()
                         .workspaceId(defaultWorkspaceId)
                         .title("TEST_NOTE").content(List.of("TEST_CONTENT"))
+                        .author(UUID.randomUUID())
                         .build()
         );
         log.info("$ Default Note ID: {} $", defaultNoteId);

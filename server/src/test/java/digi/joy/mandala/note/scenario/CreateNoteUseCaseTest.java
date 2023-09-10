@@ -48,7 +48,7 @@ public class CreateNoteUseCaseTest {
     void createNote() {
         final CreateNoteContext readModel = NoteContextBuilders.createNoteScene()
                 .title("TEST_NOTE")
-                .content(List.of("TEST_CONTENT"))
+                .content(List.of("TEST_CONTENT")).author(UUID.randomUUID())
                 .build();
 
         final UUID noteId = assertDoesNotThrow(() -> useCaseUnderTest.createNote(readModel));
@@ -68,7 +68,7 @@ public class CreateNoteUseCaseTest {
         final CreateNoteContext context = NoteContextBuilders.createNoteScene()
                 .title("TEST_NOTE")
                 .content(List.of("TEST_CONTENT"))
-                .workspaceId(workspaceId)
+                .workspaceId(workspaceId).author(UUID.randomUUID())
                 .build();
 
         final UUID noteId = assertDoesNotThrow(() -> useCaseUnderTest.createNote(context));

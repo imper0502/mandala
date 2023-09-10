@@ -4,10 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import digi.joy.mandala.note.event.NoteCreated;
 import digi.joy.mandala.note.event.NoteUpdated;
 import digi.joy.mandala.workspace.event.WorkspaceNoteCreated;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -15,22 +14,21 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-@Data
+@Getter
+@Setter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class Note {
     private UUID noteId;
     private String title;
     private final List<String> content = new ArrayList<>();
-    private String createdBy;
+    private UUID createdBy;
     @JsonFormat(pattern = "YYYY-MM-DD'T'hh:mm:ssXXX")
     private ZonedDateTime createdTime;
-    private String updatedBy;
+    private UUID updatedBy;
     @JsonFormat(pattern = "YYYY-MM-DD'T'hh:mm:ssXXX")
     private ZonedDateTime updatedTime;
 
-    public static NoteCreated createNote(UUID noteId, String title, String author, List<String> content, Consumer<Note> action) {
+    public static NoteCreated createNote(UUID noteId, String title, UUID author, List<String> content, Consumer<Note> action) {
         final ZonedDateTime now = ZonedDateTime.now();
         final Note note = builder()
                 .noteId(noteId)
@@ -45,7 +43,7 @@ public class Note {
         return new NoteCreated(noteId);
     }
 
-    public static WorkspaceNoteCreated createWorkspaceNote(UUID workspaceId, UUID noteId, String title, String author, List<String> content, Consumer<Note> action) {
+    public static WorkspaceNoteCreated createWorkspaceNote(UUID workspaceId, UUID noteId, String title, UUID author, List<String> content, Consumer<Note> action) {
         final ZonedDateTime now = ZonedDateTime.now();
         final Note note = builder()
                 .noteId(noteId)

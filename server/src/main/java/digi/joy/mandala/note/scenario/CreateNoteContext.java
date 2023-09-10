@@ -13,8 +13,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateNoteContext {
+    private UUID workspaceId;
+    private UUID noteId;
+    private UUID author;
     private String title;
     private List<String> content;
-    private UUID noteId;
-    private UUID workspaceId;
 }
