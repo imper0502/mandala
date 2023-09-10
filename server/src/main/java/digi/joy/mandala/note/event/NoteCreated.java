@@ -10,4 +10,5 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class NoteCreated extends MandalaEvent {
     private final UUID noteId;
+    private final UUID workspaceId;
 }

@@ -7,7 +7,6 @@ import digi.joy.mandala.note.dao.InMemoryNoteRepositoryOperator;
 import digi.joy.mandala.note.event.NoteCreated;
 import digi.joy.mandala.note.repository.NoteRepository;
 import digi.joy.mandala.workspace.dao.InMemoryWorkspaceRepositoryOperator;
-import digi.joy.mandala.workspace.event.WorkspaceNoteCreated;
 import digi.joy.mandala.workspace.event.WorkspaceUpdated;
 import digi.joy.mandala.workspace.listener.WorkspaceEventListener;
 import digi.joy.mandala.workspace.repository.WorkspaceRepository;
@@ -46,20 +45,6 @@ public class CreateNoteUseCaseTest {
 
     @Test
     void createNote() {
-        final CreateNoteContext readModel = NoteContextBuilders.createNoteScene()
-                .title("TEST_NOTE")
-                .content(List.of("TEST_CONTENT")).author(UUID.randomUUID())
-                .build();
-
-        final UUID noteId = assertDoesNotThrow(() -> useCaseUnderTest.createNote(readModel));
-
-        assertInstanceOf(Note.class, noteRepository.get(noteId));
-        final var eventCount = noteEventHandler.history().size();
-        assertInstanceOf(NoteCreated.class, noteEventHandler.history().get(eventCount - 1));
-    }
-
-    @Test
-    void createWorkspaceNote() {
         final UUID workspaceId = assertDoesNotThrow(() -> buildWorkspaceUseCase.buildWorkspace(
                 WorkspaceContextBuilders.buildWorkspaceScenario()
                         .workspaceName("TEST_WORKSPACE")
@@ -75,7 +60,7 @@ public class CreateNoteUseCaseTest {
 
         assertInstanceOf(Note.class, noteRepository.get(noteId));
         final var noteEventCount = noteEventHandler.history().size();
-        assertInstanceOf(WorkspaceNoteCreated.class, noteEventHandler.history().get(noteEventCount - 1));
+        assertInstanceOf(NoteCreated.class, noteEventHandler.history().get(noteEventCount - 1));
         final var workspaceEventCount = workspaceEventHandler.history().size();
         assertInstanceOf(WorkspaceUpdated.class, workspaceEventHandler.history().get(workspaceEventCount - 1));
         assertEquals(noteId, workspaceRepository.get(workspaceId).getCommittedNotes().get(0).noteId());
