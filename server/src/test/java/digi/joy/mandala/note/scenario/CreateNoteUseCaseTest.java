@@ -2,7 +2,7 @@ package digi.joy.mandala.note.scenario;
 
 import com.google.common.eventbus.EventBus;
 import digi.joy.mandala.infra.dao.DAOException;
-import digi.joy.mandala.infra.event.MandalaEventBus;
+import digi.joy.mandala.infra.event.MandalaEventHandler;
 import digi.joy.mandala.infra.repository.RepositoryException;
 import digi.joy.mandala.note.Note;
 import digi.joy.mandala.note.dao.InMemoryNoteRepositoryOperator;
@@ -27,19 +27,19 @@ public class CreateNoteUseCaseTest {
     private CreateNoteUseCase useCaseUnderTest;
     private BuildWorkspaceUseCase buildWorkspaceUseCase;
     private NoteRepository noteRepository;
-    private MandalaEventBus noteEventBus;
+    private MandalaEventHandler noteEventBus;
 
     @BeforeEach
     void setUp() {
         WorkspaceRepository workspaceRepository = new WorkspaceRepository(new InMemoryWorkspaceRepositoryOperator());
-        MandalaEventBus workspaceEventBus = new MandalaEventBus(new EventBus());
+        MandalaEventHandler workspaceEventBus = new MandalaEventHandler(new EventBus());
         WorkspaceService workspaceService = new WorkspaceService(workspaceRepository, workspaceEventBus);
         this.buildWorkspaceUseCase = workspaceService;
 
         this.noteRepository = new NoteRepository(new InMemoryNoteRepositoryOperator());
-        this.noteEventBus = new MandalaEventBus(new EventBus());
+        this.noteEventBus = new MandalaEventHandler(new EventBus());
         this.useCaseUnderTest = new NoteService(noteRepository, noteEventBus);
-        noteEventBus.register(new WorkspaceEventListener(workspaceService));
+        noteEventBus.register(new WorkspaceEventListener(workspaceService, workspaceService, workspaceService, workspaceService));
     }
 
     @Test

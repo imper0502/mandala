@@ -1,7 +1,7 @@
 package digi.joy.mandala.boot.configuration;
 
 import com.google.common.eventbus.EventBus;
-import digi.joy.mandala.infra.event.MandalaEventBus;
+import digi.joy.mandala.infra.event.MandalaEventHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,12 +13,12 @@ public class MandalaEventConfig {
     }
 
     @Bean
-    public MandalaEventBus workspaceEventBus() {
-        return new MandalaEventBus(eventBus());
+    public MandalaEventHandler workspaceEventBus() {
+        return new MandalaEventHandler(eventBus());
     }
 
     @Bean
-    public MandalaEventBus noteEventBus() {
-        return new MandalaEventBus(eventBus());
+    public MandalaEventHandler noteEventBus() {
+        return new MandalaEventHandler(eventBus());
     }
 }

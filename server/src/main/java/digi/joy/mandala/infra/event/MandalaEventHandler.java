@@ -1,24 +1,42 @@
 package digi.joy.mandala.infra.event;
 
 import com.google.common.eventbus.EventBus;
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-@Component
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 @RequiredArgsConstructor
-public class MandalaEventHandler {
-    private final EventBus eventBus;
-    private final MandalaEventListener workspaceEventListener;
+public class MandalaEventHandler implements MandalaEventPublisher {
 
-    @PostConstruct
-    public void init() {
-        eventBus.register(workspaceEventListener);
+    private final EventBus eventBus;
+    private final List<MandalaEvent> events = new ArrayList<>();
+    private final List<MandalaEvent> eventHistory = new ArrayList<>();
+
+    @Override
+    public void commit(MandalaEvent... events) {
+        Collections.addAll(this.events, events);
     }
 
-    @PreDestroy
-    public void destroy() {
-        eventBus.unregister(workspaceEventListener);
+    @Override
+    public void postAll() {
+        List.copyOf(events).forEach(event -> {
+            eventBus.post(event);
+            eventHistory.add(event);
+        });
+        events.clear();
+    }
+
+    public void register(MandalaEventListener eventListener) {
+        eventBus.register(eventListener);
+    }
+
+    public List<MandalaEvent> history() {
+        return eventHistory;
+    }
+
+    public void cleanHistory() {
+        eventHistory.clear();
     }
 }

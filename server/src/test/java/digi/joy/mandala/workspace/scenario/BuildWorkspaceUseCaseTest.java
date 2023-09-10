@@ -1,7 +1,7 @@
 package digi.joy.mandala.workspace.scenario;
 
 import com.google.common.eventbus.EventBus;
-import digi.joy.mandala.infra.event.MandalaEventBus;
+import digi.joy.mandala.infra.event.MandalaEventHandler;
 import digi.joy.mandala.workspace.dao.InMemoryWorkspaceRepositoryOperator;
 import digi.joy.mandala.workspace.repository.WorkspaceRepository;
 import org.junit.jupiter.api.Assertions;
@@ -18,8 +18,8 @@ class BuildWorkspaceUseCaseTest {
     @BeforeEach
     void setUp() {
         WorkspaceRepository repository = new WorkspaceRepository(new InMemoryWorkspaceRepositoryOperator());
-        MandalaEventBus mandalaEventBus = new MandalaEventBus(new EventBus());
-        this.useCaseUnderTest = new WorkspaceService(repository, mandalaEventBus);
+        MandalaEventHandler mandalaEventHandler = new MandalaEventHandler(new EventBus());
+        this.useCaseUnderTest = new WorkspaceService(repository, mandalaEventHandler);
     }
 
     @Test

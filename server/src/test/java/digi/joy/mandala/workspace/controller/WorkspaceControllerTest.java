@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.common.eventbus.EventBus;
-import digi.joy.mandala.infra.event.MandalaEventBus;
+import digi.joy.mandala.infra.event.MandalaEventHandler;
 import digi.joy.mandala.note.dao.InMemoryNoteRepositoryOperator;
 import digi.joy.mandala.note.repository.NoteRepository;
 import digi.joy.mandala.note.repository.NoteRepositoryOperator;
@@ -33,7 +33,7 @@ class WorkspaceControllerTest {
     private BuildWorkspaceUseCase buildWorkspaceScenario;
     private CreateNoteUseCase createNoteScenario;
 
-    private MandalaEventBus workspaceEventBus;
+    private MandalaEventHandler workspaceEventBus;
 
 
     @BeforeEach
@@ -45,15 +45,15 @@ class WorkspaceControllerTest {
         this.sut = new WorkspaceController(workspaceRepository, noteRepository);
 
 
-        this.workspaceEventBus = new MandalaEventBus(new EventBus());
+        this.workspaceEventBus = new MandalaEventHandler(new EventBus());
         final WorkspaceService workspaceService = new WorkspaceService(
                 new WorkspaceRepository(workspaceRepositoryOperator), workspaceEventBus
         );
         this.buildWorkspaceScenario = workspaceService;
 
 
-        final MandalaEventBus noteEventBus = new MandalaEventBus(new EventBus());
-        noteEventBus.register(new WorkspaceEventListener(workspaceService));
+        final MandalaEventHandler noteEventBus = new MandalaEventHandler(new EventBus());
+        noteEventBus.register(new WorkspaceEventListener(workspaceService, workspaceService, workspaceService, workspaceService));
         this.createNoteScenario = new NoteService(noteRepository, noteEventBus);
     }
 

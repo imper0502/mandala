@@ -1,8 +1,9 @@
 package digi.joy.mandala.workspace.handler;
 
 import com.google.common.eventbus.EventBus;
-import digi.joy.mandala.infra.event.MandalaEventBus;
+import digi.joy.mandala.infra.event.MandalaEventHandler;
 import digi.joy.mandala.workspace.dao.InMemoryWorkspaceRepositoryOperator;
+import digi.joy.mandala.workspace.listener.WorkspaceEventListener;
 import digi.joy.mandala.workspace.repository.WorkspaceRepository;
 import digi.joy.mandala.workspace.scenario.BuildWorkspaceContext;
 import digi.joy.mandala.workspace.scenario.WorkspaceContextBuilders;
@@ -16,15 +17,18 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class WorkspaceCommandHandlerTest {
-    private WorkspaceCommandHandler handlerUnderTest;
+class WorkspaceEventHandlerTest {
+    private WorkspaceEventListener sut;
 
     @BeforeEach
     void setUp() {
         WorkspaceRepository repository = new WorkspaceRepository(new InMemoryWorkspaceRepositoryOperator());
-        MandalaEventBus mandalaEventBus = new MandalaEventBus(new EventBus());
-        this.handlerUnderTest = new WorkspaceCommandHandler(
-                new WorkspaceService(repository, mandalaEventBus)
+        MandalaEventHandler mandalaEventHandler = new MandalaEventHandler(new EventBus());
+        this.sut = new WorkspaceEventListener(
+                new WorkspaceService(repository, mandalaEventHandler),
+                new WorkspaceService(repository, mandalaEventHandler),
+                new WorkspaceService(repository, mandalaEventHandler),
+                new WorkspaceService(repository, mandalaEventHandler)
         );
     }
 
@@ -34,7 +38,7 @@ class WorkspaceCommandHandlerTest {
                 .workspaceName("TEST_WORKSPACE")
                 .build();
 
-        ResponseEntity<UUID> result = assertDoesNotThrow(() -> handlerUnderTest.buildWorkspaceScene(context));
+        ResponseEntity<UUID> result = assertDoesNotThrow(() -> sut.buildWorkspaceScene(context));
 
         assertTrue(result.getStatusCode().is2xxSuccessful());
     }

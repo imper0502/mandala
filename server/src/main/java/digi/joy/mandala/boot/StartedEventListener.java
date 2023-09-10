@@ -1,7 +1,7 @@
 package digi.joy.mandala.boot;
 
 import digi.joy.mandala.infra.dao.DAOException;
-import digi.joy.mandala.infra.event.MandalaEventBus;
+import digi.joy.mandala.infra.event.MandalaEventHandler;
 import digi.joy.mandala.infra.repository.RepositoryException;
 import digi.joy.mandala.note.scenario.CreateNoteUseCase;
 import digi.joy.mandala.note.scenario.NoteContextBuilders;
@@ -25,8 +25,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class StartedEventListener implements ApplicationListener<ApplicationStartedEvent> {
 
-    private final MandalaEventBus workspaceEventBus;
-    private final MandalaEventBus noteEventBus;
+    private final MandalaEventHandler workspaceEventBus;
+    private final MandalaEventHandler noteEventBus;
     private final BuildWorkspaceUseCase buildWorkspaceUseCase;
     private final CreateNoteUseCase createNoteUseCase;
 

@@ -1,7 +1,7 @@
 package digi.joy.mandala.workspace.scenario;
 
 import com.google.common.eventbus.EventBus;
-import digi.joy.mandala.infra.event.MandalaEventBus;
+import digi.joy.mandala.infra.event.MandalaEventHandler;
 import digi.joy.mandala.infra.repository.RepositoryException;
 import digi.joy.mandala.workspace.dao.InMemoryWorkspaceRepositoryOperator;
 import digi.joy.mandala.workspace.repository.WorkspaceRepository;
@@ -21,8 +21,8 @@ public class LeaveWorkspaceScenarioTest {
     @BeforeEach
     void setUp() {
         this.repository = new WorkspaceRepository(new InMemoryWorkspaceRepositoryOperator());
-        MandalaEventBus mandalaEventBus = new MandalaEventBus(new EventBus());
-        WorkspaceService service = new WorkspaceService(repository, mandalaEventBus);
+        MandalaEventHandler mandalaEventHandler = new MandalaEventHandler(new EventBus());
+        WorkspaceService service = new WorkspaceService(repository, mandalaEventHandler);
         this.buildWorkspaceUseCase = service;
         this.enterWorkspaceUseCase = service;
         this.useCaseUnderTest = service;
