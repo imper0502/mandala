@@ -83,7 +83,7 @@ class WorkspaceControllerTest {
 
         final var result = sut.queryWorkspace(testWorkspaceId);
 
-        assertInstanceOf(ExpandedWorkspaceResource.class, result);
+        assertInstanceOf(SpreadWorkspaceResource.class, result);
         assertEquals(testWorkspaceId, result.workspaceId());
         Stream.concat(workspaceEventHandler.history().stream(), noteEventHandler.history().stream())
                 .sorted(Comparator.comparing(MandalaEvent::getOccurredTime))

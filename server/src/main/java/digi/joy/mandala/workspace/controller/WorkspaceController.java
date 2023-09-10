@@ -31,9 +31,9 @@ public class WorkspaceController {
     }
 
     @GetMapping("{id}")
-    public ExpandedWorkspaceResource queryWorkspace(@PathVariable("id") UUID id) {
+    public SpreadWorkspaceResource queryWorkspace(@PathVariable("id") UUID id) {
         final Workspace workspace = workspaceRepository.get(id);
         final List<Note> committedNotes = noteRepository.find(workspace.getCommittedNotes().stream().map(CommittedNote::noteId).toList());
-        return ExpandedWorkspaceResource.of(workspace, committedNotes);
+        return SpreadWorkspaceResource.of(workspace, committedNotes);
     }
 }

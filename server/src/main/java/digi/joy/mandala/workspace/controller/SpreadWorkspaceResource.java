@@ -7,14 +7,14 @@ import digi.joy.mandala.workspace.WorkspaceSession;
 import java.util.List;
 import java.util.UUID;
 
-public record ExpandedWorkspaceResource(
+public record SpreadWorkspaceResource(
         UUID workspaceId,
         String workspaceName,
         List<Note> committedNotes,
         List<WorkspaceSession> workspaceSessions
 ) {
-    public static ExpandedWorkspaceResource of(Workspace w, List<Note> committedNotes) {
-        return new ExpandedWorkspaceResource(
+    public static SpreadWorkspaceResource of(Workspace w, List<Note> committedNotes) {
+        return new SpreadWorkspaceResource(
                 w.getWorkspaceId(),
                 w.getWorkspaceName(),
                 committedNotes,
