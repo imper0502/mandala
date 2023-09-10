@@ -21,7 +21,7 @@ public class WorkspaceConverter {
                 .workspaceName(data.getWorkspaceName())
                 .build();
         data.getCommittedNotes().forEach(x -> w.commitNote(x.getNoteId()));
-        data.getWorkspaceSessions().forEach(x -> w.add(x.getUserId()));
+        data.getWorkspaceSessions().forEach(x -> w.addUser(x.getUserId()));
 
         return w;
     }

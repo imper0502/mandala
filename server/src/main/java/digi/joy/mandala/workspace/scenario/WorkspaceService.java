@@ -55,7 +55,7 @@ public class WorkspaceService implements
     public void enterWorkspace(EnterWorkspaceContext context) {
         Workspace workspace = workspaceRepository.withdraw(context.getWorkspaceId());
         eventPublisher.commit(
-                workspace.add(context.getUserId())
+                workspace.addUser(context.getUserId())
         );
         workspaceRepository.deposit(workspace);
 
@@ -66,7 +66,7 @@ public class WorkspaceService implements
     public void leaveWorkspace(LeaveWorkspaceContext context) {
         Workspace w = workspaceRepository.withdraw(context.getWorkspaceId());
         eventPublisher.commit(
-                w.remove(context.getUserId())
+                w.removeUser(context.getUserId())
         );
         workspaceRepository.deposit(w);
         eventPublisher.postAll();

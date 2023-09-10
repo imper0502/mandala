@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,23 +25,27 @@ public class NoteService implements CreateNoteUseCase {
     public UUID createNote(CreateNoteContext context) {
         UUID noteId = Optional.ofNullable(context.getNoteId()).orElse(UUID.randomUUID());
         String author = UUID.randomUUID().toString();
-        ZonedDateTime now = ZonedDateTime.now();
-        Note note = Note.builder()
-                .noteId(noteId)
-                .title(context.getTitle())
-                .createdBy(author)
-                .createdTime(now)
-                .updatedBy(author)
-                .updatedTime(now)
-                .build();
-        note.append(context.getContent());
 
-        noteRepository.deposit(note);
-
-        Optional<UUID> workspaceId = Optional.ofNullable(context.getWorkspaceId());
-        workspaceId.ifPresentOrElse(
-                id -> eventPublisher.commit(note.noteCreatedEvent(id)),
-                () -> eventPublisher.commit(note.noteCreatedEvent())
+        Optional.ofNullable(context.getWorkspaceId()).ifPresentOrElse(
+                id -> eventPublisher.commit(
+                        Note.createWorkspaceNote(
+                                id,
+                                noteId,
+                                context.getTitle(),
+                                author,
+                                context.getContent(),
+                                noteRepository::deposit
+                        )
+                ),
+                () -> eventPublisher.commit(
+                        Note.createNote(
+                                noteId,
+                                context.getTitle(),
+                                author,
+                                context.getContent(),
+                                noteRepository::deposit
+                        )
+                )
         );
 
         eventPublisher.postAll();

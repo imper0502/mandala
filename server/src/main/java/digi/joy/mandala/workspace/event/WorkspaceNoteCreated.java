@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Getter
 @RequiredArgsConstructor
-public class NoteCreatedWithWorkspaceId extends MandalaEvent {
+public class WorkspaceNoteCreated extends MandalaEvent {
     private final UUID noteId;
     private final UUID workspaceId;
 }

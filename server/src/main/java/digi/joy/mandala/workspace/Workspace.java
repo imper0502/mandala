@@ -22,12 +22,12 @@ public class Workspace {
         return new WorkspaceBuilt(workspaceId);
     }
 
-    public WorkspaceEntered add(UUID userId) {
+    public WorkspaceEntered addUser(UUID userId) {
         workspaceSessions.add(new WorkspaceSession(userId, workspaceId));
         return new WorkspaceEntered(workspaceId, userId);
     }
 
-    public WorkspaceUpdated remove(UUID userId) {
+    public WorkspaceUpdated removeUser(UUID userId) {
         WorkspaceSession session = workspaceSessions.stream()
                 .filter(x -> x.userId().equals(userId))
                 .findFirst()
