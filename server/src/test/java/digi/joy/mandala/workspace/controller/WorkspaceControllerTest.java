@@ -1,6 +1,7 @@
 package digi.joy.mandala.workspace.controller;
 
 import com.google.common.eventbus.EventBus;
+import digi.joy.mandala.infra.event.MandalaEvent;
 import digi.joy.mandala.infra.event.MandalaEventHandler;
 import digi.joy.mandala.infra.repository.RepositoryException;
 import digi.joy.mandala.note.dao.InMemoryNoteRepositoryOperator;
@@ -20,8 +21,11 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.ZoneId;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -66,6 +70,10 @@ class WorkspaceControllerTest {
         assertFalse(result.isEmpty());
         assertInstanceOf(WorkspaceResource.class, result.get(0));
         assertEquals(2, result.size());
+
+        Stream.concat(workspaceEventHandler.history().stream(), noteEventHandler.history().stream())
+                .sorted(Comparator.comparing(MandalaEvent::getOccurredTime))
+                .forEach(event -> System.out.printf("<%s> %s # %s%n", event.getOccurredTime().atZone(ZoneId.systemDefault()).toLocalDateTime(), event.getClass().getSimpleName(), event.getId()));
     }
 
     @SneakyThrows
@@ -77,23 +85,14 @@ class WorkspaceControllerTest {
 
         assertInstanceOf(ExpandedWorkspaceResource.class, result);
         assertEquals(testWorkspaceId, result.workspaceId());
+        Stream.concat(workspaceEventHandler.history().stream(), noteEventHandler.history().stream())
+                .sorted(Comparator.comparing(MandalaEvent::getOccurredTime))
+                .forEach(event -> System.out.printf("<%s> %s # %s%n", event.getOccurredTime().atZone(ZoneId.systemDefault()).toLocalDateTime(), event.getClass().getSimpleName(), event.getId()));
     }
 
     private UUID prepareTestFixtures() throws RepositoryException {
-        final UUID workspaceId = buildWorkspaceScenario.buildWorkspace(
-                WorkspaceContextBuilders.buildWorkspaceScenario()
-                        .workspaceId(UUID.randomUUID())
-                        .workspaceName("TEST_WORKSPACE")
-                        .build()
-        );
-
-        final UUID noteId = createNoteScenario.createNote(
-                NoteContextBuilders.createNoteScene()
-                        .workspaceId(workspaceId)
-                        .title("TEST_NOTE")
-                        .content(List.of("TEST_CONTENT"))
-                        .build()
-        );
+        final UUID workspaceId = buildWorkspaceScenario.buildWorkspace(WorkspaceContextBuilders.buildWorkspaceScenario().workspaceId(UUID.randomUUID()).workspaceName("TEST_WORKSPACE").build());
+        final UUID noteId = createNoteScenario.createNote(NoteContextBuilders.createNoteScene().workspaceId(workspaceId).title("TEST_NOTE").content(List.of("TEST_CONTENT")).build());
         return workspaceId;
     }
 }
